@@ -29,8 +29,10 @@ import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
@@ -124,75 +126,73 @@ fun OnBoard(modifier: Modifier = Modifier, viewModel: OnBoardViewModel) {
             contentScale = ContentScale.FillBounds
         )
 
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(
-                    WindowInsets.systemBars.asPaddingValues()
-                )
-                .padding(20.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center,
-        ) {
-
+        if (onBoardProgress <= 3) {
             Column(
                 modifier = Modifier
-                    .weight(1.5f)
-                    .fillMaxSize(),
+                    .fillMaxSize()
+                    .padding(
+                        WindowInsets.systemBars.asPaddingValues()
+                    )
+                    .padding(20.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Bottom,
+                verticalArrangement = Arrangement.Center,
             ) {
 
-                Image(
-                    bitmap = bitmapToShow,
-                    contentDescription = null,
+                Column(
                     modifier = Modifier
-                        .fillMaxSize()
-                        .graphicsLayer {
-                            this.translationY = logoTranslateOffset
-                        },
-                    contentScale = ContentScale.Fit,
-                    alignment = Alignment.BottomCenter,
-                )
+                        .weight(1.5f)
+                        .fillMaxSize(),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Bottom,
+                ) {
+
+                    Image(
+                        bitmap = bitmapToShow,
+                        contentDescription = null,
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .graphicsLayer {
+                                this.translationY = logoTranslateOffset
+                            },
+                        contentScale = ContentScale.Fit,
+                        alignment = Alignment.BottomCenter,
+                    )
 
 
-            }
+                }
 
-            Column(
-                modifier = Modifier
-                    .weight(1f)
-                    .fillMaxSize(),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Bottom,
-            ) {
+                Column(
+                    modifier = Modifier
+                        .weight(1f)
+                        .fillMaxSize(),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Bottom,
+                ) {
 
-                Text(
-                    title,
-                    color = Color.White,
-                    style = MaterialTheme.typography.titleLarge.copy(
-                        fontFamily = InterFontFamily,
-                        fontWeight = FontWeight.ExtraBold,
-                        fontSize = 32.sp,
-                    ),
-                    lineHeight = 1.2.em,
-                    textAlign = TextAlign.Left,
-                )
-
-
-                Text(
-                    subtitle,
-                    style = MaterialTheme.typography.bodyLarge.copy(
-                        fontFamily = InterFontFamily,
-                        fontWeight = FontWeight.Normal,
-                        fontSize = 18.sp,
-                    ),
-                    textAlign = TextAlign.Left,
-                    color = Color.White,
-                )
+                    Text(
+                        title,
+                        color = Color.White,
+                        style = MaterialTheme.typography.titleLarge.copy(
+                            fontFamily = InterFontFamily,
+                            fontWeight = FontWeight.ExtraBold,
+                            fontSize = 32.sp,
+                        ),
+                        lineHeight = 1.2.em,
+                        textAlign = TextAlign.Left,
+                    )
 
 
+                    Text(
+                        subtitle,
+                        style = MaterialTheme.typography.bodyLarge.copy(
+                            fontFamily = InterFontFamily,
+                            fontWeight = FontWeight.Normal,
+                            fontSize = 18.sp,
+                        ),
+                        textAlign = TextAlign.Left,
+                        color = Color.White,
+                    )
 
-                if (onBoardProgress <= 3) {
 
                     Box(
                         modifier = Modifier
@@ -241,11 +241,27 @@ fun OnBoard(modifier: Modifier = Modifier, viewModel: OnBoardViewModel) {
                         }
 
                     }
-                }
 
+
+                }
+            }
+
+        }else{
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(
+                        WindowInsets.systemBars.asPaddingValues()
+                    )
+                    .padding(20.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center,
+            ) {
+                CircularProgressIndicator(
+                    color=Color.White,
+                )
             }
         }
-
 
     }
 }
