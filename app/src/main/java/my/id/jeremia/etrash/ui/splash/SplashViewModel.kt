@@ -1,11 +1,8 @@
 package my.id.jeremia.etrash.ui.splash
 
-import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import my.id.jeremia.etrash.data.repository.OnBoardRepository
 import my.id.jeremia.etrash.ui.base.BaseViewModel
 import my.id.jeremia.etrash.ui.common.loader.Loader

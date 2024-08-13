@@ -2,7 +2,6 @@ package my.id.jeremia.etrash
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp
-import javax.inject.Inject
 
 @HiltAndroidApp
 class ETrashClinicApp : Application() {
