@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">E-Trash Clinic</string>
+    <string name="ok">Ok</string>
+    <string name="login">Masuk</string>
+    <string name="login_header">Selamat datang 👋</string>
+    <string name="login_subheader">Selamat datang di aplikasi PotholeTracker</string>
+    <string name="daftar">Daftar</string>
+    <string name="register_header">Daftar Akun</string>
+    <string name="register_subheader">Daftar akun potholetracker</string>
+    <string name="home_str">Home</string>
+    <string name="unggah_str">Unggah</string>
+    <string name="riwayat_str">Riwayat</string>
 </resources>
