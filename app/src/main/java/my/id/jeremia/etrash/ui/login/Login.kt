@@ -34,7 +34,6 @@ import my.id.jeremia.etrash.R
 
 @Composable
 fun Login(modifier: Modifier = Modifier, viewModel: LoginViewModel) {
-    BackHandler { viewModel.navigator.finish() }
     LoginView(
         modifier,
         email = viewModel.email.collectAsStateWithLifecycle().value,

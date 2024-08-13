@@ -1,4 +1,4 @@
-package my.id.jeremia.etrash.ui.onboard
+package my.id.jeremia.etrash.ui.loginorregister
 
 import android.graphics.BitmapFactory
 import androidx.compose.animation.core.RepeatMode
@@ -8,7 +8,6 @@ import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -23,7 +22,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBars
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.KeyboardArrowRight
@@ -55,53 +53,16 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
 import my.id.jeremia.etrash.R
+import my.id.jeremia.etrash.ui.onboard.DotIndicator
+import my.id.jeremia.etrash.ui.onboard.OnBoardViewModel
 import my.id.jeremia.etrash.ui.theme.InterFontFamily
 
+
 @Composable
-fun OnBoard(modifier: Modifier = Modifier, viewModel: OnBoardViewModel) {
+fun LoginOrRegister(modifier: Modifier = Modifier, viewModel: LoginOrRegisterViewModel) {
     val context = LocalContext.current
     val bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.background)
-    val logo = BitmapFactory.decodeResource(context.resources, R.drawable.logo)
-    val bitmap2 = BitmapFactory.decodeResource(context.resources, R.drawable.onboarding2)
-    val bitmap3 = BitmapFactory.decodeResource(context.resources, R.drawable.onboarding3)
-
-    var onBoardProgress by remember { mutableStateOf(1) }
-    val bitmapToShow by remember {
-        derivedStateOf {
-            when (onBoardProgress) {
-                2 -> bitmap2.asImageBitmap()
-                3 -> bitmap3.asImageBitmap()
-                else -> logo.asImageBitmap()
-            }
-        }
-    }
-
-    val title by remember {
-        derivedStateOf {
-            when (onBoardProgress) {
-                2 -> "Antar sampahmu di E-Trash Clinic"
-                3 -> "Unggah Sampahmu!"
-                else -> "Selamat Datang di E-Trash Clinic"
-            }
-        }
-    }
-
-    val subtitle by remember {
-        derivedStateOf {
-            when (onBoardProgress) {
-                2 -> "Sekarang kamu bisa memilah dan menimbang sampah yang kamu kumpulkan di E-trash Clinic."
-                3 -> "Pilah, Timbang, dan unggah sampahmu di aplikasi E-Trash Clinic lalu dapatkan koin di setiap unggahan sampahmu yang bisa kamu tukarkan dengan uang atau kerajinan hasil dari pemanfaatan sampahmu."
-                else -> "Aplikasi pengolahan sampah untuk menjadikan lingkungan yang bersih."
-            }
-        }
-    }
-
-    LaunchedEffect(key1 = onBoardProgress) {
-        if (onBoardProgress >= 4) {
-            viewModel.setCompleted()
-        }
-    }
-
+    val bitmap4 = BitmapFactory.decodeResource(context.resources, R.drawable.onboarding4)
 
     val infiniteTransition = rememberInfiniteTransition()
 
@@ -144,7 +105,7 @@ fun OnBoard(modifier: Modifier = Modifier, viewModel: OnBoardViewModel) {
             ) {
 
                 Image(
-                    bitmap = bitmapToShow,
+                    bitmap = bitmap4.asImageBitmap(),
                     contentDescription = null,
                     modifier = Modifier
                         .fillMaxSize()
@@ -167,7 +128,7 @@ fun OnBoard(modifier: Modifier = Modifier, viewModel: OnBoardViewModel) {
             ) {
 
                 Text(
-                    title,
+                    "Mari Mulai!",
                     color = Color.White,
                     style = MaterialTheme.typography.titleLarge.copy(
                         fontFamily = InterFontFamily,
@@ -180,7 +141,7 @@ fun OnBoard(modifier: Modifier = Modifier, viewModel: OnBoardViewModel) {
 
 
                 Text(
-                    subtitle,
+                    "Untuk memulai kamu butuh akun terlebih dulu.",
                     style = MaterialTheme.typography.bodyLarge.copy(
                         fontFamily = InterFontFamily,
                         fontWeight = FontWeight.Normal,
@@ -192,73 +153,52 @@ fun OnBoard(modifier: Modifier = Modifier, viewModel: OnBoardViewModel) {
 
 
 
-                if (onBoardProgress <= 3) {
-
-                    Box(
-                        modifier = Modifier
-                            .fillMaxHeight(0.3f)
-                    )
-
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-
-
-                        Row {
-                            repeat(3) {
-                                DotIndicator(isSelected = it + 1 == onBoardProgress)
-                            }
-                        }
-
-                        Row {
-
-                            if (onBoardProgress != 1) {
-                                IconButton(onClick = {
-                                    onBoardProgress -= 1;
-                                }) {
-                                    Icon(
-                                        Icons.Default.KeyboardArrowLeft,
-                                        contentDescription = "Previous",
-                                        tint = Color.White,
-                                        modifier = Modifier.size(100.dp)
-                                    )
-                                }
-                            }
-
-                            IconButton(onClick = {
-                                onBoardProgress += 1;
-                            }) {
-                                Icon(
-                                    Icons.Default.KeyboardArrowRight,
-                                    contentDescription = "Next",
-                                    tint = Color.White,
-                                    modifier = Modifier.size(100.dp)
-                                )
-                            }
-                        }
-
-                    }
+                Button(
+                    onClick = {
+                        viewModel.login();
+                    },
+                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF4CAF50)), // replace with your button color
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp)
+                ) {
+                    Text(text = "Masuk", color = Color.White)
                 }
 
+                Spacer(modifier = Modifier.height(8.dp))
+
+                // Daftar button
+                OutlinedButton(
+                    onClick = {
+                        viewModel.register();
+                    },
+                    border = BorderStroke(
+                        1.dp,
+                        Color(0xFF4CAF50)
+                    ), // replace with your outline button color
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp)
+                ) {
+                    Text(
+                        text = "Daftar",
+                        color = Color(0xFFFFFFFF)
+                    ) // replace with your text color
+                }
+
+                Spacer(modifier = Modifier.height(8.dp))
+
+                // Link
+                TextButton(onClick = { /* Handle forgot login */ }) {
+                    Text(
+                        text = "Tidak bisa masuk?",
+                        color = Color(0xFF4CAF50)
+                    ) // replace with your link color
+                }
             }
+
         }
 
 
     }
-}
-
-
-@Composable
-fun DotIndicator(isSelected: Boolean) {
-    Box(
-        modifier = Modifier
-            .size(20.dp)
-            .padding(5.dp)
-            .background(
-                color = if (isSelected) Color.White else Color.Gray, shape = CircleShape
-            )
-    )
 }

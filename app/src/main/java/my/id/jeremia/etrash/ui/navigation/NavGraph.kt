@@ -9,6 +9,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import my.id.jeremia.etrash.ui.login.Login
 import my.id.jeremia.etrash.ui.login.LoginViewModel
+import my.id.jeremia.etrash.ui.loginorregister.LoginOrRegister
+import my.id.jeremia.etrash.ui.loginorregister.LoginOrRegisterViewModel
 import my.id.jeremia.etrash.ui.onboard.OnBoard
 import my.id.jeremia.etrash.ui.onboard.OnBoardViewModel
 import my.id.jeremia.etrash.ui.register.Register
@@ -54,6 +56,11 @@ fun NavGraph(
         composable(Destination.Register.route) {
             val viewModel: RegisterViewModel = hiltViewModel(key = RegisterViewModel.TAG)
             Register(modifier = modifier, viewModel = viewModel)
+        }
+
+        composable(Destination.LoginOrRegister.route){
+            val viewModel: LoginOrRegisterViewModel = hiltViewModel(key = RegisterViewModel.TAG)
+            LoginOrRegister(modifier = modifier, viewModel = viewModel)
         }
 
         navigation(

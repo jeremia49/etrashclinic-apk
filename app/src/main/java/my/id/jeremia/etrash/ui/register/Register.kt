@@ -36,7 +36,6 @@ import my.id.jeremia.etrash.R
 
 @Composable
 fun Register(modifier: Modifier = Modifier, viewModel: RegisterViewModel) {
-    BackHandler { viewModel.navigator.finish() }
     RegisterView(
         modifier,
         name=viewModel.name.collectAsStateWithLifecycle().value,

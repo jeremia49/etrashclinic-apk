@@ -11,6 +11,8 @@ object Destination {
 
     data object Register: Screen("/register")
 
+    data object LoginOrRegister : Screen("/login-or-register")
+
     data object ServerUnreachable: Screen("/server-unreachable")
 
     data object Home:Screen("/home"){
