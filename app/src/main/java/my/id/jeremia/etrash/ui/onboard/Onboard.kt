@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -186,7 +187,7 @@ fun OnBoard(modifier: Modifier = Modifier, viewModel: OnBoardViewModel) {
                     )
 
 
-                    Box(
+                    Spacer(
                         modifier = Modifier
                             .fillMaxHeight(0.3f)
                     )
@@ -238,7 +239,7 @@ fun OnBoard(modifier: Modifier = Modifier, viewModel: OnBoardViewModel) {
                 }
             }
 
-        }else{
+        } else {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
@@ -250,7 +251,7 @@ fun OnBoard(modifier: Modifier = Modifier, viewModel: OnBoardViewModel) {
                 verticalArrangement = Arrangement.Center,
             ) {
                 CircularProgressIndicator(
-                    color=Color.White,
+                    color = Color.White,
                 )
             }
         }

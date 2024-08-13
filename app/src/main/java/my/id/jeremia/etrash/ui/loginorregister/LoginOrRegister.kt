@@ -52,9 +52,7 @@ fun LoginOrRegister(modifier: Modifier = Modifier, viewModel: LoginOrRegisterVie
     val infiniteTransition = rememberInfiniteTransition()
 
     val logoTranslateOffset by infiniteTransition.animateFloat(
-        initialValue = 25f,
-        targetValue = 0f,
-        animationSpec = infiniteRepeatable(
+        initialValue = 25f, targetValue = 0f, animationSpec = infiniteRepeatable(
             animation = tween(1500), RepeatMode.Reverse
         )
     )
@@ -156,18 +154,15 @@ fun LoginOrRegister(modifier: Modifier = Modifier, viewModel: LoginOrRegisterVie
                 OutlinedButton(
                     onClick = {
                         viewModel.register();
-                    },
-                    border = BorderStroke(
-                        1.dp,
-                        Color(0xFF4CAF50)
+                    }, border = BorderStroke(
+                        1.dp, Color(0xFF4CAF50)
                     ), // replace with your outline button color
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 16.dp)
                 ) {
                     Text(
-                        text = "Daftar",
-                        color = Color(0xFFFFFFFF)
+                        text = "Daftar", color = Color(0xFFFFFFFF)
                     ) // replace with your text color
                 }
 
@@ -176,8 +171,7 @@ fun LoginOrRegister(modifier: Modifier = Modifier, viewModel: LoginOrRegisterVie
                 // Link
                 TextButton(onClick = { /* Handle forgot login */ }) {
                     Text(
-                        text = "Tidak bisa masuk?",
-                        color = Color(0xFF4CAF50)
+                        text = "Tidak bisa masuk?", color = Color(0xFF4CAF50)
                     ) // replace with your link color
                 }
             }

@@ -1,26 +1,41 @@
 package my.id.jeremia.etrash.ui.register
 
+import android.graphics.BitmapFactory
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.systemBars
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Checkbox
+import androidx.compose.material3.CheckboxDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -32,241 +47,250 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import my.id.jeremia.etrash.R
+import my.id.jeremia.etrash.ui.theme.InterFontFamily
 
 @Composable
 fun Register(modifier: Modifier = Modifier, viewModel: RegisterViewModel) {
     RegisterView(
         modifier,
-        name=viewModel.name.collectAsStateWithLifecycle().value,
-        email=viewModel.email.collectAsStateWithLifecycle().value,
-        password=viewModel.password.collectAsStateWithLifecycle().value,
-        passwordConfirm=viewModel.passwordConfirm.collectAsStateWithLifecycle().value,
-        nameError=viewModel.nameError.collectAsStateWithLifecycle().value,
-        emailError=viewModel.emailError.collectAsStateWithLifecycle().value,
-        passwordError=viewModel.passwordError.collectAsStateWithLifecycle().value,
-        passwordConfirmError=viewModel.passwordConfirmError.collectAsStateWithLifecycle().value,
-        enableRegisterButton=viewModel.enableRegisterButton.collectAsStateWithLifecycle().value,
-        onNameChange={viewModel.onNameChange(it)},
-        onEmailChange= {viewModel.onEmailChange(it)},
-        onPasswordChange={viewModel.onPasswordChange(it)},
-        onPasswordConfirmChange={viewModel.onPasswordConfirmationChange(it)},
-        register={},
-        navLogin={viewModel.navLogin()},
+        name = viewModel.name.collectAsStateWithLifecycle().value,
+        email = viewModel.email.collectAsStateWithLifecycle().value,
+        password = viewModel.password.collectAsStateWithLifecycle().value,
+        passwordConfirm = viewModel.passwordConfirm.collectAsStateWithLifecycle().value,
+        nameError = viewModel.nameError.collectAsStateWithLifecycle().value,
+        emailError = viewModel.emailError.collectAsStateWithLifecycle().value,
+        passwordError = viewModel.passwordError.collectAsStateWithLifecycle().value,
+        passwordConfirmError = viewModel.passwordConfirmError.collectAsStateWithLifecycle().value,
+        enableRegisterButton = viewModel.enableRegisterButton.collectAsStateWithLifecycle().value,
+        onNameChange = { viewModel.onNameChange(it) },
+        onEmailChange = { viewModel.onEmailChange(it) },
+        onPasswordChange = { viewModel.onPasswordChange(it) },
+        onPasswordConfirmChange = { viewModel.onPasswordConfirmationChange(it) },
+        register = {},
+        navLogin = { viewModel.navLogin() },
     )
 }
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RegisterView(
     modifier: Modifier = Modifier,
-    name:String,
+    name: String,
     email: String,
     password: String,
-    passwordConfirm:String,
-    nameError:String,
+    passwordConfirm: String,
+    nameError: String,
     emailError: String,
     passwordError: String,
-    passwordConfirmError:String,
-    enableRegisterButton:Boolean,
-    onNameChange:(String)->Unit,
+    passwordConfirmError: String,
+    enableRegisterButton: Boolean,
+    onNameChange: (String) -> Unit,
     onEmailChange: (String) -> Unit,
     onPasswordChange: (String) -> Unit,
-    onPasswordConfirmChange: (String)->Unit,
+    onPasswordConfirmChange: (String) -> Unit,
     register: () -> Unit,
-    navLogin:()->Unit,
+    navLogin: () -> Unit,
 ) {
 
+    val context = LocalContext.current
+    val bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.background)
+
     Box(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(top=5.dp, start = 20.dp, end = 20.dp)
+        modifier = Modifier.fillMaxSize(),
     ) {
 
+        Image(
+            bitmap = bitmap.asImageBitmap(),
+            contentDescription = null,
+            modifier = Modifier.fillMaxSize(),
+            contentScale = ContentScale.FillBounds
+        )
 
         Column(
             modifier = Modifier
-                .align(Alignment.TopCenter)
-                .fillMaxHeight()
+                .fillMaxSize()
+                .padding(
+                    WindowInsets.systemBars.asPaddingValues()
+                )
+                .padding(20.dp)
                 .verticalScroll(rememberScrollState()),
-            verticalArrangement = Arrangement.SpaceEvenly,
-        ) {
 
+            ) {
+            Text(
+                stringResource(R.string.register_header),
+                style = MaterialTheme.typography.titleLarge.copy(
+                    fontFamily = InterFontFamily,
+                    fontWeight = FontWeight.ExtraBold,
+                    fontSize = 32.sp,
+                ),
+                color = Color(0xFFFFFFFF),
+            )
 
-            Column(
+            Text(
+                stringResource(R.string.register_subheader),
+                style = MaterialTheme.typography.bodyLarge.copy(
+                    fontFamily = InterFontFamily,
+                    fontWeight = FontWeight.Normal,
+                    fontSize = 18.sp,
+                ),
+                color = Color(0xFFFFFFFF),
+            )
+
+            Spacer(
+                modifier = Modifier.height(30.dp)
+            )
+
+            OutlinedTextField(
                 modifier = Modifier
-                    .padding(
-                        top = 5.dp
-                    )
-            ) {
+                    .padding(top = 5.dp)
+                    .fillMaxWidth(),
+                value = email,
+                onValueChange = onEmailChange,
+                placeholder = { Text("Nama Lengkap") },
+                singleLine = true,
+                isError = emailError.isNotEmpty(),
+                supportingText = {
+                    Text(text = emailError)
+                },
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Email, imeAction = ImeAction.Next
+                ),
+                colors = TextFieldDefaults.outlinedTextFieldColors(
+                    containerColor = Color.White,
+                ),
 
-                Text(
-                    stringResource(R.string.register_header),
-                        fontWeight = FontWeight.SemiBold,
-                    fontSize = 25.sp,
-//                    color = Color(0xFF000000),
-                )
-                Text(
-                    stringResource(R.string.register_subheader),
-                        fontWeight = FontWeight.SemiBold,
-                    fontSize = 14.sp,
-//                    color = Color(0xFF999EA1),
-                )
-            }
-
-            Column(
-                modifier = Modifier.padding(
-                    start = 16.dp,
-                    end = 16.dp,
-                    top = 15.dp,
-                    bottom = 4.dp
-                )
-            ) {
-                Text(
-                    "Nama Lengkap",
-                        fontWeight = FontWeight.Bold,
-                    fontSize = 14.sp,
-                )
-                OutlinedTextField(
-                    modifier = Modifier
-                        .padding(top = 5.dp)
-                        .fillMaxWidth(),
-                    value = name,
-                    onValueChange = onNameChange,
-                    placeholder = { Text("Nama lengkap anda") },
-                    singleLine = true,
-                    isError = nameError.isNotEmpty(),
-                    supportingText = {
-                        Text(text = nameError)
-                    },
-                    keyboardOptions = KeyboardOptions(
-                        imeAction = ImeAction.Next
-                    ),
                 )
 
-                Text(
-                    "Email",
-                        fontWeight = FontWeight.Bold,
-                    fontSize = 14.sp,
-                )
-                OutlinedTextField(
-                    modifier = Modifier
-                        .padding(top = 5.dp)
-                        .fillMaxWidth(),
-                    value = email,
-                    onValueChange = onEmailChange,
-                    placeholder = { Text("Email anda") },
-                    singleLine = true,
-                    isError = emailError.isNotEmpty(),
-                    supportingText = {
-                        Text(text = emailError)
-                    },
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Email,
-                        imeAction = ImeAction.Next
-                    ),
+
+
+            OutlinedTextField(
+                modifier = Modifier
+                    .padding(top = 5.dp)
+                    .fillMaxWidth(),
+                value = email,
+                onValueChange = onEmailChange,
+                placeholder = { Text("Nomor telepon atau Email") },
+                singleLine = true,
+                isError = emailError.isNotEmpty(),
+                supportingText = {
+                    Text(text = emailError)
+                },
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Email, imeAction = ImeAction.Next
+                ),
+                colors = TextFieldDefaults.outlinedTextFieldColors(
+                    containerColor = Color.White,
+                ),
+
                 )
 
-                Text(
-                    "Password",
-                        fontWeight = FontWeight.Bold,
-                    fontSize = 14.sp,
-                )
-                OutlinedTextField(
-                    modifier = Modifier
-                        .padding(top = 5.dp)
-                        .fillMaxWidth(),
-                    value = password,
-                    onValueChange = onPasswordChange,
-                    placeholder = { Text("Password") },
-                    singleLine = true,
-                    isError = passwordError.isNotEmpty(),
-                    supportingText = {
-                        Text(text = passwordError)
-                    },
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Password,
-                        imeAction = ImeAction.Next
-                    ),
-                    visualTransformation = PasswordVisualTransformation(),
+
+            OutlinedTextField(
+                modifier = Modifier
+                    .padding(top = 5.dp)
+                    .fillMaxWidth(),
+                value = email,
+                onValueChange = onEmailChange,
+                placeholder = { Text("Nomor telepon") },
+                singleLine = true,
+                isError = emailError.isNotEmpty(),
+                supportingText = {
+                    Text(text = emailError)
+                },
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Email, imeAction = ImeAction.Next
+                ),
+                colors = TextFieldDefaults.outlinedTextFieldColors(
+                    containerColor = Color.White,
+                ),
+
                 )
 
-                Text(
-                    "Password Konfirmasi",
-                        fontWeight = FontWeight.Bold,
-                    fontSize = 14.sp,
-                )
-                OutlinedTextField(
-                    modifier = Modifier
-                        .padding(top = 5.dp)
-                        .fillMaxWidth(),
-                    value = passwordConfirm,
-                    onValueChange = onPasswordConfirmChange,
-                    placeholder = { Text("Password Konfirmasi") },
-                    singleLine = true,
-                    isError = passwordConfirmError.isNotEmpty(),
-                    supportingText = {
-                        Text(text = passwordConfirmError)
-                    },
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Password,
-                        imeAction = ImeAction.Done
-                    ),
-                    visualTransformation = PasswordVisualTransformation(),
-                )
+            OutlinedTextField(
+                modifier = Modifier
+                    .padding(top = 5.dp)
+                    .fillMaxWidth(),
+                value = password,
+                onValueChange = onPasswordChange,
+                placeholder = { Text("Kata sandi") },
+                singleLine = true,
+                isError = passwordError.isNotEmpty(),
+                supportingText = {
+                    Text(text = passwordError)
+                },
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Password, imeAction = ImeAction.Done
+                ),
+                visualTransformation = PasswordVisualTransformation(),
+                colors = TextFieldDefaults.outlinedTextFieldColors(
+                    containerColor = Color.White,
+                ),
+            )
 
-                Button(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(
-                            top = 15.dp,
-                        ),
-                    onClick = register,
-                    colors = ButtonDefaults.buttonColors().copy(
-                        containerColor = Color.Black
-                    ),
-                    enabled = enableRegisterButton
-                ) {
-                    Text(
-                        modifier = Modifier.padding(8.dp),
-                        text = stringResource(R.string.daftar),
-                        style = MaterialTheme.typography.bodyLarge.copy(
-                            color = Color.White,
-                                        fontWeight = FontWeight.SemiBold,
-                            fontSize = 17.sp,
-                        )
-                    )
-                }
 
-            }
+            OutlinedTextField(
+                modifier = Modifier
+                    .padding(top = 5.dp)
+                    .fillMaxWidth(),
+                value = password,
+                onValueChange = onPasswordChange,
+                placeholder = { Text("Ulangi kata sandi") },
+                singleLine = true,
+                isError = passwordError.isNotEmpty(),
+                supportingText = {
+                    Text(text = passwordError)
+                },
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Password, imeAction = ImeAction.Done
+                ),
+                visualTransformation = PasswordVisualTransformation(),
+                colors = TextFieldDefaults.outlinedTextFieldColors(
+                    containerColor = Color.White,
+                ),
+            )
 
             Row(
-                modifier= modifier
-                    .fillMaxWidth()
-                    .padding(
-                        top = 10.dp,
-                    ),
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center,
-            ){
-                Text("Sudah ada akun ? ",
-                    style = TextStyle(
-//                        color = grey,
-                                fontWeight = FontWeight.SemiBold,
-                        fontSize = 14.sp,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Checkbox(
+                    checked = false,
+                    onCheckedChange = {},
+                    colors = CheckboxDefaults.colors(
+                        checkedColor = Color.White,
+                        uncheckedColor = Color.White,
                     )
                 )
-                TextButton(onClick = navLogin) {
-                    Text("Login",
-                        style = TextStyle(
-//                            color = Color.Black,
-                                        fontWeight = FontWeight.SemiBold,
-                            fontSize = 14.sp,
-                        )
-                    )
-                }
+
+                Spacer(
+                    modifier = Modifier
+                        .width(4.dp)
+                )
+
+                Text(
+                    text = "Saya setuju dengan syarat dan ketentuan yang berlaku",
+                    style = MaterialTheme.typography.bodyMedium.copy(color = Color.White)
+
+                )
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+
+            Button(
+                onClick = {
+
+                },
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF4CAF50)), // replace with your button color
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(text = "Daftar", color = Color.White)
             }
 
         }
+
+
     }
 }
 

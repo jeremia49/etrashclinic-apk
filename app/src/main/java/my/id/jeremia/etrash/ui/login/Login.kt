@@ -1,53 +1,79 @@
 package my.id.jeremia.etrash.ui.login
 
+import android.graphics.BitmapFactory
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.systemBars
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import my.id.jeremia.etrash.R
+import my.id.jeremia.etrash.ui.theme.InterFontFamily
 
 @Composable
 fun Login(modifier: Modifier = Modifier, viewModel: LoginViewModel) {
-    LoginView(
-        modifier,
+    LoginView(modifier,
         email = viewModel.email.collectAsStateWithLifecycle().value,
         password = viewModel.password.collectAsStateWithLifecycle().value,
         emailError = viewModel.emailError.collectAsStateWithLifecycle().value,
         passwordError = viewModel.passwordError.collectAsStateWithLifecycle().value,
-        enableLoginButton=viewModel.enableLoginButton.collectAsStateWithLifecycle().value,
+        enableLoginButton = viewModel.enableLoginButton.collectAsStateWithLifecycle().value,
         onEmailChange = { viewModel.onEmailChange(it) },
         onPasswordChange = { viewModel.onPasswordChange(it) },
         basicLogin = { viewModel.dologin() },
-        navRegister = {viewModel.navRegister()}
-    )
+        navRegister = { viewModel.navRegister() })
 }
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginView(
     modifier: Modifier = Modifier,
@@ -55,226 +81,118 @@ fun LoginView(
     password: String,
     emailError: String,
     passwordError: String,
-    enableLoginButton:Boolean,
+    enableLoginButton: Boolean,
     onEmailChange: (String) -> Unit,
     onPasswordChange: (String) -> Unit,
     basicLogin: () -> Unit,
-    navRegister: ()->Unit,
+    navRegister: () -> Unit,
 ) {
 
+    val context = LocalContext.current
+    val bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.background)
+
     Box(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(20.dp)
+        modifier = Modifier.fillMaxSize(),
     ) {
 
+        Image(
+            bitmap = bitmap.asImageBitmap(),
+            contentDescription = null,
+            modifier = Modifier.fillMaxSize(),
+            contentScale = ContentScale.FillBounds
+        )
 
         Column(
             modifier = Modifier
-                .align(Alignment.Center)
-                .fillMaxHeight(),
-            verticalArrangement = Arrangement.SpaceEvenly
+                .fillMaxSize()
+                .padding(
+                    WindowInsets.systemBars.asPaddingValues()
+                )
+                .padding(20.dp)
+                .verticalScroll(rememberScrollState()),
         ) {
+            Text(
+                stringResource(R.string.login_header),
+                style = MaterialTheme.typography.titleLarge.copy(
+                    fontFamily = InterFontFamily,
+                    fontWeight = FontWeight.ExtraBold,
+                    fontSize = 32.sp,
+                ),
+                color = Color(0xFFFFFFFF),
+            )
 
+            Text(
+                stringResource(R.string.login_subheader),
+                style = MaterialTheme.typography.bodyLarge.copy(
+                    fontFamily = InterFontFamily,
+                    fontWeight = FontWeight.Normal,
+                    fontSize = 18.sp,
+                ),
+                color = Color(0xFFFFFFFF),
+            )
 
-            Column(
-                modifier = modifier
-                    .padding(
-                        top = 10.dp
-                    )
+            Spacer(
+                modifier = Modifier.height(30.dp)
+            )
+
+            OutlinedTextField(
+                modifier = Modifier
+                    .padding(top = 5.dp)
+                    .fillMaxWidth(),
+                value = email,
+                onValueChange = onEmailChange,
+                placeholder = { Text("Nomor telepon atau Email") },
+                singleLine = true,
+                isError = emailError.isNotEmpty(),
+                supportingText = {
+                    Text(text = emailError)
+                },
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Email, imeAction = ImeAction.Next
+                ),
+                colors = TextFieldDefaults.outlinedTextFieldColors(
+                    containerColor = Color.White,
+                ),
+
+                )
+
+            OutlinedTextField(
+                modifier = Modifier
+                    .padding(top = 5.dp)
+                    .fillMaxWidth(),
+                value = password,
+                onValueChange = onPasswordChange,
+                placeholder = { Text("Kata sandi") },
+                singleLine = true,
+                isError = passwordError.isNotEmpty(),
+                supportingText = {
+                    Text(text = passwordError)
+                },
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Password, imeAction = ImeAction.Done
+                ),
+                visualTransformation = PasswordVisualTransformation(),
+                colors = TextFieldDefaults.outlinedTextFieldColors(
+                    containerColor = Color.White,
+                ),
+            )
+
+            Button(
+                onClick = {
+
+                },
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF4CAF50)), // replace with your button color
+                modifier = Modifier.fillMaxWidth()
             ) {
-
-                Text(
-                    stringResource(R.string.login_header),
-                        fontWeight = FontWeight.SemiBold,
-                    fontSize = 25.sp,
-//                    color = Color(0xFF000000),
-                )
-                Text(
-                    stringResource(R.string.login_subheader),
-                        fontWeight = FontWeight.SemiBold,
-                    fontSize = 14.sp,
-//                    color = Color(0xFF999EA1),
-                )
+                Text(text = "Masuk", color = Color.White)
             }
-
-            Column(
-                modifier = Modifier.padding(
-                    start = 16.dp,
-                    end = 16.dp,
-                    top = 5.dp,
-                    bottom = 4.dp
-                )
-            ) {
-                Text(
-                    "Email",
-                        fontWeight = FontWeight.Bold,
-                    fontSize = 14.sp,
-                )
-                OutlinedTextField(
-                    modifier = Modifier
-                        .padding(top = 5.dp)
-                        .fillMaxWidth(),
-                    value = email,
-                    onValueChange = onEmailChange,
-                    placeholder = { Text("Email anda") },
-                    singleLine = true,
-                    isError = emailError.isNotEmpty(),
-                    supportingText = {
-                        Text(text = emailError)
-                    },
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Email,
-                        imeAction = ImeAction.Next
-                    ),
-                )
-
-                Text(
-                    "Password",
-                        fontWeight = FontWeight.Bold,
-                    fontSize = 14.sp,
-                )
-                OutlinedTextField(
-                    modifier = Modifier
-                        .padding(top = 5.dp)
-                        .fillMaxWidth(),
-                    value = password,
-                    onValueChange = onPasswordChange,
-                    placeholder = { Text("Password") },
-                    singleLine = true,
-                    isError = passwordError.isNotEmpty(),
-                    supportingText = {
-                        Text(text = passwordError)
-                    },
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Password,
-                        imeAction = ImeAction.Done
-                    ),
-                    visualTransformation = PasswordVisualTransformation(),
-                )
-
-                Button(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(
-                            top=15.dp,
-                            bottom = 20.dp
-                        ),
-                    onClick = basicLogin,
-                    colors = ButtonDefaults.buttonColors().copy(
-                        containerColor = Color.Black
-                    ),
-                    enabled = enableLoginButton,
-                ) {
-                    Text(
-                        modifier = Modifier.padding(8.dp),
-                        text = stringResource(R.string.login),
-                        style = MaterialTheme.typography.bodyLarge.copy(
-                            color = Color.White,
-                                        fontWeight = FontWeight.SemiBold,
-                            fontSize = 17.sp,
-                        )
-                    )
-                }
-
-//                Box(
-//                    modifier,
-//                    contentAlignment = Alignment.Center
-//                ) {
-//                    HorizontalDivider(
-//                        modifier = modifier,
-//                        thickness = 1.dp,
-//                    )
-//                    Text(
-//                        "atau",
-//                        modifier = modifier
-//                            .background(MaterialTheme.colorScheme.background)
-//                            .padding(horizontal = 10.dp),
-//                        textAlign = TextAlign.Center,
-//                    )
-//                }
-
-
-//                OutlinedButton(
-//                    onClick = { /*TODO*/ },
-//                    modifier = modifier
-//                        .fillMaxWidth()
-//                        .padding(top = 20.dp),
-//                    colors = ButtonDefaults.buttonColors().copy(
-//                        containerColor = Color.Black
-//                    )
-//                ) {
-//                    Row(
-//                        modifier = modifier,
-//                    ) {
-//                        Icon(
-//                            painter = painterResource(id = R.drawable.icons8_google),
-//                            contentDescription = "Login dengan Google",
-//                            modifier = modifier
-//                                .padding(vertical = 8.dp)
-//                                .size(20.dp)
-//                        )
-//
-//                        Text(
-//                            "Login with Google",
-//                            modifier = modifier
-//                                .padding(8.dp)
-//                                .fillMaxWidth(),
-//                            textAlign = TextAlign.Center,
-//
-//                            )
-//                    }
-//
-//                }
-            }
-
-
-
-
-
-            Row(
-                modifier = modifier
-                    .fillMaxWidth()
-                    .padding(
-                        top = 10.dp,
-                    ),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center,
-            ) {
-                Text(
-                    "Belum ada akun ? ",
-                    style = TextStyle(
-//                        color = grey,
-                                fontWeight = FontWeight.SemiBold,
-                        fontSize = 14.sp,
-                    )
-                )
-                TextButton(onClick = { navRegister() }) {
-                    Text(
-                        "Daftar",
-                        style = TextStyle(
-//                            color = Color.Black,
-                                        fontWeight = FontWeight.SemiBold,
-                            fontSize = 14.sp,
-                        )
-                    )
-                }
-            }
-
-
-//            Button(onClick = {}) {
-////                Image(
-////                    painter = painterResource(id = R.drawable.icons8_google),
-////                    contentDescription = "Login with Google",
-////                    size
-////                )
-//
-//            }
-
 
         }
+
+
     }
 }
+
 
 @Preview(showBackground = true)
 @Composable
