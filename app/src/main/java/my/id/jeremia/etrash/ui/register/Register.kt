@@ -30,6 +30,9 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -57,16 +60,22 @@ fun Register(modifier: Modifier = Modifier, viewModel: RegisterViewModel) {
         email = viewModel.email.collectAsStateWithLifecycle().value,
         password = viewModel.password.collectAsStateWithLifecycle().value,
         passwordConfirm = viewModel.passwordConfirm.collectAsStateWithLifecycle().value,
+        nohp = viewModel.nohp.collectAsStateWithLifecycle().value,
+        tandc = viewModel.tandc.collectAsStateWithLifecycle().value,
         nameError = viewModel.nameError.collectAsStateWithLifecycle().value,
         emailError = viewModel.emailError.collectAsStateWithLifecycle().value,
         passwordError = viewModel.passwordError.collectAsStateWithLifecycle().value,
         passwordConfirmError = viewModel.passwordConfirmError.collectAsStateWithLifecycle().value,
+        nohpError = viewModel.nohpError.collectAsStateWithLifecycle().value,
+        tandcError = viewModel.tandcError.collectAsStateWithLifecycle().value,
         enableRegisterButton = viewModel.enableRegisterButton.collectAsStateWithLifecycle().value,
         onNameChange = { viewModel.onNameChange(it) },
         onEmailChange = { viewModel.onEmailChange(it) },
         onPasswordChange = { viewModel.onPasswordChange(it) },
         onPasswordConfirmChange = { viewModel.onPasswordConfirmationChange(it) },
-        register = {},
+        onNohpChange = { viewModel.onNohpChange(it) },
+        onTandcChange = { viewModel.onTandcChange(it) },
+        register = { viewModel.doRegister() },
         navLogin = { viewModel.navLogin() },
     )
 }
@@ -80,21 +89,34 @@ fun RegisterView(
     email: String,
     password: String,
     passwordConfirm: String,
+    nohp: String,
+    tandc: Boolean,
     nameError: String,
     emailError: String,
     passwordError: String,
     passwordConfirmError: String,
+    nohpError: String,
+    tandcError: String,
     enableRegisterButton: Boolean,
     onNameChange: (String) -> Unit,
     onEmailChange: (String) -> Unit,
     onPasswordChange: (String) -> Unit,
     onPasswordConfirmChange: (String) -> Unit,
+    onNohpChange: (String) -> Unit,
+    onTandcChange: (Boolean) -> Unit,
     register: () -> Unit,
     navLogin: () -> Unit,
 ) {
 
     val context = LocalContext.current
-    val bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.background)
+    val bitmap by remember {
+        mutableStateOf(
+            BitmapFactory.decodeResource(
+                context.resources,
+                R.drawable.background
+            )
+        )
+    }
 
     Box(
         modifier = Modifier.fillMaxSize(),
@@ -145,19 +167,20 @@ fun RegisterView(
                 modifier = Modifier
                     .padding(top = 5.dp)
                     .fillMaxWidth(),
-                value = email,
-                onValueChange = onEmailChange,
+                value = name,
+                onValueChange = onNameChange,
                 placeholder = { Text("Nama Lengkap") },
                 singleLine = true,
-                isError = emailError.isNotEmpty(),
+                isError = nameError.isNotEmpty(),
                 supportingText = {
-                    Text(text = emailError)
+                    Text(text = nameError)
                 },
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Email, imeAction = ImeAction.Next
                 ),
                 colors = TextFieldDefaults.outlinedTextFieldColors(
                     containerColor = Color.White,
+                    errorContainerColor = Color.White,
                 ),
 
                 )
@@ -170,7 +193,7 @@ fun RegisterView(
                     .fillMaxWidth(),
                 value = email,
                 onValueChange = onEmailChange,
-                placeholder = { Text("Nomor telepon atau Email") },
+                placeholder = { Text("Email") },
                 singleLine = true,
                 isError = emailError.isNotEmpty(),
                 supportingText = {
@@ -181,6 +204,7 @@ fun RegisterView(
                 ),
                 colors = TextFieldDefaults.outlinedTextFieldColors(
                     containerColor = Color.White,
+                    errorContainerColor = Color.White,
                 ),
 
                 )
@@ -190,19 +214,20 @@ fun RegisterView(
                 modifier = Modifier
                     .padding(top = 5.dp)
                     .fillMaxWidth(),
-                value = email,
-                onValueChange = onEmailChange,
+                value = nohp,
+                onValueChange = onNohpChange,
                 placeholder = { Text("Nomor telepon") },
                 singleLine = true,
-                isError = emailError.isNotEmpty(),
+                isError = nohpError.isNotEmpty(),
                 supportingText = {
-                    Text(text = emailError)
+                    Text(text = nohpError)
                 },
                 keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Email, imeAction = ImeAction.Next
+                    keyboardType = KeyboardType.Number, imeAction = ImeAction.Next
                 ),
                 colors = TextFieldDefaults.outlinedTextFieldColors(
                     containerColor = Color.White,
+                    errorContainerColor = Color.White,
                 ),
 
                 )
@@ -225,7 +250,8 @@ fun RegisterView(
                 visualTransformation = PasswordVisualTransformation(),
                 colors = TextFieldDefaults.outlinedTextFieldColors(
                     containerColor = Color.White,
-                ),
+                    errorContainerColor = Color.White,
+                    ),
             )
 
 
@@ -233,13 +259,13 @@ fun RegisterView(
                 modifier = Modifier
                     .padding(top = 5.dp)
                     .fillMaxWidth(),
-                value = password,
-                onValueChange = onPasswordChange,
+                value = passwordConfirm,
+                onValueChange = onPasswordConfirmChange,
                 placeholder = { Text("Ulangi kata sandi") },
                 singleLine = true,
-                isError = passwordError.isNotEmpty(),
+                isError = passwordConfirmError.isNotEmpty(),
                 supportingText = {
-                    Text(text = passwordError)
+                    Text(text = passwordConfirmError)
                 },
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Password, imeAction = ImeAction.Done
@@ -247,7 +273,8 @@ fun RegisterView(
                 visualTransformation = PasswordVisualTransformation(),
                 colors = TextFieldDefaults.outlinedTextFieldColors(
                     containerColor = Color.White,
-                ),
+                    errorContainerColor = Color.White,
+                    ),
             )
 
             Row(
@@ -255,12 +282,12 @@ fun RegisterView(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Checkbox(
-                    checked = false,
-                    onCheckedChange = {},
+                    checked = tandc,
+                    onCheckedChange = onTandcChange,
                     colors = CheckboxDefaults.colors(
                         checkedColor = Color.White,
                         uncheckedColor = Color.White,
-                    )
+                    ),
                 )
 
                 Spacer(
@@ -271,19 +298,20 @@ fun RegisterView(
                 Text(
                     text = "Saya setuju dengan syarat dan ketentuan yang berlaku",
                     style = MaterialTheme.typography.bodyMedium.copy(color = Color.White)
-
                 )
+            }
+            if (tandcError.isNotEmpty()) {
+                Text(text = tandcError, color = Color.Red)
             }
 
             Spacer(modifier = Modifier.height(16.dp))
 
 
             Button(
-                onClick = {
-
-                },
+                onClick = register,
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF4CAF50)), // replace with your button color
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                enabled = enableRegisterButton
             ) {
                 Text(text = "Daftar", color = Color.White)
             }
@@ -302,6 +330,12 @@ private fun RegisterPreview() {
         password = "",
         emailError = "",
         passwordError = "",
+        nohp = "",
+        tandc = false,
+        onTandcChange = {},
+        onNohpChange = {},
+        nohpError = "",
+        tandcError = "",
         onEmailChange = {},
         onPasswordChange = {},
         name = "",

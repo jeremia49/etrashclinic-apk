@@ -40,25 +40,25 @@ enum class HomeTab(
         R.string.home_str,
         R.drawable.home_unselected,
         R.drawable.home_selected,
-        Destination.Home.Find.route,
-        Destination.Home.Find.route,
+        Destination.Home.MyHome.route,
+        Destination.Home.MyHome.route,
     ),
 
-    UNGGAH(
-        R.string.unggah_str,
-        R.drawable.camera_unselected,
-        R.drawable.camera_selected,
-        Destination.Home.Data.route,
-        Destination.Home.Data.route,
-    ),
-
-    RIWAYAT(
-        R.string.riwayat_str,
-        R.drawable.history_unselected,
-        R.drawable.history_selected,
-        Destination.Home.Contribute.route,
-        Destination.Home.Contribute.route,
-    ),
+//    UNGGAH(
+//        R.string.unggah_str,
+//        R.drawable.camera_unselected,
+//        R.drawable.camera_selected,
+//        Destination.Home.MyHome.route,
+//        Destination.Home.MyHome.route,
+//    ),
+//
+//    RIWAYAT(
+//        R.string.riwayat_str,
+//        R.drawable.history_unselected,
+//        R.drawable.history_selected,
+//        Destination.Home.MyHome.route,
+//        Destination.Home.MyHome.route,
+//    ),
 
 }
 

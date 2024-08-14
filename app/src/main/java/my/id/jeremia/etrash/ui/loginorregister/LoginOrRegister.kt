@@ -27,6 +27,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -46,8 +48,8 @@ import my.id.jeremia.etrash.ui.theme.InterFontFamily
 @Composable
 fun LoginOrRegister(modifier: Modifier = Modifier, viewModel: LoginOrRegisterViewModel) {
     val context = LocalContext.current
-    val bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.background)
-    val bitmap4 = BitmapFactory.decodeResource(context.resources, R.drawable.onboarding4)
+    val bitmap by remember { mutableStateOf(BitmapFactory.decodeResource(context.resources, R.drawable.background)) }
+    val bitmap4 by remember { mutableStateOf(BitmapFactory.decodeResource(context.resources, R.drawable.onboarding4))}
 
     val infiniteTransition = rememberInfiniteTransition()
 

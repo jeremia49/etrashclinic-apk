@@ -36,6 +36,8 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -68,7 +70,7 @@ fun Login(modifier: Modifier = Modifier, viewModel: LoginViewModel) {
         enableLoginButton = viewModel.enableLoginButton.collectAsStateWithLifecycle().value,
         onEmailChange = { viewModel.onEmailChange(it) },
         onPasswordChange = { viewModel.onPasswordChange(it) },
-        basicLogin = { viewModel.dologin() },
+        basicLogin = { viewModel.doLogin() },
         navRegister = { viewModel.navRegister() })
 }
 
@@ -89,7 +91,7 @@ fun LoginView(
 ) {
 
     val context = LocalContext.current
-    val bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.background)
+    val bitmap by remember { mutableStateOf(BitmapFactory.decodeResource(context.resources, R.drawable.background))}
 
     Box(
         modifier = Modifier.fillMaxSize(),
@@ -141,7 +143,7 @@ fun LoginView(
                     .fillMaxWidth(),
                 value = email,
                 onValueChange = onEmailChange,
-                placeholder = { Text("Nomor telepon atau Email") },
+                placeholder = { Text("Email") },
                 singleLine = true,
                 isError = emailError.isNotEmpty(),
                 supportingText = {
@@ -152,7 +154,8 @@ fun LoginView(
                 ),
                 colors = TextFieldDefaults.outlinedTextFieldColors(
                     containerColor = Color.White,
-                ),
+                    errorContainerColor = Color.White,
+                    ),
 
                 )
 
@@ -174,13 +177,12 @@ fun LoginView(
                 visualTransformation = PasswordVisualTransformation(),
                 colors = TextFieldDefaults.outlinedTextFieldColors(
                     containerColor = Color.White,
-                ),
+                    errorContainerColor = Color.White,
+                    ),
             )
 
             Button(
-                onClick = {
-
-                },
+                onClick = basicLogin,
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF4CAF50)), // replace with your button color
                 modifier = Modifier.fillMaxWidth()
             ) {

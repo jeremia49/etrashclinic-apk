@@ -18,10 +18,10 @@ object OnBoardDataStoreModule {
 
     @Provides
     @Singleton
-    fun provideOnBoardDataStorePreferences(
+    fun provideDataStore(
         @ApplicationContext applicationContext: Context,
     ): RxDataStore<Preferences>{
-        return RxPreferenceDataStoreBuilder(applicationContext, "onboard_datastore").build()
+        return RxPreferenceDataStoreBuilder(applicationContext, "datastore").build()
     }
 
 }

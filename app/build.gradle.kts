@@ -24,10 +24,10 @@ android {
     }
     buildTypes {
         debug {
-            buildConfigField("String","BASE_URL", "\"http://192.168.1.114/\"")
+            buildConfigField("String","BASE_URL", "\"https://d6f3-38-9-128-236.ngrok-free.app/\"")
         }
         release {
-            buildConfigField("String","BASE_URL", "\"http://192.168.1.114/\"")
+            buildConfigField("String","BASE_URL", "\"https://d6f3-38-9-128-236.ngrok-free.app/\"")
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),

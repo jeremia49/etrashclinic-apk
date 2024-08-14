@@ -55,10 +55,10 @@ import my.id.jeremia.etrash.ui.theme.InterFontFamily
 @Composable
 fun OnBoard(modifier: Modifier = Modifier, viewModel: OnBoardViewModel) {
     val context = LocalContext.current
-    val bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.background)
-    val logo = BitmapFactory.decodeResource(context.resources, R.drawable.logo)
-    val bitmap2 = BitmapFactory.decodeResource(context.resources, R.drawable.onboarding2)
-    val bitmap3 = BitmapFactory.decodeResource(context.resources, R.drawable.onboarding3)
+    val bitmap by remember { mutableStateOf(BitmapFactory.decodeResource(context.resources, R.drawable.background))}
+    val logo by remember { mutableStateOf(BitmapFactory.decodeResource(context.resources, R.drawable.logo))}
+    val bitmap2 by remember { mutableStateOf(BitmapFactory.decodeResource(context.resources, R.drawable.onboarding2))}
+    val bitmap3 by remember { mutableStateOf( BitmapFactory.decodeResource(context.resources, R.drawable.onboarding3))}
 
     var onBoardProgress by remember { mutableStateOf(1) }
     val bitmapToShow by remember {

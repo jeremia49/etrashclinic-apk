@@ -3,11 +3,16 @@
     <string name="ok">Ok</string>
     <string name="login">Masuk</string>
     <string name="login_header">Masuk</string>
-    <string name="login_subheader">Silahkan masukan nomor telepon/ email dan password anda</string>
+    <string name="login_subheader">Silahkan masukan email dan password anda</string>
     <string name="daftar">Daftar</string>
     <string name="register_header">Daftar</string>
     <string name="register_subheader">Silahkan masukan nomor telepon/ email dan password anda</string>
     <string name="home_str">Home</string>
     <string name="unggah_str">Unggah</string>
     <string name="riwayat_str">Riwayat</string>
+
+    <string name="server_connection_error">Gagal terhubung ke server</string>
+    <string name="no_internet_connection">Tidak ada koneksi internet</string>
+    <string name="something_went_wrong">Something went wrong</string>
+
 </resources>

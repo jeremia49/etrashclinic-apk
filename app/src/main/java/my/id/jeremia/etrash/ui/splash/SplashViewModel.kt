@@ -1,9 +1,11 @@
 package my.id.jeremia.etrash.ui.splash
 
+import android.util.Log
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
 import my.id.jeremia.etrash.data.repository.OnBoardRepository
+import my.id.jeremia.etrash.data.repository.UserRepository
 import my.id.jeremia.etrash.ui.base.BaseViewModel
 import my.id.jeremia.etrash.ui.common.loader.Loader
 import my.id.jeremia.etrash.ui.common.snackbar.Messenger
@@ -17,6 +19,7 @@ class SplashViewModel @Inject constructor(
     val messenger: Messenger,
     val navigator: Navigator,
     val onBoardRepository: OnBoardRepository,
+    val userRepository: UserRepository
 ) : BaseViewModel(loader, messenger, navigator) {
 
     companion object {
@@ -24,6 +27,17 @@ class SplashViewModel @Inject constructor(
     }
 
     init{
+        process();
+    }
+
+    fun process(){
+        Log.d(TAG, "Current Access Token: ${userRepository.getCurrentAccessToken()}")
+
+        if(userRepository.getCurrentAccessToken().isNotEmpty()){
+            navigator.navigateTo(Destination.Home.MyHome.route, true);
+            return;
+        }
+
         onBoardRepository.isCompleted()
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
@@ -34,6 +48,7 @@ class SplashViewModel @Inject constructor(
                     navigator.navigateTo(Destination.LoginOrRegister.route, true)
                 }
             }
+        return;
     }
 
     init {
