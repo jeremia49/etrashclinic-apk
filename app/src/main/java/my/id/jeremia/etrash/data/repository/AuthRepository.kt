@@ -10,7 +10,9 @@ import my.id.jeremia.etrash.data.remote.apis.auth.response.AuthLogoutSuccessResp
 import my.id.jeremia.etrash.data.remote.apis.auth.response.AuthMeSuccessResponse
 import my.id.jeremia.etrash.data.remote.apis.auth.response.AuthRegisterSuccessResponse
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class AuthRepository @Inject constructor(
     private val authAPI: AuthAPI,
 ) {

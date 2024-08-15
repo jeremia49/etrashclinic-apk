@@ -9,6 +9,7 @@ import dagger.hilt.components.SingletonComponent
 import my.id.jeremia.etrash.BuildConfig
 import my.id.jeremia.etrash.data.remote.Networking
 import my.id.jeremia.etrash.data.remote.apis.auth.AuthAPI
+import my.id.jeremia.etrash.data.remote.apis.data.DataAPI
 import my.id.jeremia.etrash.data.remote.interceptors.RequestHeaderInterceptor
 import my.id.jeremia.etrash.di.qualifier.BaseUrl
 import okhttp3.OkHttpClient
@@ -46,6 +47,16 @@ object NetworkModule {
         AuthAPI::class.java
     )
 
+    @Provides
+    @Singleton
+    fun provideDataAPI(
+        @BaseUrl baseUrl: String,
+        okHttpClient: OkHttpClient
+    ): DataAPI = Networking.createService(
+        baseUrl,
+        okHttpClient,
+        DataAPI::class.java
+    )
 
 
 }

@@ -51,7 +51,7 @@ fun HeaderSection(
             Column(modifier = Modifier.weight(1f)) {
                 Text(text = "Halo,", fontSize = 20.sp)
                 AutoResizeText(
-                    maxLines = 2,
+                    maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                     text = "${username}!",
                     fontSizeRange = FontSizeRange(
