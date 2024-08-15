@@ -19,6 +19,7 @@ class UserDataStore @Inject constructor(
         private val USER_NAME = stringPreferencesKey("PREF_KEY_USER_NAME")
         private val USER_EMAIL = stringPreferencesKey("PREF_KEY_USER_EMAIL")
         private val USER_NOHP = stringPreferencesKey("PREF_KEY_USER_NOHP")
+        private val USER_PHOTOURL = stringPreferencesKey("PREF_KEY_USER_PHOTOURL")
 
         private val ACCESS_TOKEN = stringPreferencesKey("PREF_KEY_ACCESS_TOKEN")
     }
@@ -49,6 +50,11 @@ class UserDataStore @Inject constructor(
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
+    fun getUserPhotoUrl() : Flowable<String> = dataStore.data().map {
+        it[USER_PHOTOURL] ?: ""
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
     fun removeCurrentUser() : Completable{
         return Completable.create{
             dataStore.updateDataAsync {
@@ -60,7 +66,7 @@ class UserDataStore @Inject constructor(
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    fun setUserData(id:String, name:String, emai:String, nohp:String, token:String): Single<Preferences> {
+    fun setUserData(id:String, name:String, emai:String, nohp:String, token:String, photoUrl:String): Single<Preferences> {
         return dataStore.updateDataAsync {
             val pref = it.toMutablePreferences()
             pref[USER_ID] = id
@@ -68,6 +74,7 @@ class UserDataStore @Inject constructor(
             pref[USER_EMAIL] = emai
             pref[USER_NOHP] = nohp
             pref[ACCESS_TOKEN] = token
+            pref[USER_PHOTOURL] = photoUrl
             Single.just(pref)
         }
     }

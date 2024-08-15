@@ -110,7 +110,8 @@ class LoginViewModel @Inject constructor(
                                 it.data.name!!,
                                 it.data.email!!,
                                 it.data.nohp!!,
-                                it.data.accessToken!!
+                                it.data.accessToken!!,
+                                it.data.photoUrl!!
                             )
                         ).subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())

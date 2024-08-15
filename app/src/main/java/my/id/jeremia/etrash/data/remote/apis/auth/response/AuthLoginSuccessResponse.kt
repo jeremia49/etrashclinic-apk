@@ -25,6 +25,8 @@ data class AuthLoginSuccessResponse(
         val name: String?,
         @Json(name = "nohp")
         val nohp: String?,
+        @Json(name="photoUrl")
+        val photoUrl:String?,
         @Json(name = "uid")
         val uid: Int?
     )

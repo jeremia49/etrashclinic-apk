@@ -13,28 +13,32 @@ class UserRepository @Inject constructor(
 ) {
 
     fun saveCurrentAuth(auth: Auth) = userDataStore.setUserData(
-        auth.userid, auth.username, auth.email, auth.nohp, auth.accessToken
+        auth.userid, auth.username, auth.email, auth.nohp, auth.accessToken, auth.photoUrl
     )
 
     suspend fun removeCurrentUser() {
         userDataStore.removeCurrentUser();
     }
 
-    suspend fun getCurrentAuth(): Auth? {
+    fun getCurrentAuth(): Auth? {
         val userid = userDataStore.getUserId().blockingFirst()
         val email = userDataStore.getUserEmail().blockingFirst()
         val username = userDataStore.getUserName().blockingFirst()
         val nohp = userDataStore.getUserNohp().blockingFirst()
         val accesstoken = userDataStore.getAccessToken().blockingFirst()
-        if (userid !== null) {
+        val photoUrl = userDataStore.getUserPhotoUrl().blockingFirst()
+
+        if (userid.isNotEmpty()) {
             return Auth(
                 userid,
                 username!!,
                 email!!,
                 nohp!!,
-                accesstoken!!
+                accesstoken!!,
+                photoUrl
             )
         }
+
         return null
     }
 

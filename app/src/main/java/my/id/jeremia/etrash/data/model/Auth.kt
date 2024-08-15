@@ -11,4 +11,5 @@ data class Auth(
     val email:String,
     val nohp:String,
     val accessToken:String,
+    val photoUrl:String = "",
 ) : Parcelable
