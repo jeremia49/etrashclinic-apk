@@ -44,8 +44,6 @@ fun RiwayatPage(modifier: Modifier = Modifier) {
         InformationSection()
         Spacer(modifier = Modifier.height(16.dp))
         LatestReportsSection()
-        Spacer(modifier = Modifier.height(16.dp))
-        ArticleSection()
     }
 }
 

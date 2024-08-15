@@ -37,6 +37,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import my.id.jeremia.etrash.R
+import my.id.jeremia.etrash.data.model.Article
 import my.id.jeremia.etrash.ui.common.bg.BackgroundImage
 import my.id.jeremia.etrash.ui.common.header.HeaderSection
 import my.id.jeremia.etrash.ui.common.image.NetworkImage
@@ -55,7 +56,9 @@ fun HomePageView(modifier: Modifier = Modifier, viewModel: HomePageViewModel) {
             modifier = modifier,
             username = viewModel.namapengguna.collectAsStateWithLifecycle().value,
             photoUrl = viewModel.photoUrl.collectAsStateWithLifecycle().value,
-            onClickProfilePicture = {viewModel.navigator.navigateTo(Destination.Home.Settings.route)}
+            onClickProfilePicture = {viewModel.navigator.navigateTo(Destination.Home.Settings.route)},
+            artikels = viewModel.artikels.collectAsStateWithLifecycle().value,
+
         )
     }
 
@@ -66,7 +69,8 @@ fun HomePage(
     modifier: Modifier = Modifier,
     username: String = "Jeremia",
     photoUrl: String = "https://example.com/photo.jpg",
-    onClickProfilePicture : () -> Unit = {}
+    onClickProfilePicture : () -> Unit = {},
+    artikels : List<Article> = emptyList()
 ) {
     Column(
         modifier = modifier
@@ -83,7 +87,7 @@ fun HomePage(
         Spacer(modifier = Modifier.height(16.dp))
         LatestReportsSection()
         Spacer(modifier = Modifier.height(16.dp))
-        ArticleSection()
+        ArticleSection(artikels)
     }
 }
 
@@ -227,10 +231,10 @@ fun ReportItem() {
 }
 
 @Composable
-fun ArticleSection() {
+fun ArticleSection(artikels:List<Article>) {
     Column {
         Text(text = "Artikel", fontSize = 18.sp, fontWeight = FontWeight.Bold)
-        // Repeat the row as needed for each article
+
         ArticleItem()
     }
 }

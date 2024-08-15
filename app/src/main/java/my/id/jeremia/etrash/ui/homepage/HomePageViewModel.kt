@@ -11,6 +11,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import my.id.jeremia.etrash.data.model.Article
+import my.id.jeremia.etrash.data.remote.apis.data.artikel.response.ArtikelSuccessReponse
 import my.id.jeremia.etrash.data.repository.DataRepository
 import my.id.jeremia.etrash.data.repository.UserRepository
 import my.id.jeremia.etrash.ui.base.BaseViewModel
@@ -35,9 +37,11 @@ class HomePageViewModel @Inject constructor(
 
     private val _namapengguna = MutableStateFlow("")
     private val _photoUrl = MutableStateFlow("")
+    private val _artikels = MutableStateFlow(emptyList<Article>())
 
     val namapengguna = _namapengguna.asStateFlow()
     val photoUrl = _photoUrl.asStateFlow()
+    val artikels = _artikels.asStateFlow()
 
     init {
         userRepository.getCurrentAuth()?.let {
@@ -45,18 +49,23 @@ class HomePageViewModel @Inject constructor(
             _photoUrl.value = it.photoUrl
         }
 
-        Log.d(TAG, "Testing")
+        updateArtikel()
+    }
 
-
-        viewModelScope.launch{
-
-            val z = dataRepository.getArtikel().first()
-            Log.d(TAG, "Data : ${z}")
-
+    fun updateArtikel(){
+        launchNetwork {
+            val artikelResponse = dataRepository.getArtikel().first().data ?: emptyList<ArtikelSuccessReponse.Data>()
+            val artikel = artikelResponse.map{
+                Article(
+                        author = it!!.author,
+                        createdAt = it.createdAt,
+                        imgPublicUrl = it.imgPublicUrl,
+                        isVideo = it.isVideo,
+                        publicUrl = it.publicUrl,
+              )
+            }
+            _artikels.emit(artikel)
         }
-
-
-
     }
 
 }

@@ -24,7 +24,7 @@ android {
     }
     buildTypes {
         debug {
-            buildConfigField("String","BASE_URL", "\"https://fa7d-38-9-128-236.ngrok-free.app/\"")
+            buildConfigField("String","BASE_URL", "\"https://free-paws-flow.loca.lt/\"")
         }
         release {
             buildConfigField("String","BASE_URL", "\"https://fa30-38-9-128-236.ngrok-free.app/\"")
