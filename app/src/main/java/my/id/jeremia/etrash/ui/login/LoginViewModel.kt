@@ -1,5 +1,6 @@
 package my.id.jeremia.etrash.ui.login
 
+import Message
 import android.content.Context
 import android.util.Log
 import com.squareup.moshi.Moshi
@@ -9,8 +10,6 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.first
 import my.id.jeremia.etrash.data.model.Auth
 import my.id.jeremia.etrash.data.remote.apis.auth.response.AuthLoginErrorResponse
 import my.id.jeremia.etrash.data.remote.response.ApiErrorResponse

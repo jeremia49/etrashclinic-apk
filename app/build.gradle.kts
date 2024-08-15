@@ -59,6 +59,8 @@ android {
 }
 
 dependencies {
+    //Haze Bottom Bar Blur
+    implementation("dev.chrisbanes.haze:haze:0.6.0")
 
     //JTS
     implementation("org.locationtech.jts:jts-core:1.19.0")

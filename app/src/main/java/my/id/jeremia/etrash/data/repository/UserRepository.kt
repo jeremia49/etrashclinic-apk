@@ -1,7 +1,5 @@
 package my.id.jeremia.etrash.data.repository
 
-import io.reactivex.rxjava3.core.Completable
-import kotlinx.coroutines.flow.first
 import my.id.jeremia.etrash.data.local.datastore.UserDataStore
 import my.id.jeremia.etrash.data.model.Auth
 import javax.inject.Inject

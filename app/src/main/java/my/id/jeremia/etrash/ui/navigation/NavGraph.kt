@@ -6,7 +6,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.navigation
 import my.id.jeremia.etrash.ui.homepage.HomePageView
 import my.id.jeremia.etrash.ui.homepage.HomePageViewModel
 import my.id.jeremia.etrash.ui.login.Login
