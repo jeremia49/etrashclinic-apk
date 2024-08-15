@@ -53,16 +53,16 @@ enum class HomeTab(
         R.string.unggah_str,
         R.drawable.camera_unselected,
         R.drawable.camera_selected,
-        Destination.Login.route,
-        Destination.Login.route,
+        Destination.Home.Camera.route,
+        Destination.Home.Camera.route,
     ),
 
     RIWAYAT(
         R.string.riwayat_str,
         R.drawable.history_unselected,
         R.drawable.history_selected,
-        Destination.Register.route,
-        Destination.Register.route,
+        Destination.Home.Riwayat.route,
+        Destination.Home.Riwayat.route,
     ),
 
 }

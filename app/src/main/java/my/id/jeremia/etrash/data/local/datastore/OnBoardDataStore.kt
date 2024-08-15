@@ -6,11 +6,12 @@ import androidx.datastore.rxjava3.RxDataStore
 import io.reactivex.rxjava3.core.Flowable
 import io.reactivex.rxjava3.core.Single
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import my.id.jeremia.etrash.di.qualifier.OnBoardDataStore
 import javax.inject.Inject
 
 
 class OnBoardDataStore @Inject constructor(
-    private val dataStore: RxDataStore<Preferences>
+    @OnBoardDataStore private val dataStore: RxDataStore<Preferences>
 ) {
     private val ONBOARD_KEY = booleanPreferencesKey("onboard_setting")
 

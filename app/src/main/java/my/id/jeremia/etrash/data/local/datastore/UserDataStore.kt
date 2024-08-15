@@ -7,10 +7,11 @@ import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Flowable
 import io.reactivex.rxjava3.core.Single
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import my.id.jeremia.etrash.di.qualifier.AuthDataStore
 import javax.inject.Inject
 
 class UserDataStore @Inject constructor(
-    private val dataStore: RxDataStore<Preferences>
+    @AuthDataStore private val dataStore: RxDataStore<Preferences>
 ) {
 
     companion object {
@@ -54,14 +55,12 @@ class UserDataStore @Inject constructor(
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    fun removeCurrentUser() : Completable{
-        return Completable.create{
-            dataStore.updateDataAsync {
+    fun removeCurrentUser(): Single<Preferences> {
+        return dataStore.updateDataAsync {
                 val pref = it.toMutablePreferences()
                 pref.clear()
                 Single.just(pref)
             }
-        }
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)

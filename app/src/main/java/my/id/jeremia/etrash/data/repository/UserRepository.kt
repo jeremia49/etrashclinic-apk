@@ -14,9 +14,8 @@ class UserRepository @Inject constructor(
         auth.userid, auth.username, auth.email, auth.nohp, auth.accessToken, auth.photoUrl
     )
 
-    suspend fun removeCurrentUser() {
+    fun removeCurrentUser() =
         userDataStore.removeCurrentUser();
-    }
 
     fun getCurrentAuth(): Auth? {
         val userid = userDataStore.getUserId().blockingFirst()

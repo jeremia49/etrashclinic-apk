@@ -38,9 +38,11 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import my.id.jeremia.etrash.R
 import my.id.jeremia.etrash.ui.common.bg.BackgroundImage
+import my.id.jeremia.etrash.ui.common.header.HeaderSection
 import my.id.jeremia.etrash.ui.common.image.NetworkImage
 import my.id.jeremia.etrash.ui.common.text.AutoResizeText
 import my.id.jeremia.etrash.ui.common.text.FontSizeRange
+import my.id.jeremia.etrash.ui.navigation.Destination
 import my.id.jeremia.etrash.ui.theme.hijau40
 
 @Composable
@@ -52,7 +54,8 @@ fun HomePageView(modifier: Modifier = Modifier, viewModel: HomePageViewModel) {
         HomePage(
             modifier = modifier,
             username = viewModel.namapengguna.collectAsStateWithLifecycle().value,
-            photoUrl = viewModel.photoUrl.collectAsStateWithLifecycle().value
+            photoUrl = viewModel.photoUrl.collectAsStateWithLifecycle().value,
+            onClickProfilePicture = {viewModel.navigator.navigateTo(Destination.Home.Settings.route)}
         )
     }
 
@@ -63,13 +66,14 @@ fun HomePage(
     modifier: Modifier = Modifier,
     username: String = "Jeremia",
     photoUrl: String = "https://example.com/photo.jpg",
+    onClickProfilePicture : () -> Unit = {}
 ) {
     Column(
         modifier = modifier
             .fillMaxSize()
             .padding(16.dp)
     ) {
-        HeaderSection(username, photoUrl)
+        HeaderSection(username, photoUrl, onClickProfilePicture = onClickProfilePicture)
         Spacer(modifier = Modifier.height(16.dp))
         CoinSection()
         Spacer(modifier = Modifier.height(16.dp))
@@ -83,49 +87,6 @@ fun HomePage(
     }
 }
 
-@Composable
-fun HeaderSection(username: String, photoUrl: String) {
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Column(modifier = Modifier.weight(1f)) {
-            Text(text = "Halo,", fontSize = 20.sp)
-            AutoResizeText(
-                maxLines = 2,
-                overflow = TextOverflow.Ellipsis,
-                text = "${username}!",
-                fontSizeRange = FontSizeRange(
-                    min = 12.sp,
-                    max = 24.sp
-                ),
-                fontWeight = FontWeight.Bold
-            )
-        }
-        Image(
-            painter = painterResource(id = R.drawable.leaderboard), // Replace with actual resource
-            contentDescription = "Leaderboard",
-            modifier = Modifier
-                .size(30.dp)
-        )
-        Spacer(modifier = Modifier.width(16.dp))
-        Image(
-            painter = painterResource(id = R.drawable.notification), // Replace with actual resource
-            contentDescription = "Leaderboard",
-            modifier = Modifier
-                .size(30.dp)
-        )
-        Spacer(modifier = Modifier.width(16.dp))
-        NetworkImage(
-            url = photoUrl,
-            contentDescription = "User Avatar",
-            modifier = Modifier
-                .size(30.dp)
-                .clip(CircleShape)
-                .background(Color.LightGray)
-        )
-    }
-}
 
 @Composable
 fun CoinSection() {

@@ -6,16 +6,28 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import my.id.jeremia.etrash.ui.camera.CameraView
+import my.id.jeremia.etrash.ui.camera.CameraViewModel
+import my.id.jeremia.etrash.ui.coinexchange.CoinExchangeView
+import my.id.jeremia.etrash.ui.coinexchange.CoinExchangeViewModel
 import my.id.jeremia.etrash.ui.homepage.HomePageView
 import my.id.jeremia.etrash.ui.homepage.HomePageViewModel
+import my.id.jeremia.etrash.ui.leaderboard.LeaderboardView
+import my.id.jeremia.etrash.ui.leaderboard.LeaderboardViewModel
 import my.id.jeremia.etrash.ui.login.Login
 import my.id.jeremia.etrash.ui.login.LoginViewModel
 import my.id.jeremia.etrash.ui.loginorregister.LoginOrRegister
 import my.id.jeremia.etrash.ui.loginorregister.LoginOrRegisterViewModel
+import my.id.jeremia.etrash.ui.notification.NotificationView
+import my.id.jeremia.etrash.ui.notification.NotificationViewModel
 import my.id.jeremia.etrash.ui.onboard.OnBoard
 import my.id.jeremia.etrash.ui.onboard.OnBoardViewModel
 import my.id.jeremia.etrash.ui.register.Register
 import my.id.jeremia.etrash.ui.register.RegisterViewModel
+import my.id.jeremia.etrash.ui.riwayat.RiwayatView
+import my.id.jeremia.etrash.ui.riwayat.RiwayatViewModel
+import my.id.jeremia.etrash.ui.settings.SettingsView
+import my.id.jeremia.etrash.ui.settings.SettingsViewModel
 import my.id.jeremia.etrash.ui.splash.Splash
 import my.id.jeremia.etrash.ui.splash.SplashViewModel
 
@@ -68,6 +80,37 @@ fun NavGraph(
             val viewModel : HomePageViewModel = hiltViewModel(key = HomePageViewModel.TAG)
             HomePageView(modifier = modifier, viewModel = viewModel)
         }
+
+        composable(Destination.Home.Camera.route){
+            val viewModel : CameraViewModel = hiltViewModel(key = CameraViewModel.TAG)
+            CameraView(modifier = modifier, viewModel = viewModel)
+        }
+
+        composable(Destination.Home.Riwayat.route){
+            val viewModel : RiwayatViewModel = hiltViewModel(key = RiwayatViewModel.TAG)
+            RiwayatView(modifier = modifier, viewModel = viewModel)
+        }
+
+        composable(Destination.Home.Leaderboard.route){
+            val viewModel : LeaderboardViewModel = hiltViewModel(key = LeaderboardViewModel.TAG)
+            LeaderboardView(modifier = modifier, viewModel = viewModel)
+        }
+
+        composable(Destination.Home.Notification.route){
+            val viewModel : NotificationViewModel = hiltViewModel(key = NotificationViewModel.TAG)
+            NotificationView(modifier = modifier, viewModel = viewModel)
+        }
+
+        composable(Destination.Home.Settings.route){
+            val viewModel : SettingsViewModel = hiltViewModel(key = SettingsViewModel.TAG)
+            SettingsView(modifier = modifier, viewModel = viewModel)
+        }
+
+        composable(Destination.Home.CoinExchange.route){
+            val viewModel : CoinExchangeViewModel = hiltViewModel(key = CoinExchangeViewModel.TAG)
+            CoinExchangeView(modifier = modifier, viewModel = viewModel)
+        }
+
 
 
 

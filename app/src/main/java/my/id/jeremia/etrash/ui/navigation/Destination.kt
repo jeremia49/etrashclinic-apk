@@ -19,7 +19,21 @@ object Destination {
     {
         data object MyHome:Screen("/home/myhome")
 
-        data object MyAccount:Screen("/home/myaccount")
+        data object Camera:Screen("/home/camera")
+
+        data object Riwayat:Screen("/home/riwayat")
+
+        data object Leaderboard:Screen("/home/leaderboard")
+
+        data object Notification:Screen("/home/notification")
+
+        data object Settings:Screen("/home/settings")
+
+        data object CoinExchange:Screen("/home/coin-exchange")
+
+        data object MoreInformasi:Screen("/home/more-informasi")
+
+        data object ProdukHasil:Screen("/home/produk-hasil")
     }
 
     abstract class Screen(baseRoute: String) {
