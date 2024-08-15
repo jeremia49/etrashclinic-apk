@@ -1,5 +1,6 @@
 package my.id.jeremia.etrash.ui.homepage
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -31,6 +32,9 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 fun HomePageView(modifier : Modifier = Modifier, viewModel: HomePageViewModel) {
+    BackHandler {
+
+    }
     Column(
         modifier = modifier
             .fillMaxSize()

@@ -12,11 +12,9 @@ class UserRepository @Inject constructor(
     val userDataStore: UserDataStore,
 ) {
 
-    fun saveCurrentAuth(auth: Auth): Unit {
-        userDataStore.setUserData(
-            auth.userid, auth.username, auth.email, auth.nohp, auth.accessToken
-        )
-    }
+    fun saveCurrentAuth(auth: Auth) = userDataStore.setUserData(
+        auth.userid, auth.username, auth.email, auth.nohp, auth.accessToken
+    )
 
     suspend fun removeCurrentUser() {
         userDataStore.removeCurrentUser();

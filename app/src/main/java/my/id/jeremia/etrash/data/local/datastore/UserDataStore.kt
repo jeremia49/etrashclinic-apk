@@ -60,8 +60,8 @@ class UserDataStore @Inject constructor(
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    fun setUserData(id:String, name:String, emai:String, nohp:String, token:String) {
-        dataStore.updateDataAsync {
+    fun setUserData(id:String, name:String, emai:String, nohp:String, token:String): Single<Preferences> {
+        return dataStore.updateDataAsync {
             val pref = it.toMutablePreferences()
             pref[USER_ID] = id
             pref[USER_NAME] = name

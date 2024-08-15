@@ -94,7 +94,7 @@ class LoginViewModel @Inject constructor(
                     }catch(_: Exception){}
                 },
                 finish = {
-                    _enableLoginButton.tryEmit(true)
+//                    _enableLoginButton.tryEmit(true)
                 },
             ){
                 _emailError.tryEmit("")
@@ -103,9 +103,6 @@ class LoginViewModel @Inject constructor(
                 authRepository
                     .doLogin(email.value, password.value)
                     .collect{
-                        navigator.navigateTo(Destination.Home.MyHome.route, true)
-                        messenger.deliver(Message.success("Berhasil login"))
-
 
                         userRepository.saveCurrentAuth(
                             Auth(
@@ -115,11 +112,19 @@ class LoginViewModel @Inject constructor(
                                 it.data.nohp!!,
                                 it.data.accessToken!!
                             )
-                        )
+                        ).subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(
+                                {
+                                    messenger.deliver(Message.success("Berhasil login"))
+                                    navigator.navigateTo(Destination.Home.MyHome.route, true)
+                                },
+                                {
+                                    Log.e(TAG, "Gagal menyimpan auth: ", it)
+                                }
+                            )
                         
                     }
-
-
 
             }
 
