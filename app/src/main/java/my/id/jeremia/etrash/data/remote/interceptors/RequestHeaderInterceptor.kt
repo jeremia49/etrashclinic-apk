@@ -18,15 +18,11 @@ class RequestHeaderInterceptor @Inject constructor(
         val apiAuthType = request.header(RequestHeaders.Key.API_AUTH_TYPE)
         builder.removeHeader(RequestHeaders.Key.API_AUTH_TYPE)
         if(apiAuthType==RequestHeaders.Type.PROTECTED.value){
-            runBlocking {
-                val accessToken = userRepository.getCurrentAccessToken()
-                if (accessToken != null) {
-                    builder.addHeader(
-                        RequestHeaders.Param.ACCESS_TOKEN.value,
-                        "Bearer $accessToken"
-                    )
-                }
-            }
+            val accessToken = userRepository.getCurrentAccessToken()
+            builder.addHeader(
+                RequestHeaders.Param.ACCESS_TOKEN.value,
+                "Bearer $accessToken"
+            )
         }
 
         return chain.proceed(builder.build())

@@ -12,7 +12,6 @@ import androidx.compose.ui.unit.dp
 import my.id.jeremia.etrash.ui.camera.CameraPage
 import my.id.jeremia.etrash.ui.common.bg.BackgroundImage
 import my.id.jeremia.etrash.ui.common.header.HeaderSection
-import my.id.jeremia.etrash.ui.homepage.ArticleSection
 import my.id.jeremia.etrash.ui.homepage.CoinSection
 import my.id.jeremia.etrash.ui.homepage.InformationSection
 import my.id.jeremia.etrash.ui.homepage.LatestReportsSection
@@ -37,13 +36,7 @@ fun RiwayatPage(modifier: Modifier = Modifier) {
     ) {
 //        HeaderSection(username, photoUrl)
         Spacer(modifier = Modifier.height(16.dp))
-        CoinSection()
-        Spacer(modifier = Modifier.height(16.dp))
-        TopProductsSection()
-        Spacer(modifier = Modifier.height(16.dp))
-        InformationSection()
-        Spacer(modifier = Modifier.height(16.dp))
-        LatestReportsSection()
+
     }
 }
 
