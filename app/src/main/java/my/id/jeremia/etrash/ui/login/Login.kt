@@ -2,6 +2,7 @@ package my.id.jeremia.etrash.ui.login
 
 import android.graphics.BitmapFactory
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -74,7 +75,14 @@ fun LoginView(
 ) {
 
     val context = LocalContext.current
-    val bitmap by remember { mutableStateOf(BitmapFactory.decodeResource(context.resources, R.drawable.background))}
+    val bitmap by remember {
+        mutableStateOf(
+            BitmapFactory.decodeResource(
+                context.resources,
+                R.drawable.background
+            )
+        )
+    }
 
     Box(
         modifier = Modifier.fillMaxSize(),
@@ -130,7 +138,11 @@ fun LoginView(
                 singleLine = true,
                 isError = emailError.isNotEmpty(),
                 supportingText = {
-                    Text(text = emailError)
+                    Text(
+                        text = emailError,
+                        modifier = Modifier
+                            .background(Color.White)
+                    )
                 },
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Email, imeAction = ImeAction.Next
@@ -138,7 +150,7 @@ fun LoginView(
                 colors = TextFieldDefaults.outlinedTextFieldColors(
                     containerColor = Color.White,
                     errorContainerColor = Color.White,
-                    ),
+                ),
 
                 )
 
@@ -152,7 +164,11 @@ fun LoginView(
                 singleLine = true,
                 isError = passwordError.isNotEmpty(),
                 supportingText = {
-                    Text(text = passwordError)
+                    Text(
+                        text = passwordError,
+                        modifier = Modifier
+                            .background(Color.White)
+                    )
                 },
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Password, imeAction = ImeAction.Done
@@ -161,7 +177,7 @@ fun LoginView(
                 colors = TextFieldDefaults.outlinedTextFieldColors(
                     containerColor = Color.White,
                     errorContainerColor = Color.White,
-                    ),
+                ),
             )
 
             Button(

@@ -2,6 +2,7 @@ package my.id.jeremia.etrash.ui.register
 
 import android.graphics.BitmapFactory
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -169,7 +170,11 @@ fun RegisterView(
                 singleLine = true,
                 isError = nameError.isNotEmpty(),
                 supportingText = {
-                    Text(text = nameError)
+                    Text(
+                        text = nameError,
+                        modifier = Modifier
+                            .background(Color.White)
+                    )
                 },
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Email, imeAction = ImeAction.Next
@@ -193,7 +198,11 @@ fun RegisterView(
                 singleLine = true,
                 isError = emailError.isNotEmpty(),
                 supportingText = {
-                    Text(text = emailError)
+                    Text(
+                        text = emailError,
+                        modifier = Modifier
+                            .background(Color.White)
+                    )
                 },
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Email, imeAction = ImeAction.Next
@@ -216,7 +225,11 @@ fun RegisterView(
                 singleLine = true,
                 isError = nohpError.isNotEmpty(),
                 supportingText = {
-                    Text(text = nohpError)
+                    Text(
+                        text = emailError,
+                        modifier = Modifier
+                            .background(Color.White)
+                    )
                 },
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Number, imeAction = ImeAction.Next
@@ -238,7 +251,11 @@ fun RegisterView(
                 singleLine = true,
                 isError = passwordError.isNotEmpty(),
                 supportingText = {
-                    Text(text = passwordError)
+                    Text(
+                        text = passwordError,
+                        modifier = Modifier
+                            .background(Color.White)
+                    )
                 },
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Password, imeAction = ImeAction.Done
@@ -247,7 +264,7 @@ fun RegisterView(
                 colors = TextFieldDefaults.outlinedTextFieldColors(
                     containerColor = Color.White,
                     errorContainerColor = Color.White,
-                    ),
+                ),
             )
 
 
@@ -261,7 +278,11 @@ fun RegisterView(
                 singleLine = true,
                 isError = passwordConfirmError.isNotEmpty(),
                 supportingText = {
-                    Text(text = passwordConfirmError)
+                    Text(
+                        text = passwordConfirmError,
+                        modifier = Modifier
+                            .background(Color.White)
+                    )
                 },
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Password, imeAction = ImeAction.Done
@@ -270,7 +291,7 @@ fun RegisterView(
                 colors = TextFieldDefaults.outlinedTextFieldColors(
                     containerColor = Color.White,
                     errorContainerColor = Color.White,
-                    ),
+                ),
             )
 
             Row(
@@ -297,7 +318,10 @@ fun RegisterView(
                 )
             }
             if (tandcError.isNotEmpty()) {
-                Text(text = tandcError, color = Color.Red)
+                Text(
+                    text = tandcError, color = Color.Red, modifier = Modifier
+                        .background(Color.White)
+                )
             }
 
             Spacer(modifier = Modifier.height(16.dp))
