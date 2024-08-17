@@ -148,7 +148,7 @@ class RegisterViewModel @Inject constructor(
                 authRepository.doRegister(email.value, name.value, nohp.value, password.value, )
                     .collect {
                         messenger.deliver(Message.success("Berhasil membuat akun, silahkan login kembali"))
-                        navigator.navigateTo(Destination.Login.route)
+                        navigator.navigateTo(Destination.Login.route, true)
                     }
             }
 
