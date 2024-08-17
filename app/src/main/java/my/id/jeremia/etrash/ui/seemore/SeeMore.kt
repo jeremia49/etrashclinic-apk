@@ -32,7 +32,6 @@ import my.id.jeremia.etrash.ui.homepage.ArticleItem
 import my.id.jeremia.etrash.ui.homepage.TopProductItem
 import my.id.jeremia.etrash.ui.navigation.Destination
 import my.id.jeremia.etrash.utils.common.toBase64UrlSafe
-import kotlin.math.min
 
 @Composable
 fun SeeMoreView(modifier: Modifier = Modifier, jenis: String = "", viewModel: SeeMoreViewModel) {

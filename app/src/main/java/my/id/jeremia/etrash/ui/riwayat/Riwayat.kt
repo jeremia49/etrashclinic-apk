@@ -9,13 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import my.id.jeremia.etrash.ui.camera.CameraPage
 import my.id.jeremia.etrash.ui.common.bg.BackgroundImage
-import my.id.jeremia.etrash.ui.common.header.HeaderSection
-import my.id.jeremia.etrash.ui.homepage.CoinSection
-import my.id.jeremia.etrash.ui.homepage.InformationSection
-import my.id.jeremia.etrash.ui.homepage.LatestReportsSection
-import my.id.jeremia.etrash.ui.homepage.TopProductsSection
 
 @Composable
 fun RiwayatView(modifier: Modifier = Modifier, viewModel: RiwayatViewModel) {

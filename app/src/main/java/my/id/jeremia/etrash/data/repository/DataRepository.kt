@@ -1,11 +1,7 @@
 package my.id.jeremia.etrash.data.repository
 
-import io.reactivex.rxjava3.core.Single
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import my.id.jeremia.etrash.data.model.Article
-import my.id.jeremia.etrash.data.remote.apis.auth.request.AuthLoginRequest
-import my.id.jeremia.etrash.data.remote.apis.auth.response.AuthLoginSuccessResponse
 import my.id.jeremia.etrash.data.remote.apis.data.DataAPI
 import my.id.jeremia.etrash.data.remote.apis.data.artikel.response.ArtikelSuccessReponse
 import my.id.jeremia.etrash.data.remote.apis.data.informasi.response.InformasiSuccessResponse

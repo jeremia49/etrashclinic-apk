@@ -1,6 +1,5 @@
 package my.id.jeremia.etrash.data.remote.interceptors
 
-import kotlinx.coroutines.runBlocking
 import my.id.jeremia.etrash.data.remote.RequestHeaders
 import my.id.jeremia.etrash.data.repository.UserRepository
 import okhttp3.Interceptor

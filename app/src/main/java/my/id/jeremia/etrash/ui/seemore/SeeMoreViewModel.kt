@@ -1,7 +1,6 @@
 package my.id.jeremia.etrash.ui.seemore
 
 import android.content.Context
-import android.util.Log
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -9,18 +8,14 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
 import my.id.jeremia.etrash.data.model.Article
 import my.id.jeremia.etrash.data.model.Informasi
-import my.id.jeremia.etrash.data.model.Me
 import my.id.jeremia.etrash.data.model.ProdukHasil
 import my.id.jeremia.etrash.data.remote.apis.data.artikel.response.ArtikelSuccessReponse
 import my.id.jeremia.etrash.data.remote.apis.data.informasi.response.InformasiSuccessResponse
 import my.id.jeremia.etrash.data.remote.apis.data.produkhasil.response.ProdukHasilSuccessResponse
 import my.id.jeremia.etrash.data.repository.DataRepository
-import my.id.jeremia.etrash.data.repository.UserRepository
 import my.id.jeremia.etrash.ui.base.BaseViewModel
 import my.id.jeremia.etrash.ui.common.loader.Loader
 import my.id.jeremia.etrash.ui.common.snackbar.Messenger
-import my.id.jeremia.etrash.ui.homepage.HomePageViewModel
-import my.id.jeremia.etrash.ui.homepage.HomePageViewModel.Companion
 import my.id.jeremia.etrash.ui.navigation.Navigator
 import javax.inject.Inject
 
