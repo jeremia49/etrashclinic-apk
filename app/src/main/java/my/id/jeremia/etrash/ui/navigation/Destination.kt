@@ -39,6 +39,8 @@ object Destination {
 
         data object SeeMore:Screen("/home/see-more")
 
+        data object Upload:Screen("/home/upload")
+
     }
 
     abstract class Screen(baseRoute: String) {

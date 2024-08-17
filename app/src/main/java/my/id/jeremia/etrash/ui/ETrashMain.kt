@@ -13,7 +13,7 @@ import my.id.jeremia.etrash.ui.common.loader.Loader
 import my.id.jeremia.etrash.ui.common.loader.Loading
 import my.id.jeremia.etrash.ui.common.snackbar.AppSnackbar
 import my.id.jeremia.etrash.ui.common.snackbar.Messenger
-import my.id.jeremia.etrash.ui.home.HomeBottomBar
+import my.id.jeremia.etrash.ui.common.bottombar.HomeBottomBar
 import my.id.jeremia.etrash.ui.navigation.NavGraph
 import my.id.jeremia.etrash.ui.navigation.Navigator
 import my.id.jeremia.etrash.ui.theme.EtrashTheme

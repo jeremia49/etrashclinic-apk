@@ -34,6 +34,8 @@ import my.id.jeremia.etrash.ui.settings.SettingsView
 import my.id.jeremia.etrash.ui.settings.SettingsViewModel
 import my.id.jeremia.etrash.ui.splash.Splash
 import my.id.jeremia.etrash.ui.splash.SplashViewModel
+import my.id.jeremia.etrash.ui.upload.UploadView
+import my.id.jeremia.etrash.ui.upload.UploadViewModel
 import my.id.jeremia.etrash.ui.webview.WebView
 import my.id.jeremia.etrash.ui.webview.WebViewModel
 
@@ -50,8 +52,7 @@ fun NavGraph(
         navigator = navigator,
         finish = finish
     )
-
-
+    
     NavHost(
         navController = navController,
         startDestination = startDestination,
@@ -77,63 +78,81 @@ fun NavGraph(
             Register(modifier = modifier, viewModel = viewModel)
         }
 
-        composable(Destination.LoginOrRegister.route){
+        composable(Destination.LoginOrRegister.route) {
             val viewModel: LoginOrRegisterViewModel = hiltViewModel(key = RegisterViewModel.TAG)
             LoginOrRegister(modifier = modifier, viewModel = viewModel)
         }
 
-        composable(Destination.Home.MyHome.route){
-            val viewModel : HomePageViewModel = hiltViewModel(key = HomePageViewModel.TAG)
+        composable(Destination.Home.MyHome.route) {
+            val viewModel: HomePageViewModel = hiltViewModel(key = HomePageViewModel.TAG)
             HomePageView(modifier = modifier, viewModel = viewModel)
         }
 
-        composable(Destination.Home.Camera.route){
-            val viewModel : CameraViewModel = hiltViewModel(key = CameraViewModel.TAG)
+        composable(Destination.Home.Camera.route) {
+            val viewModel: CameraViewModel = hiltViewModel(key = CameraViewModel.TAG)
             CameraView(modifier = modifier, viewModel = viewModel)
         }
 
-        composable(Destination.Home.Riwayat.route){
-            val viewModel : RiwayatViewModel = hiltViewModel(key = RiwayatViewModel.TAG)
+        composable(Destination.Home.Riwayat.route) {
+            val viewModel: RiwayatViewModel = hiltViewModel(key = RiwayatViewModel.TAG)
             RiwayatView(modifier = modifier, viewModel = viewModel)
         }
 
-        composable(Destination.Home.Leaderboard.route){
-            val viewModel : LeaderboardViewModel = hiltViewModel(key = LeaderboardViewModel.TAG)
+        composable(Destination.Home.Leaderboard.route) {
+            val viewModel: LeaderboardViewModel = hiltViewModel(key = LeaderboardViewModel.TAG)
             LeaderboardView(modifier = modifier, viewModel = viewModel)
         }
 
-        composable(Destination.Home.Notification.route){
-            val viewModel : NotificationViewModel = hiltViewModel(key = NotificationViewModel.TAG)
+        composable(Destination.Home.Notification.route) {
+            val viewModel: NotificationViewModel = hiltViewModel(key = NotificationViewModel.TAG)
             NotificationView(modifier = modifier, viewModel = viewModel)
         }
 
-        composable(Destination.Home.Settings.route){
-            val viewModel : SettingsViewModel = hiltViewModel(key = SettingsViewModel.TAG)
+        composable(Destination.Home.Settings.route) {
+            val viewModel: SettingsViewModel = hiltViewModel(key = SettingsViewModel.TAG)
             SettingsView(modifier = modifier, viewModel = viewModel)
         }
 
-        composable(Destination.Home.CoinExchange.route){
-            val viewModel : CoinExchangeViewModel = hiltViewModel(key = CoinExchangeViewModel.TAG)
+        composable(Destination.Home.CoinExchange.route) {
+            val viewModel: CoinExchangeViewModel = hiltViewModel(key = CoinExchangeViewModel.TAG)
             CoinExchangeView(modifier = modifier, viewModel = viewModel)
         }
 
-        composable("${Destination.Home.WebView.route}/{safeurlbase64}",
+        composable(
+            "${Destination.Home.WebView.route}/{safeurlbase64}",
             arguments = listOf(navArgument("safeurlbase64") {
                 type = NavType.StringType
             })
-        ){
-            val viewModel : WebViewModel = hiltViewModel(key = WebViewModel.TAG)
-            WebView(modifier = modifier, viewModel = viewModel, content = it.arguments?.getString("safeurlbase64")!!)
+        ) {
+            val viewModel: WebViewModel = hiltViewModel(key = WebViewModel.TAG)
+            WebView(
+                modifier = modifier,
+                viewModel = viewModel,
+                content = it.arguments?.getString("safeurlbase64")!!
+            )
         }
 
-        composable("${Destination.Home.SeeMore.route}/{jenis}",
+        composable(
+            "${Destination.Home.SeeMore.route}/{jenis}",
             arguments = listOf(navArgument("jenis") {
                 type = NavType.StringType
             })
-        ){
-            val viewModel : SeeMoreViewModel = hiltViewModel(key = SeeMoreViewModel.TAG)
-            SeeMoreView(modifier = modifier, viewModel = viewModel, jenis = it.arguments?.getString("jenis")!!)
+        ) {
+            val viewModel: SeeMoreViewModel = hiltViewModel(key = SeeMoreViewModel.TAG)
+            SeeMoreView(
+                modifier = modifier,
+                viewModel = viewModel,
+                jenis = it.arguments?.getString("jenis")!!
+            )
         }
+
+        composable(
+            Destination.Home.Upload.route
+        ) {
+            val viewModel: UploadViewModel = hiltViewModel(key = UploadViewModel.TAG)
+            UploadView(modifier = modifier, viewModel = viewModel)
+        }
+
 
     }
 

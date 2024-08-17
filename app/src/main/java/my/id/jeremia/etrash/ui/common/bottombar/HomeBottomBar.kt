@@ -1,4 +1,4 @@
-package my.id.jeremia.etrash.ui.home
+package my.id.jeremia.etrash.ui.common.bottombar
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.Keep
@@ -53,8 +53,8 @@ enum class HomeTab(
         R.string.unggah_str,
         R.drawable.camera_unselected,
         R.drawable.camera_selected,
-        Destination.Home.Camera.route,
-        Destination.Home.Camera.route,
+        Destination.Home.Upload.route,
+        Destination.Home.Upload.route,
     ),
 
     RIWAYAT(
