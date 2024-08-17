@@ -59,6 +59,9 @@ android {
 }
 
 dependencies {
+    //QRCode Scanner
+    implementation ("com.google.zxing:core:3.3.3")
+
     //Webview Compose
     implementation ("io.github.kevinnzou:compose-webview:0.33.6")
 

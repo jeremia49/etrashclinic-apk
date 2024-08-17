@@ -1,4 +1,4 @@
-package my.id.jeremia.etrash.ui.camera
+package my.id.jeremia.etrash.ui.uploadsampah
 
 import android.content.Context
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -10,7 +10,7 @@ import my.id.jeremia.etrash.ui.navigation.Navigator
 import javax.inject.Inject
 
 @HiltViewModel
-class CameraViewModel @Inject constructor(
+class UploadSampahViewModel @Inject constructor(
     loader: Loader,
     val navigator: Navigator,
     val messenger: Messenger,
@@ -18,7 +18,7 @@ class CameraViewModel @Inject constructor(
 ) : BaseViewModel(loader, messenger, navigator) {
 
     companion object {
-        const val TAG = "CameraViewModel"
+        const val TAG = "UploadSampahViewModel"
     }
 
 

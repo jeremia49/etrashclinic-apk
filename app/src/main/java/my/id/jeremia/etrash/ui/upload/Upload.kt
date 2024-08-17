@@ -32,7 +32,6 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import my.id.jeremia.etrash.R
 import my.id.jeremia.etrash.data.model.SampahUnitPrice
-import my.id.jeremia.etrash.ui.camera.CameraViewModel
 import my.id.jeremia.etrash.ui.common.bg.BackgroundImage
 import my.id.jeremia.etrash.ui.common.image.NetworkImage
 import my.id.jeremia.etrash.ui.navigation.Destination

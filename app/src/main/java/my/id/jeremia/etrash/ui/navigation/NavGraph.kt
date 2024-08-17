@@ -36,6 +36,8 @@ import my.id.jeremia.etrash.ui.splash.Splash
 import my.id.jeremia.etrash.ui.splash.SplashViewModel
 import my.id.jeremia.etrash.ui.upload.UploadView
 import my.id.jeremia.etrash.ui.upload.UploadViewModel
+import my.id.jeremia.etrash.ui.uploadsampah.UploadSampahView
+import my.id.jeremia.etrash.ui.uploadsampah.UploadSampahViewModel
 import my.id.jeremia.etrash.ui.webview.WebView
 import my.id.jeremia.etrash.ui.webview.WebViewModel
 
@@ -153,6 +155,10 @@ fun NavGraph(
             UploadView(modifier = modifier, viewModel = viewModel)
         }
 
+        composable(Destination.Home.UploadSampah.route){
+            val viewModel: UploadSampahViewModel = hiltViewModel(key = UploadSampahViewModel.TAG)
+            UploadSampahView(modifier = modifier, viewModel = viewModel)
+        }
 
     }
 
