@@ -14,6 +14,8 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ExitToApp
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
+import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
@@ -35,7 +37,7 @@ fun SettingsView(modifier: Modifier = Modifier, viewModel: SettingsViewModel) {
     BackgroundImage {
         SettingsScreen(
             modifier = modifier,
-            onLogout = {viewModel.logout()}
+            onLogout = { viewModel.logout() }
         )
     }
 }
@@ -48,7 +50,7 @@ fun SettingsScreen(modifier: Modifier = Modifier, onLogout: () -> Unit = {}) {
             .fillMaxSize()
             .padding(16.dp)
     ) {
-        HeaderSection("", "", isRoot = false)
+//        HeaderSection("", "", isRoot = false)
         Spacer(modifier = Modifier.height(16.dp))
         SettingContent()
         Spacer(modifier = Modifier.weight(1f))
@@ -66,11 +68,43 @@ fun SettingContent() {
             color = Color.Black
         )
         Spacer(modifier = Modifier.height(24.dp))
-        SettingCategory("Akun")
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.padding(vertical = 8.dp)
+        ) {
+            Icon(
+                Icons.Default.AccountCircle,
+                contentDescription = "Akun Icon",
+                modifier = Modifier.size(24.dp)
+            )
+            Spacer(modifier = Modifier.width(8.dp))
+            Text(
+                text = "Akun",
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Medium,
+                color = Color.Black
+            )
+        }
         SettingItem("Ubah profil")
         SettingItem("Ubah kata sandi")
         Spacer(modifier = Modifier.height(24.dp))
-        SettingCategory("Tentang")
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.padding(vertical = 8.dp)
+        ) {
+            Icon(
+                Icons.Default.Info,
+                contentDescription = "About Icon",
+                modifier = Modifier.size(24.dp)
+            )
+            Spacer(modifier = Modifier.width(8.dp))
+            Text(
+                text = "Tentang",
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Medium,
+                color = Color.Black
+            )
+        }
         SettingItem("Panduan")
         SettingItem("Syarat dan ketentuan")
         SettingItem("Kebijakan Privasi")
@@ -85,7 +119,7 @@ fun SettingCategory(title: String) {
         modifier = Modifier.padding(vertical = 8.dp)
     ) {
         Icon(
-            Icons.AutoMirrored.Filled.ExitToApp,
+            Icons.Default.AccountCircle,
             contentDescription = "$title Icon",
             modifier = Modifier.size(24.dp)
         )

@@ -88,6 +88,9 @@ fun HomePageView(modifier: Modifier = Modifier, viewModel: HomePageViewModel) {
             },
             onClickMore = { tipe ->
                 viewModel.navigator.navigateTo("${Destination.Home.SeeMore.route}/${tipe}")
+            },
+            onCoinClicked = {
+                viewModel.messenger.deliver(Message.info("Untuk penukaran koin, silahkan hubungi admin 😇"))
             }
         )
     }
@@ -105,6 +108,7 @@ fun HomePage(
     produkHasils: List<ProdukHasil> = emptyList(),
     onClickOpenWebsite: (url: String) -> Unit = {},
     onClickMore: (tipe: String) -> Unit = {},
+    onCoinClicked: () -> Unit = {},
     me: Me = Me()
 ) {
     Column(
@@ -115,7 +119,7 @@ fun HomePage(
     ) {
         HeaderSection(username, photoUrl, onClickProfilePicture = onClickProfilePicture)
         Spacer(modifier = Modifier.height(16.dp))
-        CoinSection(me)
+        CoinSection(me, onCoinClicked = onCoinClicked)
         Spacer(modifier = Modifier.height(16.dp))
         TopProductsSection(produkHasils = produkHasils, onClickMore = onClickMore)
         Spacer(modifier = Modifier.height(16.dp))
@@ -133,13 +137,13 @@ fun HomePage(
 
 
 @Composable
-fun CoinSection(me: Me) {
+fun CoinSection(me: Me, onCoinClicked: () -> Unit = {}) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors().copy(
             containerColor = Color(0xFF409C5F),
         ),
-        shape = MaterialTheme.shapes.medium
+        shape = MaterialTheme.shapes.medium,
     ) {
         Box {
             Image(
@@ -165,7 +169,7 @@ fun CoinSection(me: Me) {
                     shape = RoundedCornerShape(5.dp),
                     modifier = Modifier,
                     onClick = {
-
+                        onCoinClicked()
                     },
                     colors = ButtonDefaults.buttonColors(containerColor = Color.White),
                 ) {
