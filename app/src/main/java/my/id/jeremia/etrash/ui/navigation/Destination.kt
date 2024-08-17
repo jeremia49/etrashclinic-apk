@@ -34,6 +34,11 @@ object Destination {
         data object MoreInformasi:Screen("/home/more-informasi")
 
         data object ProdukHasil:Screen("/home/produk-hasil")
+
+        data object WebView:Screen("/home/web-view")
+
+        data object SeeMore:Screen("/home/see-more")
+
     }
 
     abstract class Screen(baseRoute: String) {

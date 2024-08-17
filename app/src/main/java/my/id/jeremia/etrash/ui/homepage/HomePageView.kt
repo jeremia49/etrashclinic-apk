@@ -1,11 +1,10 @@
 package my.id.jeremia.etrash.ui.homepage
 
-import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -18,34 +17,24 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PageSize
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
-import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
-import androidx.compose.material.icons.filled.KeyboardArrowLeft
+import androidx.compose.material.icons.filled.CalendarMonth
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -54,9 +43,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -69,10 +56,11 @@ import my.id.jeremia.etrash.ui.common.bg.BackgroundImage
 import my.id.jeremia.etrash.ui.common.header.HeaderSection
 import my.id.jeremia.etrash.ui.common.image.NetworkImage
 import my.id.jeremia.etrash.ui.common.image.NetworkImageWithFilter
-import my.id.jeremia.etrash.ui.common.text.AutoResizeText
-import my.id.jeremia.etrash.ui.common.text.FontSizeRange
 import my.id.jeremia.etrash.ui.navigation.Destination
 import my.id.jeremia.etrash.ui.theme.hijau40
+import my.id.jeremia.etrash.utils.common.toBase64UrlSafe
+import my.id.jeremia.potholetracker.utils.common.CalendarUtils.getDateFromString
+import my.id.jeremia.potholetracker.utils.common.CalendarUtils.getFormattedDateTime
 import kotlin.math.min
 
 @Composable
@@ -89,7 +77,19 @@ fun HomePageView(modifier: Modifier = Modifier, viewModel: HomePageViewModel) {
             artikels = viewModel.artikels.collectAsStateWithLifecycle().value,
             informasis = viewModel.informasis.collectAsStateWithLifecycle().value,
             produkHasils = viewModel.produkhasils.collectAsStateWithLifecycle().value,
-            me = viewModel.me.collectAsStateWithLifecycle().value
+            me = viewModel.me.collectAsStateWithLifecycle().value,
+            onClickOpenWebsite = { url ->
+                viewModel.navigator.navigateTo(
+                    "${Destination.Home.WebView.route}/${
+                        toBase64UrlSafe(
+                            url
+                        )
+                    }"
+                )
+            },
+            onClickMore = { tipe ->
+                viewModel.navigator.navigateTo("${Destination.Home.SeeMore.route}/${tipe}")
+            }
         )
     }
 
@@ -104,7 +104,9 @@ fun HomePage(
     artikels: List<Article> = emptyList(),
     informasis: List<Informasi> = emptyList(),
     produkHasils: List<ProdukHasil> = emptyList(),
-    me:Me = Me()
+    onClickOpenWebsite: (url: String) -> Unit = {},
+    onClickMore: (tipe: String) -> Unit = {},
+    me: Me = Me()
 ) {
     Column(
         modifier = modifier
@@ -116,19 +118,23 @@ fun HomePage(
         Spacer(modifier = Modifier.height(16.dp))
         CoinSection(me)
         Spacer(modifier = Modifier.height(16.dp))
-        TopProductsSection(produkHasils = produkHasils)
+        TopProductsSection(produkHasils = produkHasils, onClickMore = onClickMore)
         Spacer(modifier = Modifier.height(16.dp))
-        InformationSection(informasis = informasis)
+        InformationSection(informasis = informasis, onClickMore = onClickMore)
         Spacer(modifier = Modifier.height(16.dp))
-        LatestReportsSection(artikels = artikels)
+        LatestReportsSection(artikels = artikels, onClickArticle = onClickOpenWebsite)
         Spacer(modifier = Modifier.height(16.dp))
-        ArticleSection(artikels = artikels)
+        ArticleSection(
+            artikels = artikels,
+            onClickArticle = onClickOpenWebsite,
+            onClickMore = onClickMore
+        )
     }
 }
 
 
 @Composable
-fun CoinSection(me:Me) {
+fun CoinSection(me: Me) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors().copy(
@@ -172,25 +178,28 @@ fun CoinSection(me:Me) {
 }
 
 @Composable
-fun TopProductsSection(produkHasils: List<ProdukHasil>) {
-    Column {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            Text(text = "Top Produk Hasil", fontSize = 18.sp, fontWeight = FontWeight.Bold)
-            TextButton(onClick = { /* TODO: Implement action */ }) {
-                Text(text = "Lihat Selengkapnya")
+fun TopProductsSection(produkHasils: List<ProdukHasil>, onClickMore: (tipe: String) -> Unit) {
+    if (produkHasils.size >= 1)
+        Column {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text(text = "Top Produk Hasil", fontSize = 18.sp, fontWeight = FontWeight.Bold)
+                TextButton(onClick = {
+                    onClickMore("produkhasil")
+                }) {
+                    Text(text = "Lihat Selengkapnya")
+                }
             }
-        }
-        LazyRow {
-            repeat(min(5, produkHasils.size)) { idx ->
-                item {
-                    TopProductItem(produk = produkHasils.get(idx))
+            LazyRow {
+                repeat(min(5, produkHasils.size)) { idx ->
+                    item {
+                        TopProductItem(produk = produkHasils.get(idx))
+                    }
                 }
             }
         }
-    }
 }
 
 @Composable
@@ -198,7 +207,8 @@ fun TopProductItem(produk: ProdukHasil) {
     Column(
         modifier = Modifier
             .padding(8.dp)
-            .width(120.dp)
+            .width(120.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         NetworkImage(
             url = produk.imgPublicUrl!!,
@@ -218,8 +228,12 @@ fun TopProductItem(produk: ProdukHasil) {
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
-fun InformationSection(informasis: List<Informasi>) {
-    if (informasis.size > 1) {
+fun InformationSection(
+    informasis: List<Informasi>,
+    onClickOpenWebsite: (url: String) -> Unit = {},
+    onClickMore: (tipe: String) -> Unit
+) {
+    if (informasis.size >= 1) {
         val pagerState = rememberPagerState(pageCount = {
             informasis.size
         })
@@ -233,8 +247,10 @@ fun InformationSection(informasis: List<Informasi>) {
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(text = "Informasi", fontSize = 18.sp, fontWeight = FontWeight.Bold)
-                TextButton(onClick = { /* TODO: Implement action */ }) {
-                    Text(text = "Lihat Informasi lainnya")
+                TextButton(onClick = {
+                    onClickMore("informasi")
+                }) {
+                    Text(text = "Lihat Informasi Lainnya")
                 }
             }
 
@@ -245,6 +261,9 @@ fun InformationSection(informasis: List<Informasi>) {
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
+                        .clickable {
+                            onClickOpenWebsite(informasis[page].publicUrl!!)
+                        }
                 ) {
                     NetworkImageWithFilter(
                         url = informasis[page].imgPublicUrl!!,
@@ -273,17 +292,25 @@ fun InformationSection(informasis: List<Informasi>) {
 }
 
 @Composable
-fun LatestReportsSection(artikels: List<Article>) {
+fun LatestReportsSection(artikels: List<Article>, onClickArticle: (url: String) -> Unit = {}) {
     if (artikels.size > 1)
         Column {
             Text(text = "Laporan Terkini", fontSize = 18.sp, fontWeight = FontWeight.Bold)
-            ReportItem(artikels.get(0))
+            ReportItem(artikels.get(0), onClickArticle)
         }
 }
 
 @Composable
-fun ReportItem(artikel: Article) {
-    Row(modifier = Modifier.padding(vertical = 8.dp)) {
+fun ReportItem(artikel: Article, onClickArticle: (url: String) -> Unit = {}) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable {
+                onClickArticle(artikel.publicUrl!!)
+            }
+            .padding(vertical = 8.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
         NetworkImage(
             url = artikel.imgPublicUrl!!, contentDescription = "Gambar Artikel",
             modifier = Modifier
@@ -293,31 +320,63 @@ fun ReportItem(artikel: Article) {
         Spacer(modifier = Modifier.width(8.dp))
         Column {
             Text(text = artikel.title!!, fontWeight = FontWeight.Bold)
-            Text(text = artikel.createdAt!!, fontSize = 14.sp, color = Color.Gray)
+            Row {
+                Icon(Icons.Default.CalendarMonth, contentDescription = "Tanggal")
+                Text(
+                    text = getFormattedDateTime(getDateFromString(artikel.createdAt!!)!!)!!,
+                    fontSize = 14.sp,
+                    color = Color.Gray
+                )
+            }
         }
     }
 }
 
 @Composable
-fun ArticleSection(modifier: Modifier = Modifier, artikels: List<Article>) {
+fun ArticleSection(
+    modifier: Modifier = Modifier,
+    artikels: List<Article>,
+    onClickArticle: (url: String) -> Unit = {},
+    onClickMore: (tipe: String) -> Unit
+) {
     Column(
         modifier = modifier
             .fillMaxSize()
     ) {
-        Text(text = "Artikel", fontSize = 18.sp, fontWeight = FontWeight.Bold)
-        repeat(artikels.size) { index ->
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Text(text = "Artikel", fontSize = 18.sp, fontWeight = FontWeight.Bold)
+            Spacer(modifier = Modifier.width(4.dp))
+            TextButton(onClick = {
+                onClickMore("artikel")
+            }) {
+                Text(text = "Lihat Artikel Lainnya")
+            }
+        }
+        repeat(min(5, artikels.size)) { index ->
             ArticleItem(
                 artikels[index].title ?: "",
                 artikels[index].imgPublicUrl ?: "",
-                artikels[index].createdAt ?: ""
+                artikels[index].createdAt ?: "",
+                onClick = { onClickArticle(artikels[index]!!.publicUrl!!) }
             )
         }
     }
 }
 
 @Composable
-fun ArticleItem(title: String, thumbnailUrl: String, tanggal: String) {
-    Row(modifier = Modifier.padding(vertical = 8.dp)) {
+fun ArticleItem(title: String, thumbnailUrl: String, tanggal: String, onClick: () -> Unit = {}) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable {
+                onClick()
+            },
+        verticalAlignment = Alignment.CenterVertically
+
+    ) {
         NetworkImage(
             url = thumbnailUrl, contentDescription = "Gambar Artikel",
             modifier = Modifier
@@ -325,9 +384,20 @@ fun ArticleItem(title: String, thumbnailUrl: String, tanggal: String) {
                 .clip(MaterialTheme.shapes.small)
         )
         Spacer(modifier = Modifier.width(8.dp))
-        Column {
+        Column(
+            modifier = Modifier
+                .weight(1f)
+        ) {
             Text(text = title, fontWeight = FontWeight.Bold)
-            Text(text = tanggal, fontSize = 14.sp, color = Color.Gray)
+            Row {
+                Icon(Icons.Default.CalendarMonth, contentDescription = "Tanggal")
+                Spacer(modifier = Modifier.width(4.dp))
+                Text(
+                    text = getFormattedDateTime(getDateFromString(tanggal)!!)!!,
+                    fontSize = 14.sp,
+                    color = Color.Gray
+                )
+            }
         }
     }
 }

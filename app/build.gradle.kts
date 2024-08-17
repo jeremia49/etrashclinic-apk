@@ -24,7 +24,7 @@ android {
     }
     buildTypes {
         debug {
-            buildConfigField("String","BASE_URL", "\"https://e62f-38-9-128-236.ngrok-free.app/\"")
+            buildConfigField("String","BASE_URL", "\"https://8d96-38-9-128-236.ngrok-free.app/\"")
         }
         release {
             buildConfigField("String","BASE_URL", "\"https://fa30-38-9-128-236.ngrok-free.app/\"")
@@ -59,21 +59,14 @@ android {
 }
 
 dependencies {
+    //Webview Compose
+    implementation ("io.github.kevinnzou:compose-webview:0.33.6")
+
+    //Extended Icon Material
+    implementation ("androidx.compose.material:material-icons-extended:1.5.10")
+
     //Haze Bottom Bar Blur
     implementation("dev.chrisbanes.haze:haze:0.6.0")
-
-    //JTS
-    implementation("org.locationtech.jts:jts-core:1.19.0")
-
-    implementation(platform("org.jetbrains.kotlin:kotlin-bom:1.9.20"))
-
-    //Places New SDK
-    implementation ("com.google.android.libraries.places:places:3.5.0")
-
-    //Tensorflow
-    implementation ("org.tensorflow:tensorflow-lite:2.10.0")
-    implementation ("org.tensorflow:tensorflow-lite-support:0.4.4")
-    implementation(libs.androidx.appcompat)
 
     //ROOM DB
     val room = "2.6.1"
@@ -81,12 +74,8 @@ dependencies {
     ksp("androidx.room:room-compiler:$room")
     implementation("androidx.room:room-ktx:$room")
 
-
     // UI Image Cropper
     implementation("com.vanniktech:android-image-cropper:4.5.0")
-
-    //Location
-    implementation("com.google.android.gms:play-services-location:21.2.0")
 
     //Permissions
     implementation("com.google.accompanist:accompanist-permissions:0.35.0-alpha")
@@ -109,12 +98,6 @@ dependencies {
     implementation("io.coil-kt:coil:$coil")
     implementation("io.coil-kt:coil-compose:$coil")
 
-    //Google Maps SDK
-    implementation("com.google.maps.android:maps-ktx:5.0.0")
-    implementation("com.google.maps.android:maps-compose:5.0.1")
-    implementation("com.google.maps.android:maps-compose-utils:5.0.1")
-    implementation ("com.google.android.gms:play-services-maps:18.2.0")
-
     //DataStore
     implementation("androidx.datastore:datastore-preferences:1.1.1")
 
@@ -136,8 +119,6 @@ dependencies {
 
     val coroutines = "1.8.1"
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines")
-
-    implementation(libs.androidx.lifecycle.runtime.compose)
 
     // Work
     val work = "2.9.0"
@@ -166,6 +147,9 @@ dependencies {
     implementation("androidx.datastore:datastore-preferences:1.1.1")
     implementation("androidx.datastore:datastore-preferences-rxjava3:1.1.1")
 
+
+    implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.lifecycle.runtime.compose)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

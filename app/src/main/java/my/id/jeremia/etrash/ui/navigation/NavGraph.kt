@@ -4,8 +4,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import my.id.jeremia.etrash.ui.camera.CameraView
 import my.id.jeremia.etrash.ui.camera.CameraViewModel
 import my.id.jeremia.etrash.ui.coinexchange.CoinExchangeView
@@ -26,10 +28,14 @@ import my.id.jeremia.etrash.ui.register.Register
 import my.id.jeremia.etrash.ui.register.RegisterViewModel
 import my.id.jeremia.etrash.ui.riwayat.RiwayatView
 import my.id.jeremia.etrash.ui.riwayat.RiwayatViewModel
+import my.id.jeremia.etrash.ui.seemore.SeeMoreView
+import my.id.jeremia.etrash.ui.seemore.SeeMoreViewModel
 import my.id.jeremia.etrash.ui.settings.SettingsView
 import my.id.jeremia.etrash.ui.settings.SettingsViewModel
 import my.id.jeremia.etrash.ui.splash.Splash
 import my.id.jeremia.etrash.ui.splash.SplashViewModel
+import my.id.jeremia.etrash.ui.webview.WebView
+import my.id.jeremia.etrash.ui.webview.WebViewModel
 
 @Composable
 fun NavGraph(
@@ -111,8 +117,23 @@ fun NavGraph(
             CoinExchangeView(modifier = modifier, viewModel = viewModel)
         }
 
+        composable("${Destination.Home.WebView.route}/{safeurlbase64}",
+            arguments = listOf(navArgument("safeurlbase64") {
+                type = NavType.StringType
+            })
+        ){
+            val viewModel : WebViewModel = hiltViewModel(key = WebViewModel.TAG)
+            WebView(modifier = modifier, viewModel = viewModel, content = it.arguments?.getString("safeurlbase64")!!)
+        }
 
-
+        composable("${Destination.Home.SeeMore.route}/{jenis}",
+            arguments = listOf(navArgument("jenis") {
+                type = NavType.StringType
+            })
+        ){
+            val viewModel : SeeMoreViewModel = hiltViewModel(key = SeeMoreViewModel.TAG)
+            SeeMoreView(modifier = modifier, viewModel = viewModel, jenis = it.arguments?.getString("jenis")!!)
+        }
 
     }
 
