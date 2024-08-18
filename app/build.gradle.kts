@@ -4,6 +4,7 @@ plugins {
     id("com.google.dagger.hilt.android")
     id("com.google.devtools.ksp")
     id("kotlin-parcelize")
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -59,6 +60,9 @@ android {
 }
 
 dependencies {
+    //Firebase
+    implementation(platform("com.google.firebase:firebase-bom:33.1.2"))
+
     //QRCode Scanner
     implementation ("com.google.zxing:core:3.3.3")
 
