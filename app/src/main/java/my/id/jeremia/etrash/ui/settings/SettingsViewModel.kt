@@ -32,7 +32,7 @@ class SettingsViewModel @Inject constructor(
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
-                navigator.navigateTo(Destination.Login.route, true)
+                navigator.navigateTo(Destination.LoginOrRegister.route, true)
             }, {
 //                navigator.logout()
             })

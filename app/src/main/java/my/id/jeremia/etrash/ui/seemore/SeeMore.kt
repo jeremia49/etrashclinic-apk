@@ -141,6 +141,10 @@ fun SeeMorePage(
                             color = Color.White
                         )
                     }
+                    Spacer(
+                        modifier = Modifier
+                            .height(8.dp)
+                    )
                 }
             }
         } else if (jenis.contentEquals("artikel")) {

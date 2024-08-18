@@ -7,5 +7,5 @@ object Endpoint {
     const val SAMPAHUNITPRICE = "/api/sampahunitprice"
     const val PRODUKHASIL = "/api/produkhasil"
     const val ME = "/api/me"
-
+    const val UPLOADIMAGE = "/api/uploadImage"
 }

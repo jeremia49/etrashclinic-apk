@@ -67,8 +67,8 @@ class HomePageViewModel @Inject constructor(
             val meResponse = dataRepository.getMe().first().data
             Log.d(TAG, meResponse.toString())
             val mee = Me(
-                balanceidr = meResponse!!.balanceidr,
-                balance = meResponse.balance,
+                balanceidr = meResponse!!.saldoBalance,
+                balance = meResponse.coinBalance,
             )
             _me.emit(mee)
         }

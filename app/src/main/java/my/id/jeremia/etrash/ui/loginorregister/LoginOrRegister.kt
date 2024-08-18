@@ -1,6 +1,7 @@
 package my.id.jeremia.etrash.ui.loginorregister
 
 import android.graphics.BitmapFactory
+import androidx.activity.compose.BackHandler
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.infiniteRepeatable
@@ -42,6 +43,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
 import my.id.jeremia.etrash.R
+import my.id.jeremia.etrash.ui.navigation.Destination
 import my.id.jeremia.etrash.ui.theme.InterFontFamily
 
 
@@ -58,6 +60,10 @@ fun LoginOrRegister(modifier: Modifier = Modifier, viewModel: LoginOrRegisterVie
             animation = tween(1500), RepeatMode.Reverse
         )
     )
+
+    BackHandler {
+        viewModel.navigator.finish()
+    }
 
     Box(
         modifier = Modifier.fillMaxSize(),

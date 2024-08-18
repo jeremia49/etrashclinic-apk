@@ -3,6 +3,7 @@ package my.id.jeremia.etrash.ui.upload
 import android.Manifest
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -31,6 +32,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import my.id.jeremia.etrash.R
+import my.id.jeremia.etrash.data.model.Sampah
 import my.id.jeremia.etrash.data.model.SampahUnitPrice
 import my.id.jeremia.etrash.ui.common.bg.BackgroundImage
 import my.id.jeremia.etrash.ui.common.image.NetworkImage
@@ -60,6 +62,8 @@ fun UploadView(modifier: Modifier = Modifier, viewModel: UploadViewModel) {
             },
             openCamera = {
                 viewModel.navigator.navigateTo(Destination.Home.Camera.route)
+//                viewModel.navigator.navigateTo(Destination.Home.UploadSampah.route)
+
             }
 
         )
@@ -99,6 +103,16 @@ fun UploadPage(
                         sampahUnitPrice.get(idx).title!!,
                         sampahUnitPrice.get(idx).imgPublicUrl!!,
                         "${sampahUnitPrice.get(idx).minprice}-${sampahUnitPrice.get(idx).maxprice}",
+                        sampah = Sampah(
+                            id = sampahUnitPrice.get(idx).id ?: 0,
+                            title = sampahUnitPrice.get(idx).title!!,
+                            berat = -1,
+                            pictureUrl = sampahUnitPrice.get(idx).imgPublicUrl!!,
+                            minPrice = sampahUnitPrice.get(idx).minprice!!,
+                            maxPrice = sampahUnitPrice.get(idx).maxprice!!,
+                            satuan = sampahUnitPrice.get(idx).satuan!!,
+                        )
+
                     )
                 }
             }
@@ -136,10 +150,19 @@ fun UploadPage(
 
 @Composable
 fun SampahUnitItem(
-    title: String, thumbnailUrl: String, harga: String
+    title: String,
+    thumbnailUrl: String,
+    harga: String,
+    onItemClick: (Sampah) -> Unit = {},
+    sampah: Sampah
 ) {
     Row(
-        modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable {
+                onItemClick(sampah)
+            },
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         NetworkImage(
             url = thumbnailUrl,

@@ -7,37 +7,37 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class MeSuccessResponse(
     @Json(name = "data")
-    val `data`: Data?,
+    val `data`: Data? = null,
     @Json(name = "message")
-    val message: String?, // Sukses
+    val message: String? = null, // Sukses
     @Json(name = "reason")
-    val reason: Any?, // null
+    val reason: Any? = null, // null
     @Json(name = "status")
-    val status: String? // ok
+    val status: String? = null // ok
 ) {
     @JsonClass(generateAdapter = true)
     data class Data(
-        @Json(name = "balance")
-        val balance: Int?, // 1
-        @Json(name = "balanceidr")
-        val balanceidr: Int?, // 1000
+        @Json(name = "coinBalance")
+        val coinBalance: Int? = null, // 0
         @Json(name = "created_at")
-        val createdAt: String?, // 2024-08-15T23:15:15.000000Z
+        val createdAt: String? = null, // 2024-08-17T20:38:21.000000Z
         @Json(name = "email")
-        val email: String?,
+        val email: String? = null, // jeremiaman49@gmail.com
         @Json(name = "email_verified_at")
-        val emailVerifiedAt: Any?, // null
+        val emailVerifiedAt: Any? = null, // null
         @Json(name = "id")
-        val id: Int?, // 1
+        val id: Int? = null, // 1
         @Json(name = "isAdmin")
-        val isAdmin: Int?, // 1
+        val isAdmin: Int? = null, // 0
         @Json(name = "name")
-        val name: String?,
+        val name: String? = null, // Jeremia
         @Json(name = "nohp")
-        val nohp: String?,
+        val nohp: String? = null, //
         @Json(name = "photoUrl")
-        val photoUrl: String?, // https://gravatar.com/avatar/581f54b15bf3afb05a1b0f75effceae1
+        val photoUrl: String? = null, // https://gravatar.com/avatar/6d6cb065a7fe13a052115252aadcb67c
+        @Json(name = "saldoBalance")
+        val saldoBalance: Int? = null, // 0
         @Json(name = "updated_at")
-        val updatedAt: String? // 2024-08-15T23:15:15.000000Z
+        val updatedAt: String? = null // 2024-08-17T20:38:21.000000Z
     )
 }

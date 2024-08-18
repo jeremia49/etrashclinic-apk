@@ -52,10 +52,12 @@ class UploadViewModel @Inject constructor(
                     ?: emptyList<SampahUnitPriceSuccessResponse.Data>()
             val sampahunitprice = sampahUnitPrices.map {
                 SampahUnitPrice(
-                    imgPublicUrl = it!!.imgPublicUrl,
+                    id=it!!.id,
+                    imgPublicUrl = it.imgPublicUrl,
                     title = it.title,
                     minprice = it.minprice,
                     maxprice = it.maxprice,
+                    satuan = it.satuan,
                 )
             }
             _sampahunitprice.emit(sampahunitprice)

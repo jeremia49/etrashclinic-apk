@@ -28,20 +28,23 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import my.id.jeremia.etrash.ui.common.bg.BackgroundImage
+import my.id.jeremia.etrash.ui.navigation.Destination
 
 @Composable
 fun CameraView(modifier: Modifier = Modifier, viewModel: CameraViewModel) {
     BackgroundImage {
         CameraPage(
             modifier = modifier,
-
+                onScannedAction = {
+                    viewModel.navigator.navigateTo(Destination.Home.UploadSampah.route, true)
+                }
             )
     }
 }
 
 
 @Composable
-fun CameraPage(modifier: Modifier = Modifier) {
+fun CameraPage(modifier: Modifier = Modifier, onScannedAction:()->Unit={}) {
     var code by remember {
         mutableStateOf("")
     }
@@ -90,7 +93,7 @@ fun CameraPage(modifier: Modifier = Modifier) {
                     QrCodeAnalyzer { result ->
                         code = result
                         isScanned = true
-
+                        onScannedAction()
                     }
                 )
                 try {
