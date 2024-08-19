@@ -5,8 +5,7 @@ data class Sampah(
     val title:String,
     val berat:Int,
     val pictureUrl:String,
-    val minPrice:Int,
-    val maxPrice:Int,
+    val rupiahPrice:Int,
     val satuan:String,
     val uploadedPictureUrl:String?=null,
 )

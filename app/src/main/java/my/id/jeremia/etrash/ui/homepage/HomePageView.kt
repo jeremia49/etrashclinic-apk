@@ -160,7 +160,7 @@ fun CoinSection(me: Me, onCoinClicked: () -> Unit = {}) {
             ) {
                 Text(text = "${me.balance} Coins", fontSize = 16.sp, color = Color.White)
                 Text(
-                    text = "Rp. ${me.balanceidr}",
+                    text = "EC. ${me.balanceidr}",
                     fontSize = 24.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color.White

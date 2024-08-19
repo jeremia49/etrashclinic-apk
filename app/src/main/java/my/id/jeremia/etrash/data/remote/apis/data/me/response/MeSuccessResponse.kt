@@ -22,7 +22,7 @@ data class MeSuccessResponse(
         @Json(name = "created_at")
         val createdAt: String? = null, // 2024-08-17T20:38:21.000000Z
         @Json(name = "email")
-        val email: String? = null, // jeremiaman49@gmail.com
+        val email: String? = null,
         @Json(name = "email_verified_at")
         val emailVerifiedAt: Any? = null, // null
         @Json(name = "id")

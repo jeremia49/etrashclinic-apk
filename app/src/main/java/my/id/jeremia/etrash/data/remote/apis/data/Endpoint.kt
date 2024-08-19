@@ -8,4 +8,5 @@ object Endpoint {
     const val PRODUKHASIL = "/api/produkhasil"
     const val ME = "/api/me"
     const val UPLOADIMAGE = "/api/uploadImage"
+    const val UPLOADSAMPAHPENGGUNA = "/api/addSampah"
 }

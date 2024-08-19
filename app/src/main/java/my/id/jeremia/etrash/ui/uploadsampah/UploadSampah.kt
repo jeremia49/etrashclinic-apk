@@ -7,6 +7,7 @@ import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -43,6 +44,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -54,6 +56,7 @@ import coil.compose.AsyncImage
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import my.id.jeremia.etrash.R
 import my.id.jeremia.etrash.data.model.Sampah
 import my.id.jeremia.etrash.data.model.SampahUnitPrice
 import my.id.jeremia.etrash.data.remote.apis.data.sampahunitprice.response.SampahUnitPriceSuccessResponse
@@ -64,6 +67,7 @@ import my.id.jeremia.etrash.ui.upload.SampahUnitItem
 import my.id.jeremia.etrash.utils.common.saveImageToStorage
 import java.io.BufferedReader
 import java.io.InputStreamReader
+import kotlin.math.floor
 
 
 @Composable
@@ -141,8 +145,11 @@ fun UploadSampahView(modifier: Modifier = Modifier, viewModel: UploadSampahViewM
                         PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
                     )
                 },
-
-                )
+                onKirimClick = {
+                    viewModel.kirimSampah()
+                },
+                isUploading = viewModel.isLoading.collectAsStateWithLifecycle().value,
+            )
         }
     }
 }
@@ -159,6 +166,12 @@ fun AddSampahPage(
             .fillMaxSize()
             .padding(16.dp)
     ) {
+        Text(
+            "Pilih sampah",
+            fontSize = 20.sp,
+            fontWeight = FontWeight.Bold,
+        )
+        Spacer(modifier = Modifier.height(8.dp))
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
@@ -168,17 +181,17 @@ fun AddSampahPage(
                     SampahUnitItem(
                         sampahUnitPrice.get(idx).title!!,
                         sampahUnitPrice.get(idx).imgPublicUrl!!,
-                        "${sampahUnitPrice.get(idx).minprice}-${sampahUnitPrice.get(idx).maxprice}",
+                        "${sampahUnitPrice.get(idx).rupiahPrice}",
                         sampah = Sampah(
                             id = sampahUnitPrice.get(idx).id ?: 0,
                             title = sampahUnitPrice.get(idx).title!!,
                             berat = -1,
                             pictureUrl = sampahUnitPrice.get(idx).imgPublicUrl!!,
-                            minPrice = sampahUnitPrice.get(idx).minprice!!,
-                            maxPrice = sampahUnitPrice.get(idx).maxprice!!,
+                            rupiahPrice = sampahUnitPrice.get(idx).rupiahPrice!!,
                             satuan = sampahUnitPrice.get(idx).satuan!!,
                         ),
-                        onItemClick = onAddingSampah
+                        onItemClick = onAddingSampah,
+                        satuan = sampahUnitPrice.get(idx).satuan!!,
                     )
                     Spacer(modifier = Modifier.height(10.dp))
                 }
@@ -203,7 +216,13 @@ fun UploadSampahPage(
     onAddingPhoto: (Int) -> Unit = {},
     beratList: List<Int> = emptyList<Int>(),
     photoList: List<String> = emptyList<String>(),
+    onKirimClick: () -> Unit = {},
+    isUploading: Boolean = false,
 ) {
+    val totalCoin = beratList.zip(sampahList) { berat, sampah ->
+        floor(berat * sampah.rupiahPrice / 1000.0).toInt()
+    }.sum()
+
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -242,8 +261,7 @@ fun UploadSampahPage(
             repeat(sampahList.size) { idx ->
                 UploadItem(
                     title = sampahList.get(idx).title,
-                    estimatedIncome = "Rp. X - Rp. X",
-                    estimatedCoins = "${sampahList.get(idx).minPrice} - ${sampahList.get(idx).maxPrice}",
+                    estimatedIncome = "${sampahList.get(idx).rupiahPrice}",
                     imgUrl = sampahList.get(idx).pictureUrl,
                     onDeleteClick = onDeleteClick,
                     page = page,
@@ -252,7 +270,8 @@ fun UploadSampahPage(
                     photo = photoList.get(idx),
                     onAddingBerat = onAddingBerat,
                     onRemovingBerat = onRemovingBerat,
-                    onAddingPhoto = onAddingPhoto
+                    onAddingPhoto = onAddingPhoto,
+                    satuan = sampahList.get(idx).satuan,
                 )
                 Spacer(modifier = Modifier.height(8.dp))
             }
@@ -261,7 +280,6 @@ fun UploadSampahPage(
         Spacer(modifier = Modifier.height(8.dp))
 
         if (page == 1) {
-            // Add More Items Button
             Button(
                 onClick = onAddingSampah,
                 modifier = Modifier
@@ -273,14 +291,62 @@ fun UploadSampahPage(
             }
         }
 
-        Spacer(modifier = Modifier.height(16.dp))
 
-        Button(
-            onClick = onNextPage,
-            modifier = Modifier.fillMaxWidth(),
-        ) {
-            Text(text = "Selanjutnya", color = Color.White)
+        if (page >= 4) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceEvenly
+            ) {
+                Text("Perkiraan total coin : ")
+                Text(
+                    text = "${totalCoin}",
+                )
+            }
+
+            Button(
+                onClick = onKirimClick,
+                modifier = Modifier.fillMaxWidth(),
+                enabled = !isUploading
+            ) {
+                Text(text = "Kirim", color = Color.White)
+            }
+        } else {
+            Spacer(modifier = Modifier.height(16.dp))
+
+            if (page == 2) {
+                Button(
+                    onClick = onNextPage,
+                    modifier = Modifier.fillMaxWidth(),
+                    enabled = beratList.all {
+                        it > 0
+                    }
+                ) {
+                    Text(text = "Selanjutnya", color = Color.White)
+                }
+            } else if (page == 3) {
+                Button(
+                    onClick = onNextPage,
+                    modifier = Modifier.fillMaxWidth(),
+                    enabled = photoList.all {
+                        !it.equals("")
+                    }
+                ) {
+                    Text(text = "Selanjutnya", color = Color.White)
+                }
+            } else {
+                Button(
+                    onClick = onNextPage,
+                    modifier = Modifier.fillMaxWidth(),
+                    enabled = sampahList.size >= 1
+                ) {
+                    Text(text = "Selanjutnya", color = Color.White)
+                }
+            }
+
+
         }
+
+
     }
 }
 
@@ -309,8 +375,8 @@ fun StepItem(isActive: Boolean, text: String) {
 fun UploadItem(
     title: String,
     estimatedIncome: String,
-    estimatedCoins: String,
     imgUrl: String,
+    satuan: String,
     onDeleteClick: (Int) -> Unit = {},
     idx: Int = 0,
     page: Int = 1,
@@ -343,21 +409,42 @@ fun UploadItem(
                     style = MaterialTheme.typography.titleLarge,
                     fontWeight = FontWeight.Bold
                 )
-                Text(
-                    text = "Estimasi saldo dan coin:",
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = Color.Gray
-                )
-                Text(
-                    text = "$estimatedIncome",
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = Color.Gray
-                )
-                Text(
-                    text = "$estimatedCoins",
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = Color.Gray
-                )
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.coin),
+                        contentDescription = "Coin."
+                    )
+                    Spacer(modifier = Modifier.width(4.dp))
+                    Text(
+                        text = "${floor((Integer.parseInt(estimatedIncome) / 1000).toDouble()).toInt()} / ${satuan}",
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = Color.Gray
+                    )
+                }
+                Spacer(modifier = Modifier.height(8.dp))
+                if (page >= 2) {
+                    Text(
+                        text = "Estimasi coin:",
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = Color.Gray
+                    )
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.coin),
+                            contentDescription = "Coin."
+                        )
+                        Spacer(modifier = Modifier.width(4.dp))
+                        Text(
+                            text = "${floor(Integer.parseInt(estimatedIncome) / 1000.0 * berat).toInt()} ",
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = Color.Gray
+                        )
+                    }
+                }
                 Spacer(modifier = Modifier.height(4.dp))
             }
             if (page == 1) {
@@ -365,12 +452,13 @@ fun UploadItem(
                     Icon(Icons.Default.Delete, contentDescription = "Hapus", tint = Color.Red)
                 }
             } else if (page == 2) {
-                Column {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.SpaceEvenly
                     ) {
-
                         IconButton(onClick = {
                             if (berat > 0)
                                 onRemovingBerat(idx)
@@ -386,6 +474,13 @@ fun UploadItem(
                             Icon(Icons.Default.Add, contentDescription = "Tambah 1")
                         }
                     }
+                    Text(
+                        text = satuan,
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = Color.Gray,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier
+                    )
                 }
             } else if (page == 3) {
                 Column {

@@ -15,10 +15,12 @@ import kotlinx.coroutines.flow.first
 import my.id.jeremia.etrash.data.model.Sampah
 import my.id.jeremia.etrash.data.model.SampahUnitPrice
 import my.id.jeremia.etrash.data.remote.apis.data.sampahunitprice.response.SampahUnitPriceSuccessResponse
+import my.id.jeremia.etrash.data.remote.apis.data.submitsampah.request.SubmitSampahRequestItem
 import my.id.jeremia.etrash.data.repository.DataRepository
 import my.id.jeremia.etrash.ui.base.BaseViewModel
 import my.id.jeremia.etrash.ui.common.loader.Loader
 import my.id.jeremia.etrash.ui.common.snackbar.Messenger
+import my.id.jeremia.etrash.ui.navigation.Destination
 import my.id.jeremia.etrash.ui.navigation.Navigator
 import javax.inject.Inject
 
@@ -45,6 +47,9 @@ class UploadSampahViewModel @Inject constructor(
     var activeIdx by  mutableStateOf(-1)
     var selectedImage by  mutableStateOf<Uri?>(null)
 
+    private val _isLoading = MutableStateFlow(false)
+    val isLoading = _isLoading.asStateFlow()
+
 
     init{
         updateSampahUnitPrices()
@@ -60,8 +65,7 @@ class UploadSampahViewModel @Inject constructor(
                     id=it!!.id,
                     imgPublicUrl = it.imgPublicUrl,
                     title = it.title,
-                    minprice = it.minprice,
-                    maxprice = it.maxprice,
+                    rupiahPrice = it.rupiah,
                     satuan = it.satuan,
                 )
             }
@@ -75,6 +79,26 @@ class UploadSampahViewModel @Inject constructor(
             photoList = photoList.mapIndexed { index, i ->
                 if (index == idx) data.data!! else i
             }
+        }
+    }
+
+    fun kirimSampah() {
+        val data = mutableListOf<SubmitSampahRequestItem>()
+        for (i in sampahList.indices) {
+            data.add(
+                SubmitSampahRequestItem(
+                    id = sampahList[i].id.toString(),
+                    berat = beratList[i].toString(),
+                    image = photoList[i],
+                    satuan = sampahList[i].satuan,
+                )
+            )
+        }
+
+        launchNetwork {
+            dataRepository.uploadSampah(data.toList()).first()
+            messenger.deliver(Message.success("Sampah berhasil dikirim"))
+            navigator.navigateTo(Destination.Home.MyHome.route, true)
         }
     }
 

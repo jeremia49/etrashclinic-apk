@@ -7,7 +7,10 @@ import my.id.jeremia.etrash.data.remote.apis.data.informasi.response.InformasiSu
 import my.id.jeremia.etrash.data.remote.apis.data.me.response.MeSuccessResponse
 import my.id.jeremia.etrash.data.remote.apis.data.produkhasil.response.ProdukHasilSuccessResponse
 import my.id.jeremia.etrash.data.remote.apis.data.sampahunitprice.response.SampahUnitPriceSuccessResponse
+import my.id.jeremia.etrash.data.remote.apis.data.submitsampah.request.SubmitSampahRequestItem
+import my.id.jeremia.etrash.data.remote.apis.data.submitsampah.response.SubmitSampahSuccessResponse
 import okhttp3.MultipartBody
+import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.Multipart
@@ -51,4 +54,11 @@ interface DataAPI {
     suspend fun uploadImage(
         @Part photo: MultipartBody.Part
     ) : UploadImageSucessResponse
+
+    @Headers(RequestHeaders.Key.AUTH_PROTECTED)
+    @POST(Endpoint.UPLOADSAMPAHPENGGUNA)
+    suspend fun uploadSampahPengguna(
+        @Body request: List<SubmitSampahRequestItem>
+    ) : SubmitSampahSuccessResponse
+
 }

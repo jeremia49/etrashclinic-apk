@@ -17,7 +17,6 @@ class ETrashClinicApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
-
         coilInit.init()
     }
 }

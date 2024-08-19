@@ -20,22 +20,20 @@ data class SampahUnitPriceSuccessResponse(
         @Json(name = "author")
         val author: Int? = null, // 1
         @Json(name = "created_at")
-        val createdAt: String? = null, // 2024-08-15T10:25:24.000000Z
+        val createdAt: String? = null, // 2024-08-18T23:43:41.000000Z
         @Json(name = "id")
-        val id: Int? = null, // 2
+        val id: Int? = null, // 1
         @Json(name = "imgPublicUrl")
-        val imgPublicUrl: String? = null, // http://127.0.0.1:8000/storage/image/2xAferGApX0aBSuYvzBTocZe8TfNX8zeq86RnPgc.png
+        val imgPublicUrl: String? = null, // http://127.0.0.1:8000/storage/image/GzB52vl5xjjec8IQvm1NPBumtESGRwBYA3KyicaV.jpg
         @Json(name = "imgUrl")
-        val imgUrl: String? = null, // image/2xAferGApX0aBSuYvzBTocZe8TfNX8zeq86RnPgc.png
-        @Json(name = "maxprice")
-        val maxprice: Int? = null, // 100
-        @Json(name = "minprice")
-        val minprice: Int? = null, // 10
+        val imgUrl: String? = null, // image/GzB52vl5xjjec8IQvm1NPBumtESGRwBYA3KyicaV.jpg
+        @Json(name = "rupiah")
+        val rupiah: Int? = null, // 1000
         @Json(name = "satuan")
-        val satuan: String? = null, // kg
+        val satuan: String? = null, // unit
         @Json(name = "title")
         val title: String? = null, // Kertas
         @Json(name = "updated_at")
-        val updatedAt: String? = null // 2024-08-15T10:25:24.000000Z
+        val updatedAt: String? = null // 2024-08-18T23:43:41.000000Z
     )
 }

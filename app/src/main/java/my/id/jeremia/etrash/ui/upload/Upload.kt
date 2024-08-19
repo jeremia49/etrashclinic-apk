@@ -15,6 +15,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Key
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
@@ -38,6 +40,7 @@ import my.id.jeremia.etrash.ui.common.bg.BackgroundImage
 import my.id.jeremia.etrash.ui.common.image.NetworkImage
 import my.id.jeremia.etrash.ui.navigation.Destination
 import my.id.jeremia.etrash.utils.common.askPermission
+import kotlin.math.floor
 
 
 @Composable
@@ -61,8 +64,8 @@ fun UploadView(modifier: Modifier = Modifier, viewModel: UploadViewModel) {
                 )
             },
             openCamera = {
-                viewModel.navigator.navigateTo(Destination.Home.Camera.route)
-//                viewModel.navigator.navigateTo(Destination.Home.UploadSampah.route)
+//                viewModel.navigator.navigateTo(Destination.Home.Camera.route)
+                viewModel.navigator.navigateTo(Destination.Home.UploadSampah.route)
 
             }
 
@@ -102,17 +105,16 @@ fun UploadPage(
                     SampahUnitItem(
                         sampahUnitPrice.get(idx).title!!,
                         sampahUnitPrice.get(idx).imgPublicUrl!!,
-                        "${sampahUnitPrice.get(idx).minprice}-${sampahUnitPrice.get(idx).maxprice}",
+                        "${sampahUnitPrice.get(idx).rupiahPrice}",
                         sampah = Sampah(
                             id = sampahUnitPrice.get(idx).id ?: 0,
                             title = sampahUnitPrice.get(idx).title!!,
                             berat = -1,
                             pictureUrl = sampahUnitPrice.get(idx).imgPublicUrl!!,
-                            minPrice = sampahUnitPrice.get(idx).minprice!!,
-                            maxPrice = sampahUnitPrice.get(idx).maxprice!!,
+                            rupiahPrice = sampahUnitPrice.get(idx).rupiahPrice!!,
                             satuan = sampahUnitPrice.get(idx).satuan!!,
-                        )
-
+                        ),
+                        satuan = sampahUnitPrice.get(idx).satuan!!,
                     )
                 }
             }
@@ -153,6 +155,7 @@ fun SampahUnitItem(
     title: String,
     thumbnailUrl: String,
     harga: String,
+    satuan: String,
     onItemClick: (Sampah) -> Unit = {},
     sampah: Sampah
 ) {
@@ -180,13 +183,25 @@ fun SampahUnitItem(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Icon(
-                    painter = painterResource(id = R.drawable.coin), contentDescription = "Tanggal"
+                    painter = painterResource(id = R.drawable.coin), contentDescription = "Coin."
                 )
                 Spacer(modifier = Modifier.width(4.dp))
                 Text(
-                    text = harga, fontSize = 14.sp, color = Color.Gray
+                    text = "${floor(Integer.parseInt(harga)/1000.0)}", fontSize = 14.sp, color = Color.Gray
                 )
             }
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(
+                    Icons.Outlined.Key, contentDescription = "Satuan"
+                )
+                Spacer(modifier = Modifier.width(4.dp))
+                Text(
+                    text = satuan, fontSize = 14.sp, color = Color.Gray
+                )
+            }
+
         }
     }
 }

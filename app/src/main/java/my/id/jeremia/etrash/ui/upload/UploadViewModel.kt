@@ -55,8 +55,7 @@ class UploadViewModel @Inject constructor(
                     id=it!!.id,
                     imgPublicUrl = it.imgPublicUrl,
                     title = it.title,
-                    minprice = it.minprice,
-                    maxprice = it.maxprice,
+                    rupiahPrice = it.rupiah,
                     satuan = it.satuan,
                 )
             }

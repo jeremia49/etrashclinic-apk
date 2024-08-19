@@ -9,6 +9,8 @@ import my.id.jeremia.etrash.data.remote.apis.data.informasi.response.InformasiSu
 import my.id.jeremia.etrash.data.remote.apis.data.me.response.MeSuccessResponse
 import my.id.jeremia.etrash.data.remote.apis.data.produkhasil.response.ProdukHasilSuccessResponse
 import my.id.jeremia.etrash.data.remote.apis.data.sampahunitprice.response.SampahUnitPriceSuccessResponse
+import my.id.jeremia.etrash.data.remote.apis.data.submitsampah.request.SubmitSampahRequestItem
+import my.id.jeremia.etrash.data.remote.apis.data.submitsampah.response.SubmitSampahSuccessResponse
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
@@ -58,4 +60,10 @@ class DataRepository @Inject constructor(
             )
         }
 
+    suspend fun uploadSampah(data: List<SubmitSampahRequestItem>) : Flow <SubmitSampahSuccessResponse> =
+    flow {
+        emit(
+            dataAPI.uploadSampahPengguna(data)
+        )
+    }
 }

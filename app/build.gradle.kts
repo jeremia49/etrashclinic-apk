@@ -25,7 +25,7 @@ android {
     }
     buildTypes {
         debug {
-            buildConfigField("String","BASE_URL", "\"https://etrashclinic.com\"")
+            buildConfigField("String","BASE_URL", "\"https://8621-38-9-128-236.ngrok-free.app/\"")
         }
         release {
             buildConfigField("String","BASE_URL", "\"https://etrashclinic.com\"")
@@ -62,12 +62,10 @@ android {
 dependencies {
     //Firebase
     implementation(platform("com.google.firebase:firebase-bom:33.1.2"))
+    implementation ("com.google.firebase:firebase-messaging")
 
     //QRCode Scanner
     implementation ("com.google.zxing:core:3.3.3")
-
-    //Webview Compose
-    implementation ("io.github.kevinnzou:compose-webview:0.33.6")
 
     //Extended Icon Material
     implementation ("androidx.compose.material:material-icons-extended:1.5.10")
@@ -97,9 +95,6 @@ dependencies {
     implementation ("androidx.camera:camera-view:${camerax_version}")
     implementation ("androidx.camera:camera-extensions:${camerax_version}")
 
-    //Cryptography tool
-    implementation("com.google.guava:guava:33.2.0-android")
-
     // Image Coil
     val coil = "2.6.0"
     implementation("io.coil-kt:coil:$coil")
@@ -107,6 +102,8 @@ dependencies {
 
     //DataStore
     implementation("androidx.datastore:datastore-preferences:1.1.1")
+    implementation("androidx.datastore:datastore-preferences-rxjava3:1.1.1")
+
 
     // Network
     val retrofit2 = "2.11.0"
@@ -122,7 +119,6 @@ dependencies {
     val moshi = "1.15.0"
     implementation("com.squareup.moshi:moshi:$moshi")
     ksp("com.squareup.moshi:moshi-kotlin-codegen:$moshi")
-
 
     val coroutines = "1.8.1"
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines")
@@ -141,18 +137,16 @@ dependencies {
     implementation("androidx.hilt:hilt-work:$hiltKtx")
     ksp("androidx.hilt:hilt-compiler:$hiltKtx")
 
-
     //Lottie Animation
     val lottie = "6.4.0"
     implementation("com.airbnb.android:lottie-compose:$lottie")
 
+    //Splash Screen
     implementation(libs.androidx.core.splashscreen)
 
+    //RXJava
     implementation ("io.reactivex.rxjava3:rxjava:3.0.6")
     implementation ("io.reactivex.rxjava3:rxandroid:3.0.2")
-
-    implementation("androidx.datastore:datastore-preferences:1.1.1")
-    implementation("androidx.datastore:datastore-preferences-rxjava3:1.1.1")
 
 
     implementation(libs.androidx.appcompat)
