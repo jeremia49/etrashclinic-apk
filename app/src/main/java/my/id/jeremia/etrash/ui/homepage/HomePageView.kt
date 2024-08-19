@@ -124,7 +124,7 @@ fun HomePage(
         Spacer(modifier = Modifier.height(16.dp))
         TopProductsSection(produkHasils = produkHasils, onClickMore = onClickMore)
         Spacer(modifier = Modifier.height(16.dp))
-        InformationSection(informasis = informasis, onClickMore = onClickMore)
+        InformationSection(informasis = informasis,onClickOpenWebsite=onClickOpenWebsite, onClickMore = onClickMore)
         Spacer(modifier = Modifier.height(16.dp))
         LatestReportsSection(artikels = artikels, onClickArticle = onClickOpenWebsite)
         Spacer(modifier = Modifier.height(16.dp))
