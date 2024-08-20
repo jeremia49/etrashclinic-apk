@@ -2,6 +2,7 @@ package my.id.jeremia.etrash.data.remote.apis.data
 
 import my.id.jeremia.etrash.data.remote.RequestHeaders
 import my.id.jeremia.etrash.data.remote.apis.data.artikel.response.ArtikelSuccessReponse
+import my.id.jeremia.etrash.data.remote.apis.data.camera.CameraSuccessResponse
 import my.id.jeremia.etrash.data.remote.apis.data.image.response.UploadImageSucessResponse
 import my.id.jeremia.etrash.data.remote.apis.data.informasi.response.InformasiSuccessResponse
 import my.id.jeremia.etrash.data.remote.apis.data.me.response.MeSuccessResponse
@@ -16,6 +17,8 @@ import retrofit2.http.Headers
 import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.Part
+import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface DataAPI {
 
@@ -60,5 +63,12 @@ interface DataAPI {
     suspend fun uploadSampahPengguna(
         @Body request: List<SubmitSampahRequestItem>
     ) : SubmitSampahSuccessResponse
+
+    @Headers(RequestHeaders.Key.AUTH_PROTECTED)
+    @GET(Endpoint.CAMERA)
+    suspend fun scanQRCode(
+        @Path("qrid") qrid: String,
+        @Query("userID") userID: String
+    ) : CameraSuccessResponse
 
 }

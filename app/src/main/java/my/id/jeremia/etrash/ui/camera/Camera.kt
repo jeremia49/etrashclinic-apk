@@ -6,10 +6,14 @@ import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -27,6 +31,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.compose.LocalLifecycleOwner
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import my.id.jeremia.etrash.ui.common.bg.BackgroundImage
 import my.id.jeremia.etrash.ui.navigation.Destination
 
@@ -35,16 +40,21 @@ fun CameraView(modifier: Modifier = Modifier, viewModel: CameraViewModel) {
     BackgroundImage {
         CameraPage(
             modifier = modifier,
-                onScannedAction = {
-                    viewModel.navigator.navigateTo(Destination.Home.UploadSampah.route, true)
-                }
-            )
+            isLoading = viewModel.isLoading.collectAsStateWithLifecycle().value,
+            onScannedAction = {
+                viewModel.onScannedAction(result = it )
+            }
+        )
     }
 }
 
 
 @Composable
-fun CameraPage(modifier: Modifier = Modifier, onScannedAction:()->Unit={}) {
+fun CameraPage(
+    modifier: Modifier = Modifier,
+    isLoading: Boolean = false,
+    onScannedAction: (String) -> Unit = {}
+) {
     var code by remember {
         mutableStateOf("")
     }
@@ -61,8 +71,10 @@ fun CameraPage(modifier: Modifier = Modifier, onScannedAction:()->Unit={}) {
         modifier = modifier
             .fillMaxSize()
             .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Top
     ) {
+
         Text(
             "Arahkan Kamera ke QRCode",
             modifier = Modifier
@@ -71,6 +83,12 @@ fun CameraPage(modifier: Modifier = Modifier, onScannedAction:()->Unit={}) {
             fontWeight = FontWeight.Bold,
             fontSize = 20.sp
         )
+
+        Spacer(
+            modifier=Modifier
+                .height(5.dp)
+        )
+
         AndroidView(
             factory = { context ->
                 val previewView = PreviewView(context)
@@ -93,7 +111,7 @@ fun CameraPage(modifier: Modifier = Modifier, onScannedAction:()->Unit={}) {
                     QrCodeAnalyzer { result ->
                         code = result
                         isScanned = true
-                        onScannedAction()
+                        onScannedAction(result)
                     }
                 )
                 try {
@@ -110,17 +128,15 @@ fun CameraPage(modifier: Modifier = Modifier, onScannedAction:()->Unit={}) {
             },
             modifier = Modifier
                 .weight(1f)
-                .padding(50.dp)
+        )
 
-        )
-        Text(
-            text = code,
-            fontSize = 20.sp,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(32.dp)
-        )
+        if(isLoading)
+            CircularProgressIndicator(
+                modifier = Modifier
+                    .padding(16.dp)
+                    .align(Alignment.CenterHorizontally)
+            )
+
     }
 }
 

@@ -4,6 +4,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import my.id.jeremia.etrash.data.remote.apis.data.DataAPI
 import my.id.jeremia.etrash.data.remote.apis.data.artikel.response.ArtikelSuccessReponse
+import my.id.jeremia.etrash.data.remote.apis.data.camera.CameraSuccessResponse
 import my.id.jeremia.etrash.data.remote.apis.data.image.response.UploadImageSucessResponse
 import my.id.jeremia.etrash.data.remote.apis.data.informasi.response.InformasiSuccessResponse
 import my.id.jeremia.etrash.data.remote.apis.data.me.response.MeSuccessResponse
@@ -21,29 +22,29 @@ import javax.inject.Singleton
 @Singleton
 class DataRepository @Inject constructor(
     private val dataAPI: DataAPI
-){
+) {
     suspend fun getArtikel(): Flow<ArtikelSuccessReponse> =
         flow {
             emit(dataAPI.artikel())
         }
 
     suspend fun getInformasi(): Flow<InformasiSuccessResponse> =
-        flow{
+        flow {
             emit(dataAPI.informasi())
         }
 
     suspend fun getSampahUnitPrice(): Flow<SampahUnitPriceSuccessResponse> =
-        flow{
+        flow {
             emit(dataAPI.sampahunitprice())
         }
 
-    suspend fun getProdukHasil(): Flow <ProdukHasilSuccessResponse> =
-        flow{
+    suspend fun getProdukHasil(): Flow<ProdukHasilSuccessResponse> =
+        flow {
             emit(dataAPI.produkhasil())
         }
 
-    suspend fun getMe(): Flow <MeSuccessResponse> =
-        flow{
+    suspend fun getMe(): Flow<MeSuccessResponse> =
+        flow {
             emit(dataAPI.me())
         }
 
@@ -60,10 +61,17 @@ class DataRepository @Inject constructor(
             )
         }
 
-    suspend fun uploadSampah(data: List<SubmitSampahRequestItem>) : Flow <SubmitSampahSuccessResponse> =
-    flow {
-        emit(
-            dataAPI.uploadSampahPengguna(data)
-        )
-    }
+    suspend fun uploadSampah(data: List<SubmitSampahRequestItem>): Flow<SubmitSampahSuccessResponse> =
+        flow {
+            emit(
+                dataAPI.uploadSampahPengguna(data)
+            )
+        }
+
+    suspend fun checkQRCode(qrid: String, userID: String): Flow<CameraSuccessResponse> =
+        flow {
+            emit(
+                dataAPI.scanQRCode(qrid, userID)
+            )
+        }
 }

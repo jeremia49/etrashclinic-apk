@@ -64,8 +64,8 @@ fun UploadView(modifier: Modifier = Modifier, viewModel: UploadViewModel) {
                 )
             },
             openCamera = {
-//                viewModel.navigator.navigateTo(Destination.Home.Camera.route)
-                viewModel.navigator.navigateTo(Destination.Home.UploadSampah.route)
+                viewModel.navigator.navigateTo(Destination.Home.Camera.route)
+//                viewModel.navigator.navigateTo(Destination.Home.UploadSampah.route)
 
             }
 
@@ -187,7 +187,7 @@ fun SampahUnitItem(
                 )
                 Spacer(modifier = Modifier.width(4.dp))
                 Text(
-                    text = "${floor(Integer.parseInt(harga)/1000.0)}", fontSize = 14.sp, color = Color.Gray
+                    text = "${Integer.parseInt(harga)/1000.0}", fontSize = 14.sp, color = Color.Gray
                 )
             }
             Row(
