@@ -1,7 +1,6 @@
 package my.id.jeremia.etrash.fcm
 
 import com.google.firebase.messaging.FirebaseMessagingService
-import kotlinx.coroutines.launch
 
 class NotificationService : FirebaseMessagingService(){
     override fun onNewToken(token: String) {

@@ -1,18 +1,11 @@
 package my.id.jeremia.etrash.utils.common
 
-import android.content.ContentResolver
 import android.content.Context
-import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Environment
-import com.canhub.cropper.CropImage.CancelledResult.bitmap
-import dagger.hilt.android.qualifiers.ApplicationContext
-import java.io.BufferedReader
 import java.io.File
 import java.io.FileOutputStream
-import java.io.IOException
 import java.io.InputStream
-import java.io.InputStreamReader
 
 fun saveImageToStorage(context: Context, uri: Uri): String? {
     val contentResolver = context.contentResolver

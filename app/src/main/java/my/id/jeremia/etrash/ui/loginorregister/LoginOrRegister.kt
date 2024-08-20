@@ -43,7 +43,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
 import my.id.jeremia.etrash.R
-import my.id.jeremia.etrash.ui.navigation.Destination
 import my.id.jeremia.etrash.ui.theme.InterFontFamily
 
 

@@ -40,7 +40,6 @@ import my.id.jeremia.etrash.ui.common.bg.BackgroundImage
 import my.id.jeremia.etrash.ui.common.image.NetworkImage
 import my.id.jeremia.etrash.ui.navigation.Destination
 import my.id.jeremia.etrash.utils.common.askPermission
-import kotlin.math.floor
 
 
 @Composable

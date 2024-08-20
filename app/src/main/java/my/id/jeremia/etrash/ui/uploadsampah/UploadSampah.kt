@@ -1,13 +1,9 @@
 package my.id.jeremia.etrash.ui.uploadsampah
 
-import android.content.Context
-import android.net.Network
-import android.net.Uri
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -51,22 +47,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.room.util.query
-import coil.compose.AsyncImage
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.launch
 import my.id.jeremia.etrash.R
 import my.id.jeremia.etrash.data.model.Sampah
 import my.id.jeremia.etrash.data.model.SampahUnitPrice
-import my.id.jeremia.etrash.data.remote.apis.data.sampahunitprice.response.SampahUnitPriceSuccessResponse
 import my.id.jeremia.etrash.ui.common.bg.BackgroundImage
 import my.id.jeremia.etrash.ui.common.image.NetworkImage
 import my.id.jeremia.etrash.ui.navigation.Destination
 import my.id.jeremia.etrash.ui.upload.SampahUnitItem
 import my.id.jeremia.etrash.utils.common.saveImageToStorage
-import java.io.BufferedReader
-import java.io.InputStreamReader
 import kotlin.math.floor
 
 
