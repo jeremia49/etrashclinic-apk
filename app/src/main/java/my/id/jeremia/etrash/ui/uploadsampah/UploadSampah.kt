@@ -406,7 +406,7 @@ fun UploadItem(
                     )
                     Spacer(modifier = Modifier.width(4.dp))
                     Text(
-                        text = "${floor((Integer.parseInt(estimatedIncome) / 1000).toDouble()).toInt()} / ${satuan}",
+                        text = "${Integer.parseInt(estimatedIncome) / 1000.0} / ${satuan}",
                         style = MaterialTheme.typography.bodyMedium,
                         color = Color.Gray
                     )
@@ -427,7 +427,7 @@ fun UploadItem(
                         )
                         Spacer(modifier = Modifier.width(4.dp))
                         Text(
-                            text = "${floor(Integer.parseInt(estimatedIncome) / 1000.0 * berat).toInt()} ",
+                            text = "${Integer.parseInt(estimatedIncome) / 1000.0 * berat} ",
                             style = MaterialTheme.typography.bodyMedium,
                             color = Color.Gray
                         )
