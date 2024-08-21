@@ -58,9 +58,9 @@ import my.id.jeremia.etrash.ui.common.image.NetworkImage
 import my.id.jeremia.etrash.ui.common.image.NetworkImageWithFilter
 import my.id.jeremia.etrash.ui.navigation.Destination
 import my.id.jeremia.etrash.ui.theme.hijau40
-import my.id.jeremia.etrash.utils.common.toBase64UrlSafe
 import my.id.jeremia.etrash.utils.common.CalendarUtils.getDateFromString
 import my.id.jeremia.etrash.utils.common.CalendarUtils.getFormattedDateTime
+import my.id.jeremia.etrash.utils.common.toBase64UrlSafe
 import kotlin.math.min
 
 @Composable
