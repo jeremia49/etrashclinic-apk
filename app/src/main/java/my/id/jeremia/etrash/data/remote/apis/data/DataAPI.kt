@@ -3,6 +3,7 @@ package my.id.jeremia.etrash.data.remote.apis.data
 import my.id.jeremia.etrash.data.remote.RequestHeaders
 import my.id.jeremia.etrash.data.remote.apis.data.artikel.response.ArtikelSuccessReponse
 import my.id.jeremia.etrash.data.remote.apis.data.camera.CameraSuccessResponse
+import my.id.jeremia.etrash.data.remote.apis.data.history.response.HistorySucessResponse
 import my.id.jeremia.etrash.data.remote.apis.data.image.response.UploadImageSucessResponse
 import my.id.jeremia.etrash.data.remote.apis.data.informasi.response.InformasiSuccessResponse
 import my.id.jeremia.etrash.data.remote.apis.data.me.response.MeSuccessResponse
@@ -70,5 +71,13 @@ interface DataAPI {
         @Path("qrid") qrid: String,
         @Query("userID") userID: String
     ) : CameraSuccessResponse
+
+
+
+    @Headers(RequestHeaders.Key.AUTH_PROTECTED)
+    @GET(Endpoint.HISTORYSAMPASH)
+    suspend fun historySampah(
+
+    ) : HistorySucessResponse
 
 }

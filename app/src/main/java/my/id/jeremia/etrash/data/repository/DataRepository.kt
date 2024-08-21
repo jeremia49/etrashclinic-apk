@@ -5,6 +5,7 @@ import kotlinx.coroutines.flow.flow
 import my.id.jeremia.etrash.data.remote.apis.data.DataAPI
 import my.id.jeremia.etrash.data.remote.apis.data.artikel.response.ArtikelSuccessReponse
 import my.id.jeremia.etrash.data.remote.apis.data.camera.CameraSuccessResponse
+import my.id.jeremia.etrash.data.remote.apis.data.history.response.HistorySucessResponse
 import my.id.jeremia.etrash.data.remote.apis.data.image.response.UploadImageSucessResponse
 import my.id.jeremia.etrash.data.remote.apis.data.informasi.response.InformasiSuccessResponse
 import my.id.jeremia.etrash.data.remote.apis.data.me.response.MeSuccessResponse
@@ -74,4 +75,13 @@ class DataRepository @Inject constructor(
                 dataAPI.scanQRCode(qrid, userID)
             )
         }
+    suspend fun historySampah(): Flow<HistorySucessResponse> =
+        flow {
+            emit(
+                dataAPI.historySampah()
+            )
+        }
+
+
+
 }
