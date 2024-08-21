@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CalendarMonth
+import androidx.compose.material.icons.filled.Sync
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -21,16 +22,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import my.id.jeremia.etrash.R
 import my.id.jeremia.etrash.data.remote.apis.data.history.response.HistorySucessResponse
 import my.id.jeremia.etrash.ui.common.bg.BackgroundImage
 import my.id.jeremia.etrash.ui.common.image.NetworkImage
-import my.id.jeremia.potholetracker.utils.common.CalendarUtils.getDateFromString
-import my.id.jeremia.potholetracker.utils.common.CalendarUtils.getFormattedDateTime
+import my.id.jeremia.etrash.utils.common.CalendarUtils.getDateFromString
+import my.id.jeremia.etrash.utils.common.CalendarUtils.getFormattedDateTime
 
 @Composable
 fun RiwayatView(modifier: Modifier = Modifier, viewModel: RiwayatViewModel) {
@@ -61,6 +64,8 @@ fun RiwayatPage(modifier: Modifier = Modifier, data:List<HistorySucessResponse.D
                         title = data[idx].title!!,
                         thumbnailUrl = data[idx].imgUrl!!,
                         tanggal = data[idx].createdAt!!,
+                        isApproved = data[idx].isApproved!! == 1,
+                        isDeclined = data[idx].isDeclined!! == 1,
                         onClick = {}
                     )
                     Spacer(modifier = Modifier.height(8.dp))
@@ -72,7 +77,13 @@ fun RiwayatPage(modifier: Modifier = Modifier, data:List<HistorySucessResponse.D
 
 
 @Composable
-fun RiwayatItem(title: String, thumbnailUrl: String, tanggal: String, onClick: () -> Unit = {}) {
+fun RiwayatItem(
+    title: String,
+    thumbnailUrl: String,
+    tanggal: String,
+    isApproved:Boolean = false,
+    isDeclined:Boolean = false,
+    onClick: () -> Unit = {}) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -103,6 +114,14 @@ fun RiwayatItem(title: String, thumbnailUrl: String, tanggal: String, onClick: (
                     color = Color.Gray
                 )
             }
+        }
+        Spacer(modifier = Modifier.width(8.dp))
+        if (isApproved) {
+            Icon(painterResource(id = R.drawable.success), contentDescription = "Approved")
+        } else if (isDeclined) {
+            Icon(painterResource(id = R.drawable.warning), contentDescription = "Rejected", tint = Color.Red)
+        }else{
+            Icon(Icons.Default.Sync, contentDescription = "Pending", tint = Color.Black)
         }
     }
 }

@@ -1,4 +1,4 @@
-package my.id.jeremia.potholetracker.utils.common
+package my.id.jeremia.etrash.utils.common
 
 import android.util.Log
 import java.text.ParseException
