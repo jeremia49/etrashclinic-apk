@@ -1,6 +1,7 @@
 package my.id.jeremia.etrash.ui.riwayat
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -32,21 +33,29 @@ import my.id.jeremia.etrash.R
 import my.id.jeremia.etrash.data.remote.apis.data.history.response.HistorySucessResponse
 import my.id.jeremia.etrash.ui.common.bg.BackgroundImage
 import my.id.jeremia.etrash.ui.common.image.NetworkImage
+import my.id.jeremia.etrash.ui.common.snackbar.Messenger
 import my.id.jeremia.etrash.utils.common.CalendarUtils.getDateFromString
 import my.id.jeremia.etrash.utils.common.CalendarUtils.getFormattedDateTime
+import kotlin.math.floor
+import kotlin.math.roundToInt
 
 @Composable
 fun RiwayatView(modifier: Modifier = Modifier, viewModel: RiwayatViewModel) {
     BackgroundImage {
         RiwayatPage(
             modifier = modifier,
-            data = viewModel.historySampah.collectAsStateWithLifecycle().value
-            )
+            data = viewModel.historySampah.collectAsStateWithLifecycle().value,
+            messenger = viewModel.messenger
+        )
     }
 }
 
 @Composable
-fun RiwayatPage(modifier: Modifier = Modifier, data:List<HistorySucessResponse.Data> = emptyList()) {
+fun RiwayatPage(
+    modifier: Modifier = Modifier,
+    data: List<HistorySucessResponse.Data> = emptyList(),
+    messenger: Messenger = Messenger()
+) {
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -59,14 +68,27 @@ fun RiwayatPage(modifier: Modifier = Modifier, data:List<HistorySucessResponse.D
         Spacer(modifier = Modifier.height(16.dp))
         LazyColumn {
             repeat(data.size) { idx ->
-                item{
+                item {
                     RiwayatItem(
                         title = data[idx].title!!,
                         thumbnailUrl = data[idx].imgUrl!!,
                         tanggal = data[idx].createdAt!!,
                         isApproved = data[idx].isApproved!! == 1,
                         isDeclined = data[idx].isDeclined!! == 1,
-                        onClick = {}
+                        onClick = {
+                            if (data[idx].isApproved!! == 1) {
+                                messenger.deliver(Message.info("Transaksi Disetujui"))
+                            } else if (data[idx].isDeclined!! == 1) {
+                                messenger.deliver(Message.info("Transaksi Ditolak"))
+                            } else {
+                                messenger.deliver(Message.info("Transaksi Sedang Diproses"))
+                            }
+                        },
+                        coin = if (data[idx].isApproved!! == 1) (
+                                floor(data[idx].price!! as Double / 1000.0)
+                                ).roundToInt() else (
+                                floor(data[idx].origprice!!.toDouble() / 1000.0)
+                                ).roundToInt()
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                 }
@@ -81,9 +103,11 @@ fun RiwayatItem(
     title: String,
     thumbnailUrl: String,
     tanggal: String,
-    isApproved:Boolean = false,
-    isDeclined:Boolean = false,
-    onClick: () -> Unit = {}) {
+    isApproved: Boolean = false,
+    isDeclined: Boolean = false,
+    coin: Int = 0,
+    onClick: () -> Unit = {}
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -102,7 +126,7 @@ fun RiwayatItem(
         Spacer(modifier = Modifier.width(8.dp))
         Column(
             modifier = Modifier
-                .weight(1f)
+                .weight(1f),
         ) {
             Text(text = title, fontWeight = FontWeight.Bold)
             Row {
@@ -114,13 +138,26 @@ fun RiwayatItem(
                     color = Color.Gray
                 )
             }
+            Row {
+                Icon(painterResource(id = R.drawable.coin), contentDescription = "Coin")
+                Spacer(modifier = Modifier.width(4.dp))
+                Text(
+                    text = "${coin}",
+                    fontSize = 14.sp,
+                    color = Color.Gray
+                )
+            }
         }
         Spacer(modifier = Modifier.width(8.dp))
         if (isApproved) {
             Icon(painterResource(id = R.drawable.success), contentDescription = "Approved")
         } else if (isDeclined) {
-            Icon(painterResource(id = R.drawable.warning), contentDescription = "Rejected", tint = Color.Red)
-        }else{
+            Icon(
+                painterResource(id = R.drawable.warning),
+                contentDescription = "Rejected",
+                tint = Color.Red
+            )
+        } else {
             Icon(Icons.Default.Sync, contentDescription = "Pending", tint = Color.Black)
         }
     }

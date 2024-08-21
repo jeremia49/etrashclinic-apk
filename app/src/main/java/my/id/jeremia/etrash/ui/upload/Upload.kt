@@ -96,8 +96,8 @@ fun UploadPage(
         )
         LazyVerticalGrid(
             columns = GridCells.Fixed(2), // 2 columns
-            modifier = Modifier,
-
+            modifier = Modifier
+                .weight(1f),
             ) {
             repeat(sampahUnitPrice.size) { idx ->
                 item {
@@ -118,9 +118,9 @@ fun UploadPage(
                 }
             }
         }
-        Spacer(
-            modifier = Modifier.weight(1f)
-        )
+//        Spacer(
+//            modifier = Modifier.weight(1f)
+//        )
         if (cameraPermission) {
             Button(
                 onClick = {
@@ -131,7 +131,6 @@ fun UploadPage(
             ) {
                 Text(text = "Buka Camera", color = Color.White)
             }
-
         } else {
             Button(
                 onClick = {
