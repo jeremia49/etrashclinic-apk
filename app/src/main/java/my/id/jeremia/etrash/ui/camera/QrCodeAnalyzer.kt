@@ -19,6 +19,7 @@ class QrCodeAnalyzer(
         ImageFormat.YUV_420_888,
         ImageFormat.YUV_422_888,
         ImageFormat.YUV_444_888,
+        ImageFormat.JPEG,
     )
 
     override fun analyze(image: ImageProxy) {
@@ -36,15 +37,7 @@ class QrCodeAnalyzer(
             )
             val binaryBmp = BinaryBitmap(HybridBinarizer(source))
             try {
-                val result = MultiFormatReader().apply {
-                    setHints(
-                        mapOf(
-                            DecodeHintType.POSSIBLE_FORMATS to arrayListOf(
-                                BarcodeFormat.QR_CODE
-                            )
-                        )
-                    )
-                }.decode(binaryBmp)
+                val result = MultiFormatReader().decode(binaryBmp)
                 onQrCodeScanned(result.text)
             } catch(e: Exception) {
                 e.printStackTrace()

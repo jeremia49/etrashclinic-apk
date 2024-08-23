@@ -60,6 +60,9 @@ android {
 }
 
 dependencies {
+    //Code Scanner
+    implementation ("com.github.yuriy-budiyev:code-scanner:2.3.0")
+
     //Firebase
     implementation(platform("com.google.firebase:firebase-bom:33.1.2"))
     implementation ("com.google.firebase:firebase-messaging")
