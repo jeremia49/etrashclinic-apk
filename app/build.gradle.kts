@@ -25,7 +25,7 @@ android {
     }
     buildTypes {
         debug {
-            buildConfigField("String","BASE_URL", "\"https://2a51-38-9-128-236.ngrok-free.app/\"")
+            buildConfigField("String","BASE_URL", "\"https://etrashclinic.com\"")
         }
         release {
             buildConfigField("String","BASE_URL", "\"https://etrashclinic.com\"")
@@ -60,15 +60,15 @@ android {
 }
 
 dependencies {
+    //Image Picker
+    implementation ("com.github.dhaval2404:imagepicker:2.1")
+
     //Code Scanner
     implementation ("com.github.yuriy-budiyev:code-scanner:2.3.0")
 
     //Firebase
     implementation(platform("com.google.firebase:firebase-bom:33.1.2"))
     implementation ("com.google.firebase:firebase-messaging")
-
-    //QRCode Scanner
-    implementation ("com.google.zxing:core:3.3.3")
 
     //Extended Icon Material
     implementation ("androidx.compose.material:material-icons-extended:1.5.10")
@@ -81,9 +81,6 @@ dependencies {
     implementation("androidx.room:room-runtime:$room")
     ksp("androidx.room:room-compiler:$room")
     implementation("androidx.room:room-ktx:$room")
-
-    // UI Image Cropper
-    implementation("com.vanniktech:android-image-cropper:4.5.0")
 
     //Permissions
     implementation("com.google.accompanist:accompanist-permissions:0.35.0-alpha")

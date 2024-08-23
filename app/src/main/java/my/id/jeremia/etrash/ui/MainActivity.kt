@@ -6,13 +6,14 @@ import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import dagger.hilt.android.AndroidEntryPoint
 import my.id.jeremia.etrash.R
 
 @AndroidEntryPoint()
-class MainActivity : ComponentActivity() {
+class MainActivity : AppCompatActivity() {
 
     val viewModel by viewModels<MainViewModel>()
 

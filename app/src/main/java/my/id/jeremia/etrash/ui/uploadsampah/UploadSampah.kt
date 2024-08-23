@@ -1,9 +1,12 @@
 package my.id.jeremia.etrash.ui.uploadsampah
 
+import android.app.Activity
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.ActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -47,6 +50,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.github.dhaval2404.imagepicker.ImagePicker
 import my.id.jeremia.etrash.R
 import my.id.jeremia.etrash.data.model.Sampah
 import my.id.jeremia.etrash.data.model.SampahUnitPrice
@@ -65,11 +69,15 @@ fun UploadSampahView(modifier: Modifier = Modifier, viewModel: UploadSampahViewM
 
     val context = LocalContext.current
 
-    val photoPickerLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.PickVisualMedia(),
-        onResult = {
-            if (it != null) {
-                viewModel.selectedImage = it
+    val cameraLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.StartActivityForResult(),
+        onResult = { result : ActivityResult->
+            val resultCode = result.resultCode
+            val data = result.data
+
+            if (resultCode == Activity.RESULT_OK) {
+                val fileUri = data?.data!!
+                viewModel.selectedImage = fileUri
                 viewModel.uploadImage(
                     viewModel.activeIdx,
                     saveImageToStorage(context, viewModel.selectedImage!!)!!
@@ -129,9 +137,13 @@ fun UploadSampahView(modifier: Modifier = Modifier, viewModel: UploadSampahViewM
                 },
                 onAddingPhoto = { idx ->
                     viewModel.activeIdx = idx
-                    photoPickerLauncher.launch(
-                        PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
-                    )
+                    ImagePicker.with(context as AppCompatActivity)
+                        .cameraOnly()
+                        .compress(4096)
+                        .maxResultSize(1080, 1080)
+                        .createIntent { intent ->
+                            cameraLauncher.launch(intent)
+                        }
                 },
                 onKirimClick = {
                     viewModel.kirimSampah()
