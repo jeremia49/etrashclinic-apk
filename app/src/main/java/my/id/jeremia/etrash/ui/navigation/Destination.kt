@@ -25,6 +25,8 @@ object Destination {
 
         data object Leaderboard:Screen("/home/leaderboard")
 
+        data object Leagues:Screen("/home/leagues")
+
         data object Notification:Screen("/home/notification")
 
         data object Settings:Screen("/home/settings")

@@ -16,6 +16,7 @@ import my.id.jeremia.etrash.ui.homepage.HomePageView
 import my.id.jeremia.etrash.ui.homepage.HomePageViewModel
 import my.id.jeremia.etrash.ui.leaderboard.LeaderboardView
 import my.id.jeremia.etrash.ui.leaderboard.LeaderboardViewModel
+import my.id.jeremia.etrash.ui.leagues.LeaguesView
 import my.id.jeremia.etrash.ui.login.Login
 import my.id.jeremia.etrash.ui.login.LoginViewModel
 import my.id.jeremia.etrash.ui.loginorregister.LoginOrRegister
@@ -159,6 +160,11 @@ fun NavGraph(
             val viewModel: UploadSampahViewModel = hiltViewModel(key = UploadSampahViewModel.TAG)
             UploadSampahView(modifier = modifier, viewModel = viewModel)
         }
+
+        composable(Destination.Home.Leagues.route){
+            LeaguesView(modifier = modifier)
+        }
+
 
     }
 
