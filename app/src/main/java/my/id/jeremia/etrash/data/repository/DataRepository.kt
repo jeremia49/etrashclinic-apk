@@ -2,13 +2,14 @@ package my.id.jeremia.etrash.data.repository
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import my.id.jeremia.etrash.data.remote.apis.auth.response.AuthMeSuccessResponse
 import my.id.jeremia.etrash.data.remote.apis.data.DataAPI
 import my.id.jeremia.etrash.data.remote.apis.data.artikel.response.ArtikelSuccessReponse
 import my.id.jeremia.etrash.data.remote.apis.data.camera.CameraSuccessResponse
 import my.id.jeremia.etrash.data.remote.apis.data.history.response.HistorySucessResponse
 import my.id.jeremia.etrash.data.remote.apis.data.image.response.UploadImageSucessResponse
 import my.id.jeremia.etrash.data.remote.apis.data.informasi.response.InformasiSuccessResponse
-import my.id.jeremia.etrash.data.remote.apis.data.me.response.MeSuccessResponse
+import my.id.jeremia.etrash.data.remote.apis.data.notifications.response.NotificationSuccessResponse
 import my.id.jeremia.etrash.data.remote.apis.data.produkhasil.response.ProdukHasilSuccessResponse
 import my.id.jeremia.etrash.data.remote.apis.data.sampahunitprice.response.SampahUnitPriceSuccessResponse
 import my.id.jeremia.etrash.data.remote.apis.data.submitsampah.request.SubmitSampahRequestItem
@@ -44,7 +45,7 @@ class DataRepository @Inject constructor(
             emit(dataAPI.produkhasil())
         }
 
-    suspend fun getMe(): Flow<MeSuccessResponse> =
+    suspend fun getMe(): Flow<AuthMeSuccessResponse> =
         flow {
             emit(dataAPI.me())
         }
@@ -79,6 +80,13 @@ class DataRepository @Inject constructor(
         flow {
             emit(
                 dataAPI.historySampah()
+            )
+        }
+
+    suspend fun notifications() : Flow<NotificationSuccessResponse> =
+        flow{
+            emit(
+                dataAPI.notifications()
             )
         }
 

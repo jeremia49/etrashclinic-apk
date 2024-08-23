@@ -78,6 +78,12 @@ fun HomePageView(modifier: Modifier = Modifier, viewModel: HomePageViewModel) {
             informasis = viewModel.informasis.collectAsStateWithLifecycle().value,
             produkHasils = viewModel.produkhasils.collectAsStateWithLifecycle().value,
             me = viewModel.me.collectAsStateWithLifecycle().value,
+            onClickLeaderboard = {
+                viewModel.navigator.navigateTo(Destination.Home.Leaderboard.route)
+            },
+            onClickNotifications = {
+                viewModel.navigator.navigateTo(Destination.Home.Notification.route)
+            },
             onClickOpenWebsite = { url ->
                 viewModel.navigator.navigateTo(
                     "${Destination.Home.WebView.route}/${
@@ -104,6 +110,8 @@ fun HomePage(
     username: String = "Jeremia",
     photoUrl: String = "https://example.com/photo.jpg",
     onClickProfilePicture: () -> Unit = {},
+    onClickLeaderboard:()->Unit = {},
+    onClickNotifications:()->Unit = {},
     artikels: List<Article> = emptyList(),
     informasis: List<Informasi> = emptyList(),
     produkHasils: List<ProdukHasil> = emptyList(),
@@ -118,7 +126,11 @@ fun HomePage(
             .fillMaxSize()
             .padding(16.dp)
     ) {
-        HeaderSection(username, photoUrl, onClickProfilePicture = onClickProfilePicture)
+        HeaderSection(username, photoUrl,
+            onClickLeaderboard = onClickLeaderboard,
+            onClickNotification = onClickNotifications,
+            isNewNotificationExist = me.isNotificationExist ?: false,
+            onClickProfilePicture = onClickProfilePicture)
         Spacer(modifier = Modifier.height(16.dp))
         CoinSection(me, onCoinClicked = onCoinClicked)
         Spacer(modifier = Modifier.height(16.dp))

@@ -11,4 +11,5 @@ object Endpoint {
     const val UPLOADSAMPAHPENGGUNA = "/api/addSampah"
     const val CAMERA = "/qr/scan/{qrid}"
     const val HISTORYSAMPASH = "/api/historySampah"
+    const val NOTIFICATIONS = "/api/notifications"
 }

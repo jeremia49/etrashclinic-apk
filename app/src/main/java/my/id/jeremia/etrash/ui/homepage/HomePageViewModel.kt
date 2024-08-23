@@ -69,6 +69,7 @@ class HomePageViewModel @Inject constructor(
             val mee = Me(
                 balanceidr = meResponse!!.saldoBalance,
                 balance = meResponse.coinBalance,
+                isNotificationExist = meResponse.isNotificationExist,
             )
             _me.emit(mee)
         }

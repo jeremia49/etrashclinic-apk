@@ -1,12 +1,13 @@
 package my.id.jeremia.etrash.data.remote.apis.data
 
 import my.id.jeremia.etrash.data.remote.RequestHeaders
+import my.id.jeremia.etrash.data.remote.apis.auth.response.AuthMeSuccessResponse
 import my.id.jeremia.etrash.data.remote.apis.data.artikel.response.ArtikelSuccessReponse
 import my.id.jeremia.etrash.data.remote.apis.data.camera.CameraSuccessResponse
 import my.id.jeremia.etrash.data.remote.apis.data.history.response.HistorySucessResponse
 import my.id.jeremia.etrash.data.remote.apis.data.image.response.UploadImageSucessResponse
 import my.id.jeremia.etrash.data.remote.apis.data.informasi.response.InformasiSuccessResponse
-import my.id.jeremia.etrash.data.remote.apis.data.me.response.MeSuccessResponse
+import my.id.jeremia.etrash.data.remote.apis.data.notifications.response.NotificationSuccessResponse
 import my.id.jeremia.etrash.data.remote.apis.data.produkhasil.response.ProdukHasilSuccessResponse
 import my.id.jeremia.etrash.data.remote.apis.data.sampahunitprice.response.SampahUnitPriceSuccessResponse
 import my.id.jeremia.etrash.data.remote.apis.data.submitsampah.request.SubmitSampahRequestItem
@@ -50,7 +51,7 @@ interface DataAPI {
     @GET(Endpoint.ME)
     suspend fun me(
 
-    ) : MeSuccessResponse
+    ) : AuthMeSuccessResponse
 
     @Headers(RequestHeaders.Key.AUTH_PROTECTED)
     @Multipart
@@ -80,4 +81,9 @@ interface DataAPI {
 
     ) : HistorySucessResponse
 
+    @Headers(RequestHeaders.Key.AUTH_PROTECTED)
+    @GET(Endpoint.NOTIFICATIONS)
+    suspend fun notifications(
+
+    ) : NotificationSuccessResponse
 }

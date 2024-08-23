@@ -85,9 +85,9 @@ fun RiwayatPage(
                             }
                         },
                         coin = if (data[idx].isApproved!! == 1) (
-                                floor(data[idx].price!! as Double / 1000.0)
+                                floor((data[idx].price!! as String).toDouble() / 1000.0) * data[idx].total!!
                                 ).roundToInt() else (
-                                floor(data[idx].origprice!!.toDouble() / 1000.0)
+                                floor(data[idx].origprice!!.toDouble() / 1000.0) * data[idx].total!!
                                 ).roundToInt()
                     )
                     Spacer(modifier = Modifier.height(8.dp))

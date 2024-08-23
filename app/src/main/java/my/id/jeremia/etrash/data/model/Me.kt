@@ -13,4 +13,5 @@ data class Me(
     val name: String? = null,
     val nohp: String? = null,
     val photoUrl: String? = null, // https://gravatar.com/avatar/581f54b15bf3afb05a1b0f75effceae1
+    val isNotificationExist : Boolean? = null
 ) : Parcelable
