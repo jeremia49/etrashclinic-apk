@@ -20,6 +20,8 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import my.id.jeremia.etrash.data.remote.apis.data.notifications.response.NotificationSuccessResponse
 import my.id.jeremia.etrash.ui.common.bg.BackgroundImage
+import my.id.jeremia.etrash.utils.common.CalendarUtils.getDateFromString
+import my.id.jeremia.etrash.utils.common.CalendarUtils.getFormattedDateTime
 
 @Composable
 fun NotificationView(modifier: Modifier = Modifier, viewModel: NotificationViewModel) {
@@ -76,7 +78,7 @@ fun NotificationItem(
         )
 
         Column {
-            Text(timestamp)
+            Text(getFormattedDateTime(getDateFromString(timestamp)!!)!!)
             Text(title, fontWeight = FontWeight.Bold)
             Text(content)
         }

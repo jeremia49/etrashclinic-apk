@@ -17,6 +17,7 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Key
+import androidx.compose.material.icons.outlined.Scale
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
@@ -98,7 +99,7 @@ fun UploadPage(
             columns = GridCells.Fixed(2), // 2 columns
             modifier = Modifier
                 .weight(1f),
-            ) {
+        ) {
             repeat(sampahUnitPrice.size) { idx ->
                 item {
                     SampahUnitItem(
@@ -115,6 +116,7 @@ fun UploadPage(
                         ),
                         satuan = sampahUnitPrice.get(idx).satuan!!,
                     )
+                    Spacer(modifier = Modifier.height(16.dp))
                 }
             }
         }
@@ -163,7 +165,7 @@ fun SampahUnitItem(
             .clickable {
                 onItemClick(sampah)
             },
-        verticalAlignment = Alignment.CenterVertically,
+        verticalAlignment = Alignment.Top,
     ) {
         NetworkImage(
             url = thumbnailUrl,
@@ -181,18 +183,24 @@ fun SampahUnitItem(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Icon(
-                    painter = painterResource(id = R.drawable.coin), contentDescription = "Coin."
+                    painter = painterResource(id = R.drawable.coin), contentDescription = "Coin.",
+                    modifier = Modifier.size(16.dp)
+
                 )
                 Spacer(modifier = Modifier.width(4.dp))
                 Text(
-                    text = "${Integer.parseInt(harga)/1000.0}", fontSize = 14.sp, color = Color.Gray
+                    text = "${Integer.parseInt(harga) / 1000.0}",
+                    fontSize = 14.sp,
+                    color = Color.Gray
                 )
             }
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Icon(
-                    Icons.Outlined.Key, contentDescription = "Satuan"
+                    Icons.Outlined.Scale,
+                    contentDescription = "Satuan",
+                    modifier = Modifier.size(16.dp)
                 )
                 Spacer(modifier = Modifier.width(4.dp))
                 Text(

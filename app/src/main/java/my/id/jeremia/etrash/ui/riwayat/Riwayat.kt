@@ -1,7 +1,9 @@
 package my.id.jeremia.etrash.ui.riwayat
 
 import Message
+import android.util.Log
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -77,18 +79,14 @@ fun RiwayatPage(
                         isDeclined = data[idx].isDeclined!! == 1,
                         onClick = {
                             if (data[idx].isApproved!! == 1) {
-                                messenger.deliver(Message.info("Transaksi Disetujui"))
+                                messenger.deliver(Message.success("Transaksi Disetujui"))
                             } else if (data[idx].isDeclined!! == 1) {
-                                messenger.deliver(Message.info("Transaksi Ditolak"))
+                                messenger.deliver(Message.error("Transaksi Ditolak"))
                             } else {
                                 messenger.deliver(Message.info("Transaksi Sedang Diproses"))
                             }
                         },
-                        coin = if (data[idx].isApproved!! == 1) (
-                                floor((data[idx].price!! as String).toDouble() / 1000.0) * data[idx].total!!
-                                ).roundToInt() else (
-                                floor(data[idx].origprice!!.toDouble() / 1000.0) * data[idx].total!!
-                                ).roundToInt()
+                        coin = floor(data[idx].origprice!!.toDouble() / 1000.0 * data[idx].total!!).roundToInt()
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                 }
@@ -127,10 +125,17 @@ fun RiwayatItem(
         Column(
             modifier = Modifier
                 .weight(1f),
+            verticalArrangement = Arrangement.Top
         ) {
             Text(text = title, fontWeight = FontWeight.Bold)
-            Row {
-                Icon(Icons.Default.CalendarMonth, contentDescription = "Tanggal")
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(
+                    Icons.Default.CalendarMonth,
+                    contentDescription = "Tanggal",
+                    modifier = Modifier.size(16.dp)
+                )
                 Spacer(modifier = Modifier.width(4.dp))
                 Text(
                     text = getFormattedDateTime(getDateFromString(tanggal)!!)!!,
@@ -138,8 +143,14 @@ fun RiwayatItem(
                     color = Color.Gray
                 )
             }
-            Row {
-                Icon(painterResource(id = R.drawable.coin), contentDescription = "Coin")
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(
+                    painterResource(id = R.drawable.coin), contentDescription = "Coin",
+                    modifier = Modifier
+                        .size(16.dp)
+                )
                 Spacer(modifier = Modifier.width(4.dp))
                 Text(
                     text = "${coin}",
@@ -150,7 +161,11 @@ fun RiwayatItem(
         }
         Spacer(modifier = Modifier.width(8.dp))
         if (isApproved) {
-            Icon(painterResource(id = R.drawable.success), contentDescription = "Approved")
+            Icon(
+                painterResource(id = R.drawable.success),
+                contentDescription = "Approved",
+                tint = Color.Green
+            )
         } else if (isDeclined) {
             Icon(
                 painterResource(id = R.drawable.warning),
