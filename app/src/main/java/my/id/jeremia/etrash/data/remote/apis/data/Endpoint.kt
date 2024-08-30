@@ -12,4 +12,5 @@ object Endpoint {
     const val CAMERA = "/qr/scan/{qrid}"
     const val HISTORYSAMPASH = "/api/historySampah"
     const val NOTIFICATIONS = "/api/notifications"
+    const val SENDFCMTOKEN = "/api/setFCMToken"
 }

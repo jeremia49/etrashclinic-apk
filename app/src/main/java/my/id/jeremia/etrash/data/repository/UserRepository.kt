@@ -1,5 +1,6 @@
 package my.id.jeremia.etrash.data.repository
 
+import my.id.jeremia.etrash.data.local.datastore.FCMDataStore
 import my.id.jeremia.etrash.data.local.datastore.UserDataStore
 import my.id.jeremia.etrash.data.model.Auth
 import javax.inject.Inject
@@ -8,6 +9,7 @@ import javax.inject.Singleton
 @Singleton
 class UserRepository @Inject constructor(
     val userDataStore: UserDataStore,
+    val fcmDataStore: FCMDataStore,
 ) {
 
     fun saveCurrentAuth(auth: Auth) = userDataStore.setUserData(
@@ -42,5 +44,15 @@ class UserRepository @Inject constructor(
     fun getCurrentAccessToken(): String {
         return userDataStore.getAccessToken().blockingFirst()
     }
+
+    fun getFirebaseToken() = fcmDataStore.getFirebaseToken()
+
+    fun setFirebaseToken(token: String) = fcmDataStore.setFirebaseToken(token)
+
+    fun isFirebaseTokenSent() = fcmDataStore.isFirebaseTokenSent()
+
+    fun setFirebaseTokenSent(status: Boolean) = fcmDataStore.setFirebaseTokenSent(status)
+
+
 
 }

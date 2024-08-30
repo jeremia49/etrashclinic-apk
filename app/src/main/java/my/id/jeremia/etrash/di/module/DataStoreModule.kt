@@ -10,6 +10,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import my.id.jeremia.etrash.di.qualifier.AuthDataStore
+import my.id.jeremia.etrash.di.qualifier.FCMDataStore
 import my.id.jeremia.etrash.di.qualifier.OnBoardDataStore
 import javax.inject.Singleton
 
@@ -35,6 +36,15 @@ object DataStoreModule {
         @ApplicationContext applicationContext: Context,
     ): RxDataStore<Preferences>{
         return RxPreferenceDataStoreBuilder(applicationContext, "auth").build()
+    }
+
+    @Provides
+    @Singleton
+    @FCMDataStore
+    fun provideFCMDataStore(
+        @ApplicationContext applicationContext: Context,
+    ): RxDataStore<Preferences>{
+        return RxPreferenceDataStoreBuilder(applicationContext, "fcm").build()
     }
 
 }

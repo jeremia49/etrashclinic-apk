@@ -6,6 +6,8 @@ import my.id.jeremia.etrash.data.remote.apis.auth.response.AuthMeSuccessResponse
 import my.id.jeremia.etrash.data.remote.apis.data.DataAPI
 import my.id.jeremia.etrash.data.remote.apis.data.artikel.response.ArtikelSuccessReponse
 import my.id.jeremia.etrash.data.remote.apis.data.camera.CameraSuccessResponse
+import my.id.jeremia.etrash.data.remote.apis.data.fcmtoken.request.SendFirebaseTokenRequest
+import my.id.jeremia.etrash.data.remote.apis.data.fcmtoken.response.SendFirebaseTokenSuccessResponse
 import my.id.jeremia.etrash.data.remote.apis.data.history.response.HistorySucessResponse
 import my.id.jeremia.etrash.data.remote.apis.data.image.response.UploadImageSucessResponse
 import my.id.jeremia.etrash.data.remote.apis.data.informasi.response.InformasiSuccessResponse
@@ -88,6 +90,11 @@ class DataRepository @Inject constructor(
             emit(
                 dataAPI.notifications()
             )
+        }
+
+    fun sendFCMToken(data: String): Flow<SendFirebaseTokenSuccessResponse> =
+        flow {
+            emit(dataAPI.sendFCMToken(SendFirebaseTokenRequest(data)))
         }
 
 

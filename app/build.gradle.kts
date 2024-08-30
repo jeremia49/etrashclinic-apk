@@ -25,7 +25,7 @@ android {
     }
     buildTypes {
         debug {
-            buildConfigField("String","BASE_URL", "\"https://etrashclinic.com\"")
+            buildConfigField("String","BASE_URL", "\"https://d7f3-38-9-128-236.ngrok-free.app/\"")
         }
         release {
             buildConfigField("String","BASE_URL", "\"https://etrashclinic.com\"")

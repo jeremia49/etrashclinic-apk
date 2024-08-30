@@ -4,6 +4,8 @@ import my.id.jeremia.etrash.data.remote.RequestHeaders
 import my.id.jeremia.etrash.data.remote.apis.auth.response.AuthMeSuccessResponse
 import my.id.jeremia.etrash.data.remote.apis.data.artikel.response.ArtikelSuccessReponse
 import my.id.jeremia.etrash.data.remote.apis.data.camera.CameraSuccessResponse
+import my.id.jeremia.etrash.data.remote.apis.data.fcmtoken.request.SendFirebaseTokenRequest
+import my.id.jeremia.etrash.data.remote.apis.data.fcmtoken.response.SendFirebaseTokenSuccessResponse
 import my.id.jeremia.etrash.data.remote.apis.data.history.response.HistorySucessResponse
 import my.id.jeremia.etrash.data.remote.apis.data.image.response.UploadImageSucessResponse
 import my.id.jeremia.etrash.data.remote.apis.data.informasi.response.InformasiSuccessResponse
@@ -86,4 +88,10 @@ interface DataAPI {
     suspend fun notifications(
 
     ) : NotificationSuccessResponse
+
+    @Headers(RequestHeaders.Key.AUTH_PROTECTED)
+    @POST(Endpoint.SENDFCMTOKEN)
+    suspend fun sendFCMToken(
+        @Body request: SendFirebaseTokenRequest
+    ) : SendFirebaseTokenSuccessResponse
 }
