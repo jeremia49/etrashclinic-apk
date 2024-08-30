@@ -21,5 +21,13 @@
         updates
         from E-Trash Clinic App.
     </string>
+    <string name="notification_default_channel_importance">HIGH</string>
+    <string name="notification_default_channel_lockscreen_visibility">PRIVATE</string>
+    <string name="notification_default_channel_sound">DEFAULT</string>
+    <string name="notification_default_channel_visibility">PUBLIC</string>
+    <string name="notification_new">New Notification</string>
+    <string name="notification_open">Open</string>
+
+
 
 </resources>

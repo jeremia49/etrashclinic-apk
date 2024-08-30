@@ -27,16 +27,34 @@ class SettingsViewModel @Inject constructor(
         const val TAG = "SettingsViewModel"
     }
 
-    fun logout(){
-        userRepository.removeCurrentUser()
+    fun logout() {
+        userRepository.resetFirebaseToken()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
-                navigator.navigateTo(Destination.LoginOrRegister.route, true)
+
+                userRepository.removeCurrentToken()
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe({
+                        userRepository.removeCurrentUser()
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe({
+                                navigator.navigateTo(Destination.LoginOrRegister.route, true)
+                            }, {
+
+                            })
+
+                    }, {
+
+                    }
+                    )
             }, {
-//                navigator.logout()
+
             })
-//        userRepository.logout()
+
+
     }
 
 }

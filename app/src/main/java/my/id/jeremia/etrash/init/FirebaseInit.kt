@@ -39,7 +39,7 @@ class FirebaseInit @Inject constructor(
     @OptIn(DelicateCoroutinesApi::class)
     private fun syncFCMToken() {
         if (!userRepository.isFirebaseTokenSent()
-                .blockingFirst() && userRepository.getCurrentAuth() != null
+                .blockingFirst()
         ) {
             FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
                 if (!task.isSuccessful) {
@@ -53,12 +53,14 @@ class FirebaseInit @Inject constructor(
 
                 userRepository.setFirebaseToken(token).subscribe()
 
-                GlobalScope.launch{
-                    dataRepository.sendFCMToken(token)
-                        .catch { }
-                        .collect {
-                            userRepository.setFirebaseTokenSent(true).subscribe()
-                        }
+                if(userRepository.getCurrentAuth() != null){
+                    GlobalScope.launch{
+                        dataRepository.sendFCMToken(token)
+                            .catch { }
+                            .collect {
+                                userRepository.setFirebaseTokenSent(true).subscribe()
+                            }
+                    }
                 }
 
                 if (BuildConfig.DEBUG) Log.d(TAG, "FCM Token :" + token)

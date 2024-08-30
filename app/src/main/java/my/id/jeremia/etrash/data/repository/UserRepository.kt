@@ -1,5 +1,7 @@
 package my.id.jeremia.etrash.data.repository
 
+import com.google.firebase.messaging.FirebaseMessaging
+import io.reactivex.rxjava3.core.Single
 import my.id.jeremia.etrash.data.local.datastore.FCMDataStore
 import my.id.jeremia.etrash.data.local.datastore.UserDataStore
 import my.id.jeremia.etrash.data.model.Auth
@@ -53,6 +55,19 @@ class UserRepository @Inject constructor(
 
     fun setFirebaseTokenSent(status: Boolean) = fcmDataStore.setFirebaseTokenSent(status)
 
+    fun removeCurrentToken() =
+        fcmDataStore.removeFirebaseToken();
 
+    fun resetFirebaseToken() : Single<Boolean> {
+        return Single.create { emit ->
+            FirebaseMessaging.getInstance().deleteToken().addOnCompleteListener {
+                if(it.isSuccessful){
+                    emit.onSuccess(true)
+                }else{
+                    emit.onSuccess(false)
+                }
+            }
+        }
+    }
 
 }

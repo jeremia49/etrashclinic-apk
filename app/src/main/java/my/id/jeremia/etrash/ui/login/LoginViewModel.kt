@@ -128,14 +128,19 @@ class LoginViewModel @Inject constructor(
                         if (firebaseToken.isNotEmpty()) {
                             dataRepository.sendFCMToken(firebaseToken)
                                 .catch {
+                                    userRepository.setFirebaseTokenSent(true)
                                 }
                                 .collect {
                                     userRepository.setFirebaseTokenSent(true)
+
+                                    messenger.deliver(Message.success("Berhasil login"))
+                                    navigator.navigateTo(Destination.Home.MyHome.route, true)
                                 }
+                        }else{
+                            messenger.deliver(Message.success("Berhasil login"))
+                            navigator.navigateTo(Destination.Home.MyHome.route, true)
                         }
 
-                        messenger.deliver(Message.success("Berhasil login"))
-                        navigator.navigateTo(Destination.Home.MyHome.route, true)
                     }
 
             }

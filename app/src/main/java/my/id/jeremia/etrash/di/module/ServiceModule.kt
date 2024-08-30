@@ -17,7 +17,7 @@ object ServiceModule {
     @Provides
     @ScopeIO
     @ServiceScoped
-    fun provideIOCoroutineScope(dispatcher: Dispatchers) =
-        CoroutineScope(dispatcher.IO + SupervisorJob())
+    fun provideIOCoroutineScope() =
+        CoroutineScope(Dispatchers.IO + SupervisorJob())
 
 }
