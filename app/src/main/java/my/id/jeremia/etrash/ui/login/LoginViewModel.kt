@@ -2,20 +2,27 @@ package my.id.jeremia.etrash.ui.login
 
 import Message
 import android.content.Context
+import android.util.Log
+import com.google.firebase.messaging.FirebaseMessaging
 import com.squareup.moshi.Moshi
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.launch
 import my.id.jeremia.etrash.data.model.Auth
 import my.id.jeremia.etrash.data.remote.apis.auth.response.AuthLoginErrorResponse
 import my.id.jeremia.etrash.data.remote.response.ApiErrorResponse
 import my.id.jeremia.etrash.data.repository.AuthRepository
 import my.id.jeremia.etrash.data.repository.DataRepository
 import my.id.jeremia.etrash.data.repository.UserRepository
+import my.id.jeremia.etrash.init.FirebaseInit
+import my.id.jeremia.etrash.init.FirebaseInit.Companion
 import my.id.jeremia.etrash.ui.base.BaseViewModel
 import my.id.jeremia.etrash.ui.common.loader.Loader
 import my.id.jeremia.etrash.ui.common.snackbar.Messenger
@@ -63,6 +70,7 @@ class LoginViewModel @Inject constructor(
         if (passwordError.value.isNotEmpty()) _passwordError.tryEmit("")
     }
 
+    @OptIn(DelicateCoroutinesApi::class)
     fun doLogin() {
         if (validate()) {
             _enableLoginButton.tryEmit(false)
@@ -136,9 +144,33 @@ class LoginViewModel @Inject constructor(
                                     messenger.deliver(Message.success("Berhasil login"))
                                     navigator.navigateTo(Destination.Home.MyHome.route, true)
                                 }
-                        }else{
-                            messenger.deliver(Message.success("Berhasil login"))
-                            navigator.navigateTo(Destination.Home.MyHome.route, true)
+                        } else {
+                            FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
+                                if (!task.isSuccessful) {
+                                    Log.e(
+                                        FirebaseInit.TAG,
+                                        "Fetching FCM registration token failed :" + task.exception.toString()
+                                    )
+                                    return@addOnCompleteListener
+                                }
+                                val token = task.result
+
+                                userRepository.setFirebaseToken(token).subscribe()
+                                GlobalScope.launch {
+                                    dataRepository.sendFCMToken(token)
+                                        .catch { }
+                                        .collect {
+                                            userRepository.setFirebaseTokenSent(true).subscribe()
+
+                                            messenger.deliver(Message.success("Berhasil login"))
+                                            navigator.navigateTo(
+                                                Destination.Home.MyHome.route,
+                                                true
+                                            )
+                                        }
+                                }
+
+                            }
                         }
 
                     }
