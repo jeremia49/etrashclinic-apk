@@ -25,7 +25,7 @@ class TextNotification(
                 .setContentText(payload.subtitle)
                 .setStyle(style)
                 .setContentIntent(provider.pendingIntents.appOpen())
-                .addAction(provider.defaults.openAction)
+//                .addAction(provider.defaults.openAction)
 
             val notificationManager =
                 provider.context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager

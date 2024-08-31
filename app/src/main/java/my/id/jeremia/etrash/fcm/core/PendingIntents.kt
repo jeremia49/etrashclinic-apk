@@ -11,7 +11,7 @@ class PendingIntents(private val context:Context) {
     fun appOpen(): PendingIntent =
         buildDeeplinkPendingIntent(
             Notification.Action.APP_OPEN,
-            Destination.Home.MyHome.route
+            Destination.Home.Notification.route
         )
 
 

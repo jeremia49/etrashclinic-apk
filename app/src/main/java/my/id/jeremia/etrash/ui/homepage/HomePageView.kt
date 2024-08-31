@@ -2,6 +2,9 @@ package my.id.jeremia.etrash.ui.homepage
 
 import Message
 import android.Manifest
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -45,13 +48,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.ContextCompat.startActivity
+import androidx.datastore.preferences.protobuf.Internal.BooleanList
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import my.id.jeremia.etrash.BuildConfig
 import my.id.jeremia.etrash.R
 import my.id.jeremia.etrash.data.model.Article
 import my.id.jeremia.etrash.data.model.Informasi
@@ -69,8 +76,19 @@ import my.id.jeremia.etrash.utils.common.askPermission
 import my.id.jeremia.etrash.utils.common.toBase64UrlSafe
 import kotlin.math.min
 
+
+fun contactAdminWhatsapp(ctx: Context) : Boolean{
+    val intent = Intent(Intent.ACTION_VIEW).apply {
+        data = Uri.parse("https://wa.me/${BuildConfig.ADMIN_PHONENUMBER}")
+    }
+    startActivity(ctx,intent, null)
+    return true;
+}
+
+
 @Composable
 fun HomePageView(modifier: Modifier = Modifier, viewModel: HomePageViewModel) {
+    val ctx = LocalContext.current
 
     val launcherMultiplePermissions = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
@@ -110,7 +128,11 @@ fun HomePageView(modifier: Modifier = Modifier, viewModel: HomePageViewModel) {
                 viewModel.navigator.navigateTo("${Destination.Home.SeeMore.route}/${tipe}")
             },
             onCoinClicked = {
-                viewModel.messenger.deliver(Message.info("Untuk penukaran koin, silahkan hubungi admin 😇"))
+                if(contactAdminWhatsapp(ctx)){
+                    viewModel.messenger.deliver(Message.info("Untuk penukaran koin, silahkan hubungi admin 😇"))
+                }else{
+                    viewModel.messenger.deliver(Message.error("Anda tidak memiliki Whatsapp!"))
+                }
             },
             requestNotification = {
                 if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
