@@ -1,7 +1,11 @@
 package my.id.jeremia.etrash.ui.homepage
 
 import Message
+import android.Manifest
+import android.os.Build
 import androidx.activity.compose.BackHandler
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -35,6 +39,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -60,11 +65,19 @@ import my.id.jeremia.etrash.ui.navigation.Destination
 import my.id.jeremia.etrash.ui.theme.hijau40
 import my.id.jeremia.etrash.utils.common.CalendarUtils.getDateFromString
 import my.id.jeremia.etrash.utils.common.CalendarUtils.getFormattedDateTime
+import my.id.jeremia.etrash.utils.common.askPermission
 import my.id.jeremia.etrash.utils.common.toBase64UrlSafe
 import kotlin.math.min
 
 @Composable
 fun HomePageView(modifier: Modifier = Modifier, viewModel: HomePageViewModel) {
+
+    val launcherMultiplePermissions = rememberLauncherForActivityResult(
+        ActivityResultContracts.RequestMultiplePermissions()
+    ) { _ ->
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) viewModel.updatePermissionState();
+    }
+
     BackHandler {
         viewModel.navigator.finish()
     }
@@ -98,7 +111,15 @@ fun HomePageView(modifier: Modifier = Modifier, viewModel: HomePageViewModel) {
             },
             onCoinClicked = {
                 viewModel.messenger.deliver(Message.info("Untuk penukaran koin, silahkan hubungi admin 😇"))
-            }
+            },
+            requestNotification = {
+                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
+                    askPermission(
+                        arrayOf(Manifest.permission.POST_NOTIFICATIONS),
+                        launcherMultiplePermissions
+                    )
+            },
+            permissionStatus = viewModel.notificationPermission.collectAsStateWithLifecycle().value
         )
     }
 
@@ -118,8 +139,17 @@ fun HomePage(
     onClickOpenWebsite: (url: String) -> Unit = {},
     onClickMore: (tipe: String) -> Unit = {},
     onCoinClicked: () -> Unit = {},
-    me: Me = Me()
+    me: Me = Me(),
+    requestNotification : ()->Unit = {},
+    permissionStatus : Boolean = true,
 ) {
+
+    LaunchedEffect(key1 = permissionStatus) {
+        if(!permissionStatus) run {
+            requestNotification()
+        }
+    }
+
     Column(
         modifier = modifier
             .verticalScroll(rememberScrollState())

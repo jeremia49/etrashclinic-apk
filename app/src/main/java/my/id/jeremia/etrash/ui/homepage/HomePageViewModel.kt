@@ -1,7 +1,12 @@
 package my.id.jeremia.etrash.ui.homepage
 
+import android.Manifest
 import android.content.Context
+import android.os.Build
 import android.util.Log
+import androidx.annotation.RequiresApi
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,6 +25,7 @@ import my.id.jeremia.etrash.ui.base.BaseViewModel
 import my.id.jeremia.etrash.ui.common.loader.Loader
 import my.id.jeremia.etrash.ui.common.snackbar.Messenger
 import my.id.jeremia.etrash.ui.navigation.Navigator
+import my.id.jeremia.etrash.utils.common.checkPermission
 import javax.inject.Inject
 
 @HiltViewModel
@@ -42,6 +48,8 @@ class HomePageViewModel @Inject constructor(
     private val _informasis = MutableStateFlow(emptyList<Informasi>())
     private val _produkhasils = MutableStateFlow(emptyList<ProdukHasil>())
     private val _me = MutableStateFlow(Me())
+    private val _notificationPermission = MutableStateFlow(true)
+
 
     val namapengguna = _namapengguna.asStateFlow()
     val photoUrl = _photoUrl.asStateFlow()
@@ -49,6 +57,7 @@ class HomePageViewModel @Inject constructor(
     val informasis = _informasis.asStateFlow()
     val produkhasils = _produkhasils.asStateFlow()
     val me = _me.asStateFlow()
+    val notificationPermission  = _notificationPermission.asStateFlow()
 
     init {
         userRepository.getCurrentAuth()?.let {
@@ -60,6 +69,7 @@ class HomePageViewModel @Inject constructor(
         updateInformasi()
         updateArtikel()
         updateProdukHasil()
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) updatePermissionState()
     }
 
     fun updateMe() {
@@ -122,6 +132,17 @@ class HomePageViewModel @Inject constructor(
             }
             _produkhasils.emit(produkHasil)
         }
+    }
+
+
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
+    fun updatePermissionState(){
+        _notificationPermission.value = checkPermission(
+            ctx,
+            arrayOf(
+                Manifest.permission.POST_NOTIFICATIONS,
+            )
+        )
     }
 
 
