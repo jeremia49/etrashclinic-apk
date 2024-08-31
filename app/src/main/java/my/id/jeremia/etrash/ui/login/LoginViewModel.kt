@@ -22,7 +22,6 @@ import my.id.jeremia.etrash.data.repository.AuthRepository
 import my.id.jeremia.etrash.data.repository.DataRepository
 import my.id.jeremia.etrash.data.repository.UserRepository
 import my.id.jeremia.etrash.init.FirebaseInit
-import my.id.jeremia.etrash.init.FirebaseInit.Companion
 import my.id.jeremia.etrash.ui.base.BaseViewModel
 import my.id.jeremia.etrash.ui.common.loader.Loader
 import my.id.jeremia.etrash.ui.common.snackbar.Messenger
