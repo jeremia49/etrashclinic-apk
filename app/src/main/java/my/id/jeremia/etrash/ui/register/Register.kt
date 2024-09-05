@@ -41,12 +41,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import my.id.jeremia.etrash.R
+import my.id.jeremia.etrash.ui.common.input.PasswordTextField
 import my.id.jeremia.etrash.ui.theme.InterFontFamily
 
 @Composable
@@ -241,58 +241,9 @@ fun RegisterView(
 
                 )
 
-            OutlinedTextField(
-                modifier = Modifier
-                    .padding(top = 5.dp)
-                    .fillMaxWidth(),
-                value = password,
-                onValueChange = onPasswordChange,
-                placeholder = { Text("Kata sandi") },
-                singleLine = true,
-                isError = passwordError.isNotEmpty(),
-                supportingText = {
-                    Text(
-                        text = passwordError,
-                        modifier = Modifier
-                            .background(Color.White)
-                    )
-                },
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Password, imeAction = ImeAction.Done
-                ),
-                visualTransformation = PasswordVisualTransformation(),
-                colors = TextFieldDefaults.outlinedTextFieldColors(
-                    containerColor = Color.White,
-                    errorContainerColor = Color.White,
-                ),
-            )
+            PasswordTextField(password, passwordError, onPasswordChange)
 
-
-            OutlinedTextField(
-                modifier = Modifier
-                    .padding(top = 5.dp)
-                    .fillMaxWidth(),
-                value = passwordConfirm,
-                onValueChange = onPasswordConfirmChange,
-                placeholder = { Text("Ulangi kata sandi") },
-                singleLine = true,
-                isError = passwordConfirmError.isNotEmpty(),
-                supportingText = {
-                    Text(
-                        text = passwordConfirmError,
-                        modifier = Modifier
-                            .background(Color.White)
-                    )
-                },
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Password, imeAction = ImeAction.Done
-                ),
-                visualTransformation = PasswordVisualTransformation(),
-                colors = TextFieldDefaults.outlinedTextFieldColors(
-                    containerColor = Color.White,
-                    errorContainerColor = Color.White,
-                ),
-            )
+            PasswordTextField(passwordConfirm, passwordConfirmError, onPasswordConfirmChange, "Ulangi kata sandi")
 
             Row(
                 verticalAlignment = Alignment.CenterVertically,
