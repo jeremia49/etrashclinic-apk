@@ -1,9 +1,7 @@
 package my.id.jeremia.etrash.ui.leaderboard
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -37,7 +35,6 @@ import my.id.jeremia.etrash.data.remote.apis.data.leaderboard.response.CurrentLe
 import my.id.jeremia.etrash.data.remote.apis.data.leaderboard.response.OldLeaderboardSuccessResponse
 import my.id.jeremia.etrash.ui.common.bg.BackgroundImage
 import my.id.jeremia.etrash.ui.common.image.NetworkImage
-import my.id.jeremia.etrash.ui.leagues.LeagueItem
 import my.id.jeremia.etrash.ui.navigation.Destination
 
 @Composable
