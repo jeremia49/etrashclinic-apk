@@ -25,7 +25,7 @@ android {
     }
     buildTypes {
         debug {
-            buildConfigField("String","BASE_URL", "\"https://92d5-38-9-128-236.ngrok-free.app/\"")
+            buildConfigField("String","BASE_URL", "\"https://6e05-38-9-128-236.ngrok-free.app/\"")
             buildConfigField("String","ADMIN_PHONENUMBER", "\"6282275290173\"")
         }
         release {

@@ -15,5 +15,5 @@ object Endpoint {
     const val SENDFCMTOKEN = "/api/setFCMToken"
     const val CURRENTLEADERBOARD = "/api/currentLeaderboard"
     const val LEADERBOARD = "/api/leaderboard"
-
+    const val UPDATEPROFILE = "/api/updateProfile"
 }

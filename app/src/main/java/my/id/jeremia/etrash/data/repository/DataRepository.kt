@@ -18,6 +18,8 @@ import my.id.jeremia.etrash.data.remote.apis.data.produkhasil.response.ProdukHas
 import my.id.jeremia.etrash.data.remote.apis.data.sampahunitprice.response.SampahUnitPriceSuccessResponse
 import my.id.jeremia.etrash.data.remote.apis.data.submitsampah.request.SubmitSampahRequestItem
 import my.id.jeremia.etrash.data.remote.apis.data.submitsampah.response.SubmitSampahSuccessResponse
+import my.id.jeremia.etrash.data.remote.apis.data.updateprofile.request.UpdateProfileRequest
+import my.id.jeremia.etrash.data.remote.apis.data.updateprofile.response.UpdateProfileSuccessResponse
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
@@ -112,5 +114,12 @@ class DataRepository @Inject constructor(
             )
         }
 
+
+    suspend fun updateProfile(data: UpdateProfileRequest): Flow<UpdateProfileSuccessResponse> =
+        flow {
+            emit(
+                dataAPI.updateProfile(data)
+            )
+        }
 
 }

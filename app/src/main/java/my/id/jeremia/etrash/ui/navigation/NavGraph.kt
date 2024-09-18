@@ -25,6 +25,8 @@ import my.id.jeremia.etrash.ui.notification.NotificationView
 import my.id.jeremia.etrash.ui.notification.NotificationViewModel
 import my.id.jeremia.etrash.ui.onboard.OnBoard
 import my.id.jeremia.etrash.ui.onboard.OnBoardViewModel
+import my.id.jeremia.etrash.ui.profile.ProfileView
+import my.id.jeremia.etrash.ui.profile.ProfileViewModel
 import my.id.jeremia.etrash.ui.register.Register
 import my.id.jeremia.etrash.ui.register.RegisterViewModel
 import my.id.jeremia.etrash.ui.riwayat.RiwayatView
@@ -165,6 +167,10 @@ fun NavGraph(
             LeaguesView(modifier = modifier)
         }
 
+        composable(Destination.Home.Profile.route){
+            val viewModel: ProfileViewModel = hiltViewModel(key = ProfileViewModel.TAG)
+            ProfileView(modifier = modifier, viewModel=viewModel)
+        }
 
     }
 

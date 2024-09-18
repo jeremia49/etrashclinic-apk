@@ -16,6 +16,8 @@ import my.id.jeremia.etrash.data.remote.apis.data.produkhasil.response.ProdukHas
 import my.id.jeremia.etrash.data.remote.apis.data.sampahunitprice.response.SampahUnitPriceSuccessResponse
 import my.id.jeremia.etrash.data.remote.apis.data.submitsampah.request.SubmitSampahRequestItem
 import my.id.jeremia.etrash.data.remote.apis.data.submitsampah.response.SubmitSampahSuccessResponse
+import my.id.jeremia.etrash.data.remote.apis.data.updateprofile.request.UpdateProfileRequest
+import my.id.jeremia.etrash.data.remote.apis.data.updateprofile.response.UpdateProfileSuccessResponse
 import okhttp3.MultipartBody
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -105,5 +107,12 @@ interface DataAPI {
     @Headers(RequestHeaders.Key.AUTH_PROTECTED)
     @GET(Endpoint.LEADERBOARD)
     suspend fun getOldLeaderboard(): OldLeaderboardSuccessResponse
+
+    @Headers(RequestHeaders.Key.AUTH_PROTECTED)
+    @POST(Endpoint.UPDATEPROFILE)
+    suspend fun updateProfile(
+        @Body request: UpdateProfileRequest
+    ): UpdateProfileSuccessResponse
+
 
 }

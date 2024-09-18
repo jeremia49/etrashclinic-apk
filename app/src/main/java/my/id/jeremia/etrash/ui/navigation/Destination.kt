@@ -45,6 +45,7 @@ object Destination {
 
         data object UploadSampah:Screen("/home/upload-sampah")
 
+        data object Profile:Screen("/home/profile")
     }
 
     abstract class Screen(baseRoute: String) {

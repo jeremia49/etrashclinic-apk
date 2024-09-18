@@ -1,5 +1,8 @@
 package my.id.jeremia.etrash.ui.settings
 
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -23,26 +26,47 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.ContextCompat.startActivity
 import my.id.jeremia.etrash.ui.common.bg.BackgroundImage
+import my.id.jeremia.etrash.ui.navigation.Destination
+
+fun openLink(ctx: Context, url: String) : Boolean{
+    val intent = Intent(Intent.ACTION_VIEW).apply {
+        data = Uri.parse(url)
+    }
+    startActivity(ctx,intent, null)
+    return true;
+}
 
 
 @Composable
 fun SettingsView(modifier: Modifier = Modifier, viewModel: SettingsViewModel) {
-    BackgroundImage {
+    val ctx = LocalContext.current
+    BackgroundImage(showImage = true) {
         SettingsScreen(
             modifier = modifier,
-            onLogout = { viewModel.logout() }
+            onLogout = { viewModel.logout() },
+            onProfileChangeClick = { viewModel.navigator.navigateTo(Destination.Home.Profile.route) },
+            onPasswordClick = { viewModel.navigator.navigateTo(Destination.Home.Profile.route) },
+            onPanduanClick = {openLink(ctx, "https://www.youtube.com/watch?v=eZbOBf-IB9k")},
         )
     }
 }
 
 
 @Composable
-fun SettingsScreen(modifier: Modifier = Modifier, onLogout: () -> Unit = {}) {
+fun SettingsScreen(
+    modifier: Modifier = Modifier,
+    onLogout: () -> Unit = {},
+    onProfileChangeClick: () -> Unit = {},
+    onPasswordClick: () -> Unit = {},
+    onPanduanClick: () -> Unit = {},
+) {
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -50,18 +74,26 @@ fun SettingsScreen(modifier: Modifier = Modifier, onLogout: () -> Unit = {}) {
     ) {
 //        HeaderSection("", "", isRoot = false)
         Spacer(modifier = Modifier.height(16.dp))
-        SettingContent()
+        SettingContent(
+            onProfileChangeClick,
+            onPasswordClick,
+            onPanduanClick,
+        )
         Spacer(modifier = Modifier.weight(1f))
         LogoutButton(onLogout)
     }
 }
 
 @Composable
-fun SettingContent() {
+fun SettingContent(
+    onProfileChangeClick: () -> Unit = {},
+    onPasswordClick: () -> Unit = {},
+    onPanduanClick: () -> Unit = {},
+) {
     Column(modifier = Modifier.padding(16.dp)) {
         Text(
             text = "Pengaturan",
-            fontSize = 24.sp,
+            fontSize = 36.sp,
             fontWeight = FontWeight.Bold,
             color = Color.Black
         )
@@ -83,8 +115,8 @@ fun SettingContent() {
                 color = Color.Black
             )
         }
-        SettingItem("Ubah profil")
-        SettingItem("Ubah kata sandi")
+        SettingItem("Ubah profil", onProfileChangeClick)
+        SettingItem("Ubah kata sandi", onPasswordClick)
         Spacer(modifier = Modifier.height(24.dp))
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -103,7 +135,7 @@ fun SettingContent() {
                 color = Color.Black
             )
         }
-        SettingItem("Panduan")
+        SettingItem("Panduan", onPanduanClick)
         SettingItem("Syarat dan ketentuan")
         SettingItem("Kebijakan Privasi")
         SettingItem("Pertanyaan Umum")
@@ -132,11 +164,11 @@ fun SettingCategory(title: String) {
 }
 
 @Composable
-fun SettingItem(title: String) {
+fun SettingItem(title: String, onClick: () -> Unit = {}) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable { }
+            .clickable { onClick() }
             .padding(vertical = 12.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically

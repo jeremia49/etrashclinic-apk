@@ -74,6 +74,8 @@ class HomePageViewModel @Inject constructor(
         launchNetwork {
             val meResponse = dataRepository.getMe().first().data
             Log.d(TAG, meResponse.toString())
+            _namapengguna.value = meResponse!!.name!!
+            _photoUrl.value = meResponse!!.photoUrl!!
             val mee = Me(
                 balanceidr = meResponse!!.saldoBalance,
                 balance = meResponse.coinBalance,

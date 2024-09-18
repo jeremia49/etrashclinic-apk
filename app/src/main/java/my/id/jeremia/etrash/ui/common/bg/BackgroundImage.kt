@@ -19,6 +19,7 @@ import my.id.jeremia.etrash.R
 @Composable
 fun BackgroundImage(
     modifier: Modifier = Modifier,
+    showImage:Boolean = true,
     content: @Composable ColumnScope.() -> Unit
 ) {
 
@@ -36,12 +37,13 @@ fun BackgroundImage(
         modifier = Modifier.fillMaxSize(),
     ) {
 
-        Image(
-            bitmap = bitmap.asImageBitmap(),
-            contentDescription = null,
-            modifier = Modifier.fillMaxSize(),
-            contentScale = ContentScale.FillBounds
-        )
+        if(showImage)
+            Image(
+                bitmap = bitmap.asImageBitmap(),
+                contentDescription = null,
+                modifier = Modifier.fillMaxSize(),
+                contentScale = ContentScale.FillBounds
+            )
 
         Column(
             modifier = Modifier
