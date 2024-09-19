@@ -70,6 +70,13 @@ class HomePageViewModel @Inject constructor(
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) updatePermissionState()
     }
 
+    fun refresh(){
+        updateMe()
+        updateInformasi()
+        updateArtikel()
+        updateProdukHasil()
+    }
+
     fun updateMe() {
         launchNetwork {
             val meResponse = dataRepository.getMe().first().data

@@ -42,6 +42,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -56,6 +57,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat.startActivity
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import my.id.jeremia.etrash.BuildConfig
 import my.id.jeremia.etrash.R
@@ -75,7 +79,6 @@ import my.id.jeremia.etrash.utils.common.askPermission
 import my.id.jeremia.etrash.utils.common.toBase64UrlSafe
 import kotlin.math.min
 
-
 fun contactAdminWhatsapp(ctx: Context) : Boolean{
     val intent = Intent(Intent.ACTION_VIEW).apply {
         data = Uri.parse("https://wa.me/${BuildConfig.ADMIN_PHONENUMBER}")
@@ -89,6 +92,19 @@ fun contactAdminWhatsapp(ctx: Context) : Boolean{
 fun HomePageView(modifier: Modifier = Modifier, viewModel: HomePageViewModel) {
     val ctx = LocalContext.current
 
+    val lifecycleOwner = LocalLifecycleOwner.current
+    DisposableEffect(lifecycleOwner) {
+        val observer = LifecycleEventObserver { _, event ->
+            if (event == Lifecycle.Event.ON_RESUME) {
+                viewModel.refresh()
+            }
+        }
+        lifecycleOwner.lifecycle.addObserver(observer)
+        onDispose {
+            lifecycleOwner.lifecycle.removeObserver(observer)
+        }
+    }
+
     val launcherMultiplePermissions = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
     ) { _ ->
@@ -98,6 +114,7 @@ fun HomePageView(modifier: Modifier = Modifier, viewModel: HomePageViewModel) {
     BackHandler {
         viewModel.navigator.finish()
     }
+
     BackgroundImage {
         HomePage(
             modifier = modifier,
