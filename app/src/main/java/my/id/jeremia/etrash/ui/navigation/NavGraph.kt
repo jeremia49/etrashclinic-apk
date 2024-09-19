@@ -57,7 +57,7 @@ fun NavGraph(
         navigator = navigator,
         finish = finish
     )
-    
+
     NavHost(
         navController = navController,
         startDestination = startDestination,
@@ -158,18 +158,22 @@ fun NavGraph(
             UploadView(modifier = modifier, viewModel = viewModel)
         }
 
-        composable(Destination.Home.UploadSampah.route){
+        composable(Destination.Home.UploadSampah.route) {
             val viewModel: UploadSampahViewModel = hiltViewModel(key = UploadSampahViewModel.TAG)
             UploadSampahView(modifier = modifier, viewModel = viewModel)
         }
 
-        composable(Destination.Home.Leagues.route){
+        composable(Destination.Home.Leagues.route) {
             LeaguesView(modifier = modifier)
         }
 
-        composable(Destination.Home.Profile.route){
+        composable(Destination.Home.Profile.route + "/{jenis}",
+            arguments = listOf(navArgument("jenis") {
+                type = NavType.StringType
+            })
+        ) {
             val viewModel: ProfileViewModel = hiltViewModel(key = ProfileViewModel.TAG)
-            ProfileView(modifier = modifier, viewModel=viewModel)
+            ProfileView(modifier = modifier, viewModel = viewModel, jenis = it.arguments?.getString("jenis")!!)
         }
 
     }

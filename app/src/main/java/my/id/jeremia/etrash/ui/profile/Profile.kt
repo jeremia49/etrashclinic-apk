@@ -60,11 +60,16 @@ import my.id.jeremia.etrash.ui.settings.LogoutButton
 import my.id.jeremia.etrash.ui.settings.SettingsScreen
 import my.id.jeremia.etrash.ui.settings.SettingsViewModel
 import my.id.jeremia.etrash.R
+import my.id.jeremia.etrash.ui.common.input.PasswordTextField
 import my.id.jeremia.etrash.utils.common.saveImageToStorage
 
 
 @Composable
-fun ProfileView(modifier: Modifier = Modifier, viewModel: ProfileViewModel) {
+fun ProfileView(
+    modifier: Modifier = Modifier,
+    viewModel: ProfileViewModel,
+    jenis: String?,
+) {
     val context = LocalContext.current
 
     val imagePickerLauncher = rememberLauncherForActivityResult(
@@ -91,8 +96,10 @@ fun ProfileView(modifier: Modifier = Modifier, viewModel: ProfileViewModel) {
             name = viewModel.namapengguna.collectAsStateWithLifecycle().value,
             photoUrl = viewModel.photoUrl.collectAsStateWithLifecycle().value,
             nohp = viewModel.nohp.collectAsStateWithLifecycle().value,
+            password = viewModel.password.collectAsStateWithLifecycle().value,
+            passwordConfirm = viewModel.passwordConfirm.collectAsStateWithLifecycle().value,
             onSave = {
-                viewModel.saveProfile()
+                viewModel.saveProfile(jenis ?: "")
             },
             onClickImage = {
                 ImagePicker.with(context as AppCompatActivity)
@@ -105,6 +112,9 @@ fun ProfileView(modifier: Modifier = Modifier, viewModel: ProfileViewModel) {
             },
             onNameChange = viewModel::onNameChange,
             onNohpChange = viewModel::onNohpChange,
+            onPasswordChange = viewModel::onPasswordChange,
+            onPasswordConfirmChange = viewModel::onPasswordConfirmChange,
+            jenis = jenis ?: "",
         )
     }
 }
@@ -115,10 +125,15 @@ fun ProfileScreen(
     photoUrl: String = "",
     name: String = "",
     nohp: String = "",
+    password: String = "",
+    passwordConfirm: String = "",
     onSave: () -> Unit = {},
     onNameChange: (String) -> Unit = {},
     onNohpChange: (String) -> Unit = {},
-    onClickImage: () -> Unit = {}
+    onClickImage: () -> Unit = {},
+    onPasswordChange: (String) -> Unit = {},
+    onPasswordConfirmChange: (String) -> Unit = {},
+    jenis: String = "",
 ) {
 
     Column(
@@ -126,15 +141,26 @@ fun ProfileScreen(
             .padding(16.dp)
             .fillMaxSize(),
     ) {
-        ProfileContent(
-            photoUrl,
-            name,
-            nohp,
-            onSave,
-            onNameChange,
-            onNohpChange,
-            onClickImage
-        )
+        if (jenis.equals("profile")) {
+            ProfileContent(
+                photoUrl,
+                name,
+                nohp,
+                onSave,
+                onNameChange,
+                onNohpChange,
+                onClickImage
+            )
+        } else if (jenis.equals("password")) {
+            PasswordContent(
+                password,
+                passwordConfirm,
+                onSave,
+                onPasswordChange,
+                onPasswordConfirmChange,
+            )
+        }
+
         Spacer(modifier = Modifier.weight(1f))
     }
 }
@@ -247,6 +273,61 @@ fun ProfileContent(
                 .padding(top = 15.dp)
         ) {
             Text("Simpan perubahan")
+        }
+    }
+
+
+}
+
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun PasswordContent(
+    password: String = "",
+    passwordConfirm: String = "",
+    onSave: () -> Unit = {},
+    onpasswordChange: (String) -> Unit = {},
+    onpasswordConfirmChange: (String) -> Unit = {},
+) {
+
+    Column(
+        modifier = Modifier.padding(16.dp),
+        verticalArrangement = Arrangement.Top,
+    ) {
+
+        Text(
+            text = "Change Password",
+            fontSize = 36.sp,
+            fontWeight = FontWeight.Bold,
+            color = Color.Black,
+            modifier = Modifier.padding(top = 20.dp, bottom = 20.dp)
+        )
+
+        Text(
+            text = "Password Baru",
+            fontSize = 14.sp,
+            color = Color.Black,
+            modifier = Modifier.padding(top = 10.dp, bottom = 0.dp)
+        )
+
+        PasswordTextField(password, "", onpasswordChange)
+
+        Text(
+            text = "Konfirmasi Password Baru",
+            fontSize = 14.sp,
+            color = Color.Black,
+            modifier = Modifier.padding(top = 10.dp, bottom = 0.dp)
+        )
+
+        PasswordTextField(passwordConfirm, "", onpasswordConfirmChange)
+
+
+        Button(
+            onClick = onSave, modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 15.dp)
+        ) {
+            Text("Simpan Password Baru")
         }
     }
 

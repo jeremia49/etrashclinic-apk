@@ -42,6 +42,8 @@ class ProfileViewModel @Inject constructor(
     private val _namapengguna = MutableStateFlow("")
     private val _photoUrl = MutableStateFlow("")
     private val _nohp = MutableStateFlow("")
+    private val _password = MutableStateFlow("")
+    private val _passwordConfirm = MutableStateFlow("")
 
     var selectedImage by  mutableStateOf<Uri?>(null)
 
@@ -49,13 +51,20 @@ class ProfileViewModel @Inject constructor(
     val namapengguna = _namapengguna.asStateFlow()
     val photoUrl = _photoUrl.asStateFlow()
     val nohp = _nohp.asStateFlow()
-
+    val password = _password.asStateFlow()
+    val passwordConfirm = _passwordConfirm.asStateFlow()
 
     fun onNameChange(input: String) {
         _namapengguna.tryEmit(input)
     }
     fun onNohpChange(input: String) {
         _nohp.tryEmit(input)
+    }
+    fun onPasswordChange(input: String) {
+        _password.tryEmit(input)
+    }
+    fun onPasswordConfirmChange(input: String) {
+        _passwordConfirm.tryEmit(input)
     }
 
 
@@ -73,20 +82,45 @@ class ProfileViewModel @Inject constructor(
         updateMe()
     }
 
-    fun saveProfile(){
-        launchNetwork {
-            val data = dataRepository.updateProfile(
-                UpdateProfileRequest(
-                    name = namapengguna.value,
-                    nohp = nohp.value,
-                    photoUrl = photoUrl.value,
-                )
-            ).first()
-            if(data.status!!.equals("ok")){
-                messenger.deliver(Message.success("Berhasil update profil"))
-                navigator.navigateBack()
+    fun saveProfile(jenis:String){
+        if(jenis.equals("profile")){
+            launchNetwork {
+                val data = dataRepository.updateProfile(
+                    UpdateProfileRequest(
+                        name = namapengguna.value,
+                        nohp = nohp.value,
+                        photoUrl = photoUrl.value,
+                    )
+                ).first()
+                if(data.status!!.equals("ok")){
+                    messenger.deliver(Message.success("Berhasil update profil"))
+                    navigator.navigateBack()
+                }
             }
+        }else if(jenis.equals("password")){
+            if(password.value.length >=8 ){
+                if(password.value.equals(passwordConfirm.value)){
+                    launchNetwork {
+                        val data = dataRepository.updateProfile(
+                            UpdateProfileRequest(
+                                password = password.value,
+                            )
+                        ).first()
+                        if(data.status!!.equals("ok")){
+                            messenger.deliver(Message.success("Berhasil update password"))
+                            navigator.navigateBack()
+                        }
+                    }
+                }else{
+                    messenger.deliver(Message.error("Password Confirm Salah !"))
+                }
+            }else{
+                messenger.deliver(Message.error("Password minimal 8 karakter !"))
+            }
+
+
         }
+
     }
 
     fun uploadImage(path:String){

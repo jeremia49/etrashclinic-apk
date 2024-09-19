@@ -51,8 +51,8 @@ fun SettingsView(modifier: Modifier = Modifier, viewModel: SettingsViewModel) {
         SettingsScreen(
             modifier = modifier,
             onLogout = { viewModel.logout() },
-            onProfileChangeClick = { viewModel.navigator.navigateTo(Destination.Home.Profile.route) },
-            onPasswordClick = { viewModel.navigator.navigateTo(Destination.Home.Profile.route) },
+            onProfileChangeClick = { viewModel.navigator.navigateTo(Destination.Home.Profile.route + "/profile") },
+            onPasswordClick = { viewModel.navigator.navigateTo(Destination.Home.Profile.route+ "/password") },
             onPanduanClick = {openLink(ctx, "https://www.youtube.com/watch?v=eZbOBf-IB9k")},
         )
     }
