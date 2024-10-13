@@ -74,7 +74,7 @@ dependencies {
     implementation ("com.google.firebase:firebase-messaging")
 
     //Extended Icon Material
-    implementation ("androidx.compose.material:material-icons-extended:1.5.10")
+    implementation ("androidx.compose.material:material-icons-extended:1.7.3")
 
     //Haze Bottom Bar Blur
     implementation("dev.chrisbanes.haze:haze:0.6.0")
