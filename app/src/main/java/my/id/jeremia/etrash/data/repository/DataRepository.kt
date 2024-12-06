@@ -11,6 +11,8 @@ import my.id.jeremia.etrash.data.remote.apis.data.fcmtoken.response.SendFirebase
 import my.id.jeremia.etrash.data.remote.apis.data.history.response.HistorySucessResponse
 import my.id.jeremia.etrash.data.remote.apis.data.image.response.UploadImageSucessResponse
 import my.id.jeremia.etrash.data.remote.apis.data.informasi.response.InformasiSuccessResponse
+import my.id.jeremia.etrash.data.remote.apis.data.leaderboard.response.CurrentLeaderboardSuccessResponse
+import my.id.jeremia.etrash.data.remote.apis.data.leaderboard.response.OldLeaderboardSuccessResponse
 import my.id.jeremia.etrash.data.remote.apis.data.notifications.response.NotificationSuccessResponse
 import my.id.jeremia.etrash.data.remote.apis.data.produkhasil.response.ProdukHasilSuccessResponse
 import my.id.jeremia.etrash.data.remote.apis.data.sampahunitprice.response.SampahUnitPriceSuccessResponse
@@ -97,6 +99,18 @@ class DataRepository @Inject constructor(
             emit(dataAPI.sendFCMToken(SendFirebaseTokenRequest(data)))
         }
 
+    suspend fun currentLeaderboard() : Flow<CurrentLeaderboardSuccessResponse> =
+        flow{
+            emit(
+                dataAPI.getCurrentLeaderboard()
+            )
+        }
+    suspend fun pastLeaderboard() : Flow<OldLeaderboardSuccessResponse> =
+        flow{
+            emit(
+                dataAPI.getOldLeaderboard()
+            )
+        }
 
 
 }

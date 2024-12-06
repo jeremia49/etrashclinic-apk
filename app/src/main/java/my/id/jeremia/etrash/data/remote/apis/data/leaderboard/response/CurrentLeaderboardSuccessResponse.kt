@@ -1,13 +1,13 @@
-package my.id.jeremia.etrash.data.remote.apis.auth.response
+package my.id.jeremia.etrash.data.remote.apis.data.leaderboard.response
 
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-data class AuthMeSuccessResponse(
+data class CurrentLeaderboardSuccessResponse(
     @Json(name = "data")
-    val `data`: Data? = null,
+    val `data`: List<Data?>? = null,
     @Json(name = "message")
     val message: String? = null, // Sukses
     @Json(name = "reason")
@@ -22,23 +22,23 @@ data class AuthMeSuccessResponse(
         @Json(name = "created_at")
         val createdAt: String? = null, // 2024-08-21T01:04:48.000000Z
         @Json(name = "email")
-        val email: String? = null,
+        val email: String? = null, // jeremiamanurungganteng@gmail.com
         @Json(name = "email_verified_at")
         val emailVerifiedAt: Any? = null, // null
         @Json(name = "id")
         val id: Int? = null, // 1
         @Json(name = "isAdmin")
         val isAdmin: Int? = null, // 1
-        @Json(name = "isNotificationExist")
-        val isNotificationExist: Boolean? = null, // true
         @Json(name = "leagueBulanIni")
         val leagueBulanIni: String? = null, // diamond
         @Json(name = "name")
-        val name: String? = null,
+        val name: String? = null, // Jeremia Manurung
         @Json(name = "nohp")
-        val nohp: String? = null,
+        val nohp: String? = null, // 082161454836
         @Json(name = "photoUrl")
         val photoUrl: String? = null, // https://gravatar.com/avatar/581f54b15bf3afb05a1b0f75effceae1
+        @Json(name = "rank")
+        val rank: Int? = null, // 1
         @Json(name = "saldoBalance")
         val saldoBalance: Int? = null, // 1988
         @Json(name = "totalSampahBulanIni")

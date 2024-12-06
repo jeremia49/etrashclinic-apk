@@ -1,6 +1,7 @@
 package my.id.jeremia.etrash.utils.common
 
 import android.util.Log
+import java.text.DateFormatSymbols
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -127,4 +128,11 @@ object CalendarUtils {
             Log.e(TAG, e.toString())
             null
         }
+
+    fun getMonth(monthNumber:Int):String{
+        val locale = Locale("id", "ID")
+        val months = DateFormatSymbols(locale).months
+        return if (monthNumber in 1..12) months[monthNumber - 1] else "Invalid month"
+    }
+
 }

@@ -9,6 +9,8 @@ import my.id.jeremia.etrash.data.remote.apis.data.fcmtoken.response.SendFirebase
 import my.id.jeremia.etrash.data.remote.apis.data.history.response.HistorySucessResponse
 import my.id.jeremia.etrash.data.remote.apis.data.image.response.UploadImageSucessResponse
 import my.id.jeremia.etrash.data.remote.apis.data.informasi.response.InformasiSuccessResponse
+import my.id.jeremia.etrash.data.remote.apis.data.leaderboard.response.CurrentLeaderboardSuccessResponse
+import my.id.jeremia.etrash.data.remote.apis.data.leaderboard.response.OldLeaderboardSuccessResponse
 import my.id.jeremia.etrash.data.remote.apis.data.notifications.response.NotificationSuccessResponse
 import my.id.jeremia.etrash.data.remote.apis.data.produkhasil.response.ProdukHasilSuccessResponse
 import my.id.jeremia.etrash.data.remote.apis.data.sampahunitprice.response.SampahUnitPriceSuccessResponse
@@ -27,24 +29,25 @@ import retrofit2.http.Query
 interface DataAPI {
 
     @GET(Endpoint.ARTIKEL)
+    @Headers(RequestHeaders.Key.AUTH_PROTECTED)
     suspend fun artikel(
 
     ) : ArtikelSuccessReponse
 
     @GET(Endpoint.INFORMASI)
-    @Headers(RequestHeaders.Key.AUTH_PUBLIC)
+    @Headers(RequestHeaders.Key.AUTH_PROTECTED)
     suspend fun informasi(
 
     ) : InformasiSuccessResponse
 
     @GET(Endpoint.SAMPAHUNITPRICE)
-    @Headers(RequestHeaders.Key.AUTH_PUBLIC)
+    @Headers(RequestHeaders.Key.AUTH_PROTECTED)
     suspend fun sampahunitprice(
 
     ) : SampahUnitPriceSuccessResponse
 
     @GET(Endpoint.PRODUKHASIL)
-    @Headers(RequestHeaders.Key.AUTH_PUBLIC)
+    @Headers(RequestHeaders.Key.AUTH_PROTECTED)
     suspend fun produkhasil(
 
     ) : ProdukHasilSuccessResponse
@@ -94,4 +97,13 @@ interface DataAPI {
     suspend fun sendFCMToken(
         @Body request: SendFirebaseTokenRequest
     ) : SendFirebaseTokenSuccessResponse
+
+    @Headers(RequestHeaders.Key.AUTH_PROTECTED)
+    @GET(Endpoint.CURRENTLEADERBOARD)
+    suspend fun getCurrentLeaderboard(): CurrentLeaderboardSuccessResponse
+
+    @Headers(RequestHeaders.Key.AUTH_PROTECTED)
+    @GET(Endpoint.LEADERBOARD)
+    suspend fun getOldLeaderboard(): OldLeaderboardSuccessResponse
+
 }

@@ -13,4 +13,7 @@ object Endpoint {
     const val HISTORYSAMPASH = "/api/historySampah"
     const val NOTIFICATIONS = "/api/notifications"
     const val SENDFCMTOKEN = "/api/setFCMToken"
+    const val CURRENTLEADERBOARD = "/api/currentLeaderboard"
+    const val LEADERBOARD = "/api/leaderboard"
+
 }
